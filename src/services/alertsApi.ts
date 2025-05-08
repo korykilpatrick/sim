@@ -43,7 +43,7 @@ interface MarkAlertReadResponse {
 export const alertsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getUserAlerts: builder.query<AlertsResponse, void>({
-      query: () => '/user/alerts',
+      query: () => '/alerts',
       providesTags: ['Alerts'],
     }),
     
@@ -63,7 +63,7 @@ export const alertsApiSlice = apiSlice.injectEndpoints({
     
     markAlertRead: builder.mutation<MarkAlertReadResponse, string>({
       query: (notificationId) => ({
-        url: `/user/alerts/${notificationId}`,
+        url: `/alerts/${notificationId}/read`,
         method: 'PUT',
       }),
       invalidatesTags: ['Alerts'],

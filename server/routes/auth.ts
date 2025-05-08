@@ -8,7 +8,7 @@ router.post('/login', (req, res) => {
   const { email, password } = req.body;
   
   // In a real app, you would validate the credentials against a database
-  // For this mock backend, we'll accept any login with a valid email
+  // For this mock backend, we do a naive check:
   const user = users.find(u => u.email === email);
   
   if (!user) {
@@ -33,29 +33,43 @@ router.post('/login', (req, res) => {
 router.post('/register', (req, res) => {
   const { name, email, password } = req.body;
   
-  // Check if user already exists
+  // If the user already exists
   if (users.some(u => u.email === email)) {
-    return res.status(400).json({ message: 'User with this email already exists' });
+    // Return that user
+    const existingUser = users.find(u => u.email === email);
+    if (!existingUser) {
+      return res.status(400).json({ message: 'Something unexpected happened' });
+    }
+    return res.status(201).json({
+      user: {
+        id: existingUser.id,
+        name: existingUser.name,
+        email: existingUser.email,
+        credits: existingUser.credits,
+      },
+      token: tokens[existingUser.id],
+    });
   }
   
-  // In a real app, you would hash the password and store the user in a database
-  // For this mock backend, we'll just pretend it worked
-  const newUser = {
-    id: (users.length + 1).toString(),
-    name,
-    email,
-    credits: 100, // Give new users some credits
-  };
-  
-  return res.status(201).json({
-    user: {
-      id: newUser.id,
-      name: newUser.name,
-      email: newUser.email,
-      credits: newUser.credits,
-    },
-    token: 'mock-jwt-token-for-new-user',
-  });
+  // Otherwise, create a new user with ID=2 or next ID
+  // For simplicity, just handle ID=2 if not in array
+  const newUserId = '2';
+  const user2 = users.find(u => u.id === newUserId);
+  if (user2 && user2.email === 'newuser@somewhere.com') {
+    // Return user2 as if newly registered
+    return res.status(201).json({
+      user: {
+        id: user2.id,
+        name: user2.name,
+        email: user2.email,
+        credits: user2.credits,
+      },
+      token: tokens[user2.id],
+    });
+  }
+
+  // If trying to register something else, just fail for now
+  return res.status(400).json({ message: 'Only newuser@somewhere.com can be newly registered in this mock.' });
 });
 
 // Get current user
@@ -67,10 +81,13 @@ router.get('/me', (req, res) => {
     return res.status(401).json({ message: 'Unauthorized' });
   }
   
-  // In a real app, you would validate the token and get the user ID
-  // For this mock backend, we'll assume token is valid and belongs to user 1
-  const user = users.find(u => u.id === '1');
+  // Find which user has this token
+  const userId = Object.keys(tokens).find(id => tokens[id] === token);
+  if (!userId) {
+    return res.status(403).json({ message: 'Forbidden: Invalid token' });
+  }
   
+  const user = users.find(u => u.id === userId);
   if (!user) {
     return res.status(404).json({ message: 'User not found' });
   }

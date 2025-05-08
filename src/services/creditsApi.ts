@@ -24,7 +24,7 @@ interface PurchaseCreditsResponse {
 export const creditsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getCreditsBalance: builder.query<CreditsBalanceResponse, void>({
-      query: () => '/user/credits',
+      query: () => '/credits/balance',
       providesTags: ['Credits'],
       // When the query succeeds, update Redux state with the balance
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -38,7 +38,7 @@ export const creditsApiSlice = apiSlice.injectEndpoints({
     }),
     
     getCreditTransactions: builder.query<TransactionsResponse, void>({
-      query: () => '/user/credits/transactions',
+      query: () => '/credits/transactions',
       providesTags: ['Credits'],
     }),
     

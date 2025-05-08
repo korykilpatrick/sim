@@ -7,6 +7,7 @@ import { orderRoutes } from './routes/orders';
 import { alertRoutes } from './routes/alerts';
 import { creditRoutes } from './routes/credits';
 import { rfiRoutes } from './routes/rfi';
+import { users, tokens } from './data';
 
 // Create Express app
 const app = express();
@@ -30,15 +31,20 @@ const authenticateToken = (req: express.Request, res: express.Response, next: ex
     return res.status(401).json({ message: 'Unauthorized: No token provided' });
   }
 
-  // Here we're just doing a simple check as it's a mock backend
-  // In a real app, you'd verify the JWT
-  if (token === 'mock-jwt-token-for-user-1') {
-    // Add user information to the request for protected routes
-    (req as any).user = { id: '1', email: 'user@example.com' };
-    next();
-  } else {
+  // Check if token matches any known token
+  const userId = Object.keys(tokens).find(id => tokens[id] === token);
+
+  if (!userId) {
     return res.status(403).json({ message: 'Forbidden: Invalid token' });
   }
+
+  const user = users.find(u => u.id === userId);
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+
+  (req as any).user = user;
+  next();
 };
 
 // API Routes

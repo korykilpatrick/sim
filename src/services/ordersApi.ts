@@ -80,7 +80,7 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
     }),
     
     getUserOrders: builder.query<OrdersResponse, void>({
-      query: () => '/user/orders',
+      query: () => '/orders',
       providesTags: ['Orders'],
     }),
   }),

@@ -1,4 +1,3 @@
-// Mock database for Express backend
 import { BaseProduct, MaritimeAlertProduct } from '../../src/types/product';
 import { User } from '../../src/types/user';
 import { AlertNotification } from '../../src/types/alert';
@@ -93,11 +92,18 @@ export const users: User[] = [
     name: 'Test User',
     credits: 100,
   },
+  {
+    id: '2',
+    email: 'newuser@somewhere.com',
+    name: 'New User',
+    credits: 50,
+  },
 ];
 
 // Auth tokens (in a real app, these would be JWTs)
 export const tokens: Record<string, string> = {
   '1': 'mock-jwt-token-for-user-1',
+  '2': 'mock-jwt-token-for-new-user',
 };
 
 // Credit transactions
@@ -116,6 +122,14 @@ export const creditTransactions: Record<string, CreditTransaction[]> = {
       timestamp: '2023-06-05T15:30:00Z',
       orderId: '1001',
       productId: '1',
+    },
+  ],
+  '2': [
+    {
+      id: '3',
+      amount: 50,
+      description: 'Gifted credits',
+      timestamp: '2023-06-10T11:00:00Z',
     },
   ],
 };
@@ -140,6 +154,16 @@ export const alertNotifications: Record<string, AlertNotification[]> = {
       read: true,
       linkToDetails: '/protected/vts/1?eventId=456',
       severity: 'warning',
+    },
+  ],
+  '2': [
+    {
+      id: '3',
+      timestamp: '2023-06-11T10:00:00Z',
+      title: 'Test Vessel Entered Your Zone',
+      summary: 'IMO 3456789 entered your custom zone. Check it out!',
+      read: false,
+      severity: 'info',
     },
   ],
 };
@@ -168,6 +192,29 @@ export const orders: Record<string, any[]> = {
       purchaseDate: '2023-06-05T15:30:00Z',
     },
   ],
+  '2': [
+    {
+      id: '2001',
+      userId: '2',
+      items: [
+        {
+          product: products[1],
+          quantity: 1,
+          configurationDetails: {
+            monitoringDurationDays: 60,
+            updateFrequencyHours: 12,
+            selectedCriteria: ['VESSEL_ENTRY', 'VESSEL_EXIT'],
+            areaName: 'Gulf of Mexico',
+          },
+        },
+      ],
+      totalAmount: 299.99,
+      totalCredits: 30,
+      paymentMethod: 'credits',
+      status: 'completed',
+      purchaseDate: '2023-06-12T09:00:00Z',
+    },
+  ],
 };
 
 // Purchased products (user's active products)
@@ -185,6 +232,23 @@ export const userProducts: Record<string, any[]> = {
         trackingDurationDays: 30,
         selectedCriteria: ['AIS_REPORTING_6HR', 'DARK_EVENT'],
         vesselIMOs: ['9876543'],
+      },
+    },
+  ],
+  '2': [
+    {
+      id: '2001-2',
+      productId: '2',
+      name: 'Area Monitoring Service',
+      type: 'AMS',
+      purchaseDate: '2023-06-12T09:00:00Z',
+      expiryDate: '2023-08-11T09:00:00Z',
+      status: 'active',
+      configuration: {
+        monitoringDurationDays: 60,
+        updateFrequencyHours: 12,
+        selectedCriteria: ['VESSEL_ENTRY', 'VESSEL_EXIT'],
+        areaName: 'Gulf of Mexico',
       },
     },
   ],
