@@ -20,13 +20,13 @@ export const PromotionalSlider: React.FC = () => {
       id: '2',
       title: 'Area Monitoring Service',
       description: 'Monitor specific maritime areas of interest',
-      bgColor: 'bg-blue-600',
+      bgColor: 'bg-primary-600',
     },
     {
       id: '3',
       title: 'Maritime Investigations',
       description: 'Detailed analysis of maritime incidents',
-      bgColor: 'bg-indigo-600',
+      bgColor: 'bg-primary-600',
     },
   ];
 
@@ -50,7 +50,7 @@ export const PromotionalSlider: React.FC = () => {
       {/* Slides */}
       <div 
         className="h-full transition-transform duration-500 ease-out flex"
-        style={{ transform: `translateX(-${currentSlide * 100}%)`, width: `${slides.length * 100}%` }}
+        style={{ transform: `translateX(-${currentSlide * 100 / slides.length}%)`, width: `${slides.length * 100}%` }}
       >
         {slides.map((slide) => (
           <div 

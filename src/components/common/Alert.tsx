@@ -17,15 +17,17 @@ export const Alert: React.FC<AlertProps> = ({
   onClose,
   className = '',
 }) => {
-  const variantStyles = {
-    info: 'bg-blue-50 text-blue-800 border-blue-200',
-    success: 'bg-green-50 text-green-800 border-green-200',
-    warning: 'bg-yellow-50 text-yellow-800 border-yellow-200',
-    error: 'bg-red-50 text-red-800 border-red-200',
+  type VariantStylesMapping = Record<AlertVariant, string>;
+
+  const variantStyles: VariantStylesMapping = {
+    info: 'bg-navy-800 text-ocean-300 border-ocean-700',
+    success: 'bg-green-900 text-green-300 border-green-700',
+    warning: 'bg-yellow-900 text-yellow-300 border-yellow-700', 
+    error: 'bg-red-900 text-red-300 border-red-700',
   };
 
-  const iconStyles = {
-    info: 'text-blue-400',
+  const iconStyles: VariantStylesMapping = {
+    info: 'text-ocean-400',
     success: 'text-green-400',
     warning: 'text-yellow-400',
     error: 'text-red-400',

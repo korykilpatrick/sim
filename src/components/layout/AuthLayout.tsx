@@ -2,10 +2,11 @@ import { Outlet } from 'react-router-dom';
 
 export const AuthLayout = () => {
   return (
-    <div className="flex min-h-screen bg-secondary-100">
-      <div className="m-auto w-full max-w-md p-8 bg-white rounded-lg shadow-md">
+    <div className="flex min-h-screen bg-navy-900">
+      <div className="m-auto w-full max-w-md p-8 bg-navy-800 rounded-lg shadow-md border border-navy-700">
         <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold text-primary-600">SynMax Intelligence Marketplace</h1>
+          <span className="text-xl font-bold text-ocean-400">SYNMAX</span>
+          <h1 className="text-2xl font-bold text-ocean-300 mt-2">Intelligence Marketplace</h1>
         </div>
         <Outlet />
       </div>

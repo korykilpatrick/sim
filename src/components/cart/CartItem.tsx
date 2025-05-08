@@ -78,13 +78,13 @@ export const CartItem: React.FC<CartItemProps> = ({ item }) => {
         
         <div className="flex items-center justify-between mt-4">
           <div className="flex items-center">
-            <label htmlFor={`quantity-${itemId}`} className="mr-2 text-sm text-secondary-600">
+            <label htmlFor={`quantity-${itemId}`} className="mr-2 text-sm text-ocean-100">
               Qty
             </label>
-            <div className="flex border border-secondary-300 rounded-md">
+            <div className="flex border border-navy-600 rounded-md">
               <button
                 type="button"
-                className="px-2 py-1 text-secondary-600 hover:bg-secondary-100"
+                className="px-2 py-1 text-ocean-100 hover:bg-navy-600 bg-navy-700"
                 onClick={() => handleQuantityChange(quantity - 1)}
                 disabled={quantity <= 1}
               >
@@ -93,7 +93,7 @@ export const CartItem: React.FC<CartItemProps> = ({ item }) => {
               <input
                 id={`quantity-${itemId}`}
                 type="text"
-                className="w-12 text-center border-x border-secondary-300"
+                className="w-12 text-center border-x border-navy-600 bg-navy-700 text-ocean-100"
                 value={quantity}
                 onChange={(e) => {
                   const val = parseInt(e.target.value);
@@ -102,7 +102,7 @@ export const CartItem: React.FC<CartItemProps> = ({ item }) => {
               />
               <button
                 type="button"
-                className="px-2 py-1 text-secondary-600 hover:bg-secondary-100"
+                className="px-2 py-1 text-ocean-100 hover:bg-navy-600 bg-navy-700"
                 onClick={() => handleQuantityChange(quantity + 1)}
               >
                 +

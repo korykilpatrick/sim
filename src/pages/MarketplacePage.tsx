@@ -39,7 +39,7 @@ const MarketplacePage: React.FC = () => {
     <div>
       <PromotionalSlider />
       
-      <div className="flex flex-col md:flex-row gap-8">
+      <div className="flex flex-col md:flex-row gap-8 md:items-start">
         {/* Filter Sidebar */}
         <div className="w-full md:w-64 flex-shrink-0">
           <FilterSidebar

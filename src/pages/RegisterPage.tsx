@@ -52,12 +52,16 @@ const RegisterPage: React.FC = () => {
       navigate('/marketplace', { replace: true });
     } catch (err) {
       // Error is handled by RTK Query and available in the error variable
+      // We don't need to do anything else here, but including this for clarity
+      console.error('Registration error:', 
+        err instanceof Error ? err.message : 'An unknown error occurred during registration'
+      );
     }
   };
   
   return (
     <div>
-      <h2 className="text-2xl font-bold text-center mb-6">Create Account</h2>
+      <h2 className="text-2xl font-bold text-center mb-6 text-ocean-200">Create Account</h2>
       
       {error && (
         <Alert
@@ -123,9 +127,9 @@ const RegisterPage: React.FC = () => {
       </form>
       
       <div className="mt-6 text-center">
-        <p className="text-sm text-secondary-600">
+        <p className="text-sm text-ocean-100">
           Already have an account?{' '}
-          <Link to="/auth/login" className="text-primary-600 hover:underline">
+          <Link to="/auth/login" className="text-ocean-400 hover:text-ocean-300 hover:underline">
             Sign in
           </Link>
         </p>

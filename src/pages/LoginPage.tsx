@@ -43,12 +43,16 @@ const LoginPage: React.FC = () => {
       navigate(from, { replace: true });
     } catch (err) {
       // Error is handled by RTK Query and available in the error variable
+      // We don't need to do anything else here, but including this for clarity
+      console.error('Login error:', 
+        err instanceof Error ? err.message : 'An unknown error occurred during login'
+      );
     }
   };
   
   return (
     <div>
-      <h2 className="text-2xl font-bold text-center mb-6">Sign In</h2>
+      <h2 className="text-2xl font-bold text-center mb-6 text-ocean-200">Sign In</h2>
       
       {error && (
         <Alert
@@ -86,15 +90,15 @@ const LoginPage: React.FC = () => {
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
-                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-secondary-300 rounded"
+                className="h-4 w-4 text-ocean-500 focus:ring-ocean-400 bg-navy-700 border-navy-600 rounded"
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-secondary-700">
+              <label htmlFor="remember-me" className="ml-2 block text-sm text-ocean-100">
                 Remember me
               </label>
             </div>
             
             <div className="text-sm">
-              <a href="#" className="text-primary-600 hover:underline">
+              <a href="#" className="text-ocean-400 hover:text-ocean-300 hover:underline">
                 Forgot your password?
               </a>
             </div>
@@ -112,9 +116,9 @@ const LoginPage: React.FC = () => {
       </form>
       
       <div className="mt-6 text-center">
-        <p className="text-sm text-secondary-600">
+        <p className="text-sm text-ocean-100">
           Don't have an account?{' '}
-          <Link to="/auth/register" className="text-primary-600 hover:underline">
+          <Link to="/auth/register" className="text-ocean-400 hover:text-ocean-300 hover:underline">
             Sign up
           </Link>
         </p>

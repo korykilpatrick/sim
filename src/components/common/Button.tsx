@@ -36,10 +36,10 @@ export const Button: React.FC<ButtonProps> = ({
   
   // Variant classes
   const variantClasses = {
-    primary: 'bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 disabled:bg-primary-300',
-    secondary: 'bg-secondary-200 text-secondary-900 hover:bg-secondary-300 focus:ring-secondary-300 disabled:bg-secondary-100 disabled:text-secondary-400',
-    outline: 'border border-secondary-300 text-secondary-900 hover:bg-secondary-50 focus:ring-secondary-300 disabled:text-secondary-300 disabled:bg-white',
-    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 disabled:bg-red-300',
+    primary: 'bg-ocean-500 text-white hover:bg-ocean-600 focus:ring-ocean-400 focus:ring-offset-navy-800 disabled:bg-ocean-300',
+    secondary: 'bg-navy-500 text-white hover:bg-navy-600 focus:ring-navy-400 focus:ring-offset-navy-800 disabled:bg-navy-400 disabled:text-navy-100',
+    outline: 'border border-ocean-300 text-ocean-300 hover:bg-navy-700 focus:ring-ocean-300 focus:ring-offset-navy-800 disabled:text-ocean-200 disabled:border-ocean-200',
+    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 focus:ring-offset-navy-800 disabled:bg-red-400',
   };
   
   // Loading state

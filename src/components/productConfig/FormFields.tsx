@@ -107,7 +107,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({
         {label}{required && <span className="text-red-500">*</span>}
       </label>
       <select
-        className={`block w-full rounded-md shadow-sm border-secondary-300 focus:border-primary-500 focus:ring-primary-500 ${
+        className={`block w-full rounded-md shadow-sm bg-navy-700 text-ocean-100 border-navy-600 focus:border-ocean-500 focus:ring-ocean-500 ${
           errors[name] ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
         }`}
         {...register(name, { required: required ? `${label} is required` : false })}
@@ -304,7 +304,7 @@ export const TextareaField: React.FC<TextareaFieldProps> = ({
         {label}{required && <span className="text-red-500">*</span>}
       </label>
       <textarea
-        className={`block w-full rounded-md shadow-sm border-secondary-300 focus:border-primary-500 focus:ring-primary-500 ${
+        className={`block w-full rounded-md shadow-sm bg-navy-700 text-ocean-100 border-navy-600 focus:border-ocean-500 focus:ring-ocean-500 ${
           errors[name] ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
         }`}
         placeholder={placeholder}

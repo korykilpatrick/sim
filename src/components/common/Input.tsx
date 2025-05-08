@@ -7,14 +7,40 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   fullWidth?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+  variant?: 'light' | 'dark';
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, helperText, fullWidth = true, leftIcon, rightIcon, className = '', ...rest }, ref) => {
+  ({ 
+    label, 
+    error, 
+    helperText, 
+    fullWidth = true, 
+    leftIcon, 
+    rightIcon, 
+    variant = 'dark', 
+    className = '', 
+    ...rest 
+  }, ref) => {
+    // Define styling based on variant
+    const variantStyles = {
+      light: {
+        input: 'bg-white border-secondary-300 text-secondary-800 placeholder-secondary-400',
+        label: 'text-secondary-700',
+        helperText: 'text-secondary-600'
+      },
+      dark: {
+        input: 'bg-navy-700 border-navy-600 text-ocean-100 placeholder-navy-400',
+        label: 'text-ocean-100',
+        helperText: 'text-ocean-300'
+      }
+    };
+
     const inputClasses = `
-      block px-3 py-2 bg-white border rounded-md shadow-sm placeholder-secondary-400
-      focus:outline-none focus:ring-primary-500 focus:border-primary-500
-      ${error ? 'border-red-500' : 'border-secondary-300'}
+      block px-3 py-2 border rounded-md shadow-sm 
+      focus:outline-none focus:ring-ocean-500 focus:border-ocean-500
+      ${error ? 'border-red-500' : ''}
+      ${variantStyles[variant].input}
       ${fullWidth ? 'w-full' : ''}
       ${leftIcon ? 'pl-10' : ''}
       ${rightIcon ? 'pr-10' : ''}
@@ -24,7 +50,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={fullWidth ? 'w-full' : ''}>
         {label && (
-          <label className="block text-sm font-medium text-secondary-700 mb-1">
+          <label className={`block text-sm font-medium mb-1 ${variantStyles[variant].label}`}>
             {label}
           </label>
         )}
@@ -46,11 +72,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         </div>
         
         {error && (
-          <p className="mt-1 text-sm text-red-600">{error}</p>
+          <p className="mt-1 text-sm text-red-400">{error}</p>
         )}
         
         {helperText && !error && (
-          <p className="mt-1 text-sm text-secondary-500">{helperText}</p>
+          <p className={`mt-1 text-sm ${variantStyles[variant].helperText}`}>{helperText}</p>
         )}
       </div>
     );
