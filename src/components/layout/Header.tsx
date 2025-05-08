@@ -51,7 +51,7 @@ export const Header = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden group-hover:block z-10">
+                  <div className="absolute right-0 w-48 bg-white rounded-md shadow-lg hidden group-hover:block z-10">
                     <div className="py-1">
                       <Link to="/protected/dashboard" className="block px-4 py-2 text-sm text-secondary-700 hover:bg-secondary-100">
                         Dashboard
