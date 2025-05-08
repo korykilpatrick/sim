@@ -1,10 +1,10 @@
-export type ProductType = 
-  | 'VTS' 
-  | 'AMS' 
-  | 'FTS' 
-  | 'REPORT_COMPLIANCE' 
-  | 'REPORT_CHRONOLOGY' 
-  | 'INVESTIGATION' 
+export type ProductType =
+  | 'VTS'
+  | 'AMS'
+  | 'FTS'
+  | 'REPORT_COMPLIANCE'
+  | 'REPORT_CHRONOLOGY'
+  | 'INVESTIGATION'
   | 'MARITIME_ALERT';
 
 export interface BaseProduct {

@@ -16,10 +16,10 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Determine if this is a compliance or chronology report
   const isComplianceReport = product.type === 'REPORT_COMPLIANCE';
-  
+
   // Default form values
   const defaultValues = {
     vesselIMO: '',
@@ -29,11 +29,11 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
     reportDepth: 'standard',
     additionalInfo: '',
   };
-  
+
   const handleSubmit = (data: any) => {
     setIsSubmitting(true);
     setError(null);
-    
+
     try {
       // Create configuration object
       const configuration = {
@@ -44,42 +44,52 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
         reportDepth: data.reportDepth,
         additionalInfo: data.additionalInfo,
       };
-      
+
       // Calculate the price based on configuration
       // For reports, different depths have different prices
-      const depthMultiplier = 
-        data.reportDepth === 'comprehensive' ? 1.5 :
-        data.reportDepth === 'standard' ? 1.0 : 0.7;
-      
-      const configuredPrice = Math.round(product.price * depthMultiplier * 100) / 100;
-      const configuredCreditCost = Math.round(product.creditCost * depthMultiplier);
-      
+      const depthMultiplier =
+        data.reportDepth === 'comprehensive'
+          ? 1.5
+          : data.reportDepth === 'standard'
+            ? 1.0
+            : 0.7;
+
+      const configuredPrice =
+        Math.round(product.price * depthMultiplier * 100) / 100;
+      const configuredCreditCost = Math.round(
+        product.creditCost * depthMultiplier,
+      );
+
       // Add to cart
-      dispatch(addItem({
-        itemId: uuidv4(),
-        product,
-        quantity: 1,
-        configuredPrice,
-        configuredCreditCost,
-        configurationDetails: configuration,
-      }));
-      
+      dispatch(
+        addItem({
+          itemId: uuidv4(),
+          product,
+          quantity: 1,
+          configuredPrice,
+          configuredCreditCost,
+          configurationDetails: configuration,
+        }),
+      );
+
       // Navigate to cart
       navigate('/protected/cart');
     } catch (err) {
       console.error('Error adding to cart:', err);
-      setError('Failed to add the configured report to your cart. Please try again.');
+      setError(
+        'Failed to add the configured report to your cart. Please try again.',
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
-  
+
   return (
     <ConfigFormBase
       title={`Configure ${isComplianceReport ? 'Vessel Compliance Report' : 'Vessel Chronology Report'}`}
       description={
         isComplianceReport
-          ? "Generate a detailed compliance report for a specific vessel, including sanctions checks and compliance history."
+          ? 'Generate a detailed compliance report for a specific vessel, including sanctions checks and compliance history.'
           : "Generate a comprehensive chronology of a vessel's movements and activities over a specified time period."
       }
       defaultValues={defaultValues}
@@ -95,7 +105,7 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
           required
           helperText="Enter the 7-digit IMO number of the vessel"
         />
-        
+
         <TextField
           name="vesselName"
           label="Vessel Name"
@@ -103,7 +113,7 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
           required
           helperText="Enter the name of the vessel"
         />
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <DateField
             name="timeframeStart"
@@ -111,7 +121,7 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
             required
             helperText="Start date for the report period"
           />
-          
+
           <DateField
             name="timeframeEnd"
             label="Timeframe End Date"
@@ -119,7 +129,7 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
             helperText="End date for the report period"
           />
         </div>
-        
+
         <SelectField
           name="reportDepth"
           label="Report Depth"
@@ -131,27 +141,35 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
           required
           helperText="Select the level of detail for your report"
         />
-        
+
         {isComplianceReport && (
           <div className="bg-yellow-50 p-4 rounded-md border border-yellow-200">
-            <h3 className="text-sm font-medium text-yellow-800 mb-2">Compliance Report Note</h3>
+            <h3 className="text-sm font-medium text-yellow-800 mb-2">
+              Compliance Report Note
+            </h3>
             <p className="text-sm text-yellow-700">
-              Compliance reports include sanctions checks, port call history, and compliance risk assessment.
-              The comprehensive option includes additional ownership structure analysis and historical compliance records.
+              Compliance reports include sanctions checks, port call history,
+              and compliance risk assessment. The comprehensive option includes
+              additional ownership structure analysis and historical compliance
+              records.
             </p>
           </div>
         )}
-        
+
         {!isComplianceReport && (
           <div className="bg-blue-50 p-4 rounded-md border border-blue-200">
-            <h3 className="text-sm font-medium text-blue-800 mb-2">Chronology Report Note</h3>
+            <h3 className="text-sm font-medium text-blue-800 mb-2">
+              Chronology Report Note
+            </h3>
             <p className="text-sm text-blue-700">
-              Chronology reports include detailed vessel movements, port calls, and activity patterns.
-              The comprehensive option includes weather overlays, cargo information (when available), and anomaly detection.
+              Chronology reports include detailed vessel movements, port calls,
+              and activity patterns. The comprehensive option includes weather
+              overlays, cargo information (when available), and anomaly
+              detection.
             </p>
           </div>
         )}
-        
+
         <div className="border-t border-secondary-200 pt-6">
           <TextareaField
             name="additionalInfo"

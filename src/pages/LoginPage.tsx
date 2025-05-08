@@ -10,13 +10,8 @@ import { useLoginMutation } from '@services/authApi';
 
 // Form validation schema using zod
 const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, 'Email is required')
-    .email('Invalid email address'),
-  password: z
-    .string()
-    .min(6, 'Password must be at least 6 characters'),
+  email: z.string().min(1, 'Email is required').email('Invalid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -25,9 +20,9 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = (location.state as any)?.from?.pathname || '/marketplace';
-  
+
   const [login, { isLoading, error }] = useLoginMutation();
-  
+
   const {
     register,
     handleSubmit,
@@ -35,7 +30,7 @@ const LoginPage: React.FC = () => {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
-  
+
   const onSubmit = async (data: LoginFormValues) => {
     try {
       await login(data).unwrap();
@@ -44,16 +39,21 @@ const LoginPage: React.FC = () => {
     } catch (err) {
       // Error is handled by RTK Query and available in the error variable
       // We don't need to do anything else here, but including this for clarity
-      console.error('Login error:', 
-        err instanceof Error ? err.message : 'An unknown error occurred during login'
+      console.error(
+        'Login error:',
+        err instanceof Error
+          ? err.message
+          : 'An unknown error occurred during login',
       );
     }
   };
-  
+
   return (
     <div>
-      <h2 className="text-2xl font-bold text-center mb-6 text-ocean-200">Sign In</h2>
-      
+      <h2 className="text-2xl font-bold text-center mb-6 text-ocean-200">
+        Sign In
+      </h2>
+
       {error && (
         <Alert
           variant="error"
@@ -61,7 +61,7 @@ const LoginPage: React.FC = () => {
           className="mb-4"
         />
       )}
-      
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-4">
           <div>
@@ -73,7 +73,7 @@ const LoginPage: React.FC = () => {
               {...register('email')}
             />
           </div>
-          
+
           <div>
             <Input
               label="Password"
@@ -83,7 +83,7 @@ const LoginPage: React.FC = () => {
               {...register('password')}
             />
           </div>
-          
+
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <input
@@ -92,18 +92,24 @@ const LoginPage: React.FC = () => {
                 type="checkbox"
                 className="h-4 w-4 text-ocean-500 focus:ring-ocean-400 bg-navy-700 border-navy-600 rounded"
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-ocean-100">
+              <label
+                htmlFor="remember-me"
+                className="ml-2 block text-sm text-ocean-100"
+              >
                 Remember me
               </label>
             </div>
-            
+
             <div className="text-sm">
-              <a href="#" className="text-ocean-400 hover:text-ocean-300 hover:underline">
+              <a
+                href="#"
+                className="text-ocean-400 hover:text-ocean-300 hover:underline"
+              >
                 Forgot your password?
               </a>
             </div>
           </div>
-          
+
           <Button
             type="submit"
             variant="primary"
@@ -114,11 +120,14 @@ const LoginPage: React.FC = () => {
           </Button>
         </div>
       </form>
-      
+
       <div className="mt-6 text-center">
         <p className="text-sm text-ocean-100">
-          Don't have an account?{' '}
-          <Link to="/auth/register" className="text-ocean-400 hover:text-ocean-300 hover:underline">
+          Don&apos;t have an account?{' '}
+          <Link
+            to="/auth/register"
+            className="text-ocean-400 hover:text-ocean-300 hover:underline"
+          >
             Sign up
           </Link>
         </p>

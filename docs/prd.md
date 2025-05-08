@@ -21,9 +21,9 @@ The maritime industry is a cost-conscious market segment that prioritizes risk-b
 
 To effectively capture this customer segment, the ideal product offering should:
 
-* Event-Driven → Only track vessels when a risk threshold is met (e.g., sanctions breach, port calls in high-risk areas).
-* Low-Touch, High-Automation → Use Al-driven alerts to flag risk without requiring an analyst.
-* Compliance-Focused Generate clear, actionable legal exposure reports. Cost-Effective → Offer pay-as-you-go or tiered pricing instead of expensive subscriptions.
+- Event-Driven → Only track vessels when a risk threshold is met (e.g., sanctions breach, port calls in high-risk areas).
+- Low-Touch, High-Automation → Use Al-driven alerts to flag risk without requiring an analyst.
+- Compliance-Focused Generate clear, actionable legal exposure reports. Cost-Effective → Offer pay-as-you-go or tiered pricing instead of expensive subscriptions.
 
 ### Potential Customers
 
@@ -162,13 +162,13 @@ Basic GUI to give visual representation of AOI, AIS and Alerts.
 
 Area Monitoring Service will provide the same upselling opportunities as VTS when an alert is triggered within the monitored area. Additionally, the service will leverage the GUI to promote additional products and data, including:
 
-* Risk Assessments, Compliance Reports, and Event Reports for any vessel within the ΑΟΙ.
-Tip and Cue services for specific area of interest.
-Unlock existing imagery of vessels and events.
-Vessel Event Tables.
-Reveal true vessel locations for spoofed positions:
-Vessels physically inside the AOI
-Vessels physically outside the AOI
+- Risk Assessments, Compliance Reports, and Event Reports for any vessel within the ΑΟΙ.
+  Tip and Cue services for specific area of interest.
+  Unlock existing imagery of vessels and events.
+  Vessel Event Tables.
+  Reveal true vessel locations for spoofed positions:
+  Vessels physically inside the AOI
+  Vessels physically outside the AOI
 
 ### Product Offering - Fleet Tracking Service (FTS)
 
@@ -178,15 +178,15 @@ Fleet Tracking Service will provide a customized fleet monitoring solution desig
 
 Users can monitor all vessels within their fleet based on customizable criteria, including:
 
-* AIS Reporting - Location updates at 3, 6, 12, or 24-hour intervals for all vessels in the fleet.
-Dark Ship Events - Detection of AIS signal loss (start and end) for fleet vessels.
-Spoofing Events - Detection of GPS manipulation or false location reporting.
-STS (Ship-to-Ship) Events - Monitoring cargo exchanges between vessels.
-Port of Call (PoC) - Track all vessels entering or leaving designated ports.
-Vessel in Distress - Alerts for vessels in emergency situations within the fleet.
-Ownership & Registration Changes - Monitor flag or MMSI changes across the fleet.
-Geofencing Alerts - Customized AOI for each vessel, with location-based triggers.
-Risk Assessment Changes - Automated alerts when risk profiles change for fleet vessels.
+- AIS Reporting - Location updates at 3, 6, 12, or 24-hour intervals for all vessels in the fleet.
+  Dark Ship Events - Detection of AIS signal loss (start and end) for fleet vessels.
+  Spoofing Events - Detection of GPS manipulation or false location reporting.
+  STS (Ship-to-Ship) Events - Monitoring cargo exchanges between vessels.
+  Port of Call (PoC) - Track all vessels entering or leaving designated ports.
+  Vessel in Distress - Alerts for vessels in emergency situations within the fleet.
+  Ownership & Registration Changes - Monitor flag or MMSI changes across the fleet.
+  Geofencing Alerts - Customized AOI for each vessel, with location-based triggers.
+  Risk Assessment Changes - Automated alerts when risk profiles change for fleet vessels.
 
 ### Pricing Model
 
@@ -208,16 +208,17 @@ Comprehensive Fleet Visibility - Gain real-time insights into every vessel's loc
 Automated Alerts - Instant notifications for critical events across all vessels.
 Scalable & Customizable - Tailored monitoring solutions to fit any fleet size and operational needs.
 Low-Cost, No Commitment Entry Point - A pay-as-you-go model with no long-term contracts, ensuring quick onboarding for fleet operators.
-* Upsell Potential - Opportunities to expand services with additional reports, risk assessments, and compliance checks as fleet needs grow.
+
+- Upsell Potential - Opportunities to expand services with additional reports, risk assessments, and compliance checks as fleet needs grow.
 
 ### Delivery Channels
 
-* Real-Time Alerts will be sent to the user's SIM account and an accompanying email notification.
-* The email notification will summarize the alert and provide a link for quick access to the fleet dashboard.
-* GUI to view entire fleet and option to purchase additional data and features.
-* Fleet Tracking Service (available with contract)
+- Real-Time Alerts will be sent to the user's SIM account and an accompanying email notification.
+- The email notification will summarize the alert and provide a link for quick access to the fleet dashboard.
+- GUI to view entire fleet and option to purchase additional data and features.
+- Fleet Tracking Service (available with contract)
 
-    * GIS map based portal showing vessel in their fleet, events, set up alerts
+  - GIS map based portal showing vessel in their fleet, events, set up alerts
 
 ### Product Offering - Vessel Compliance Report
 
@@ -225,30 +226,31 @@ Vessel Compliance Reports available through SIM provide a detailed, on-demand as
 
 ### Report Criteria
 
-* Sanctions Screening - Identifies OFAC, EU, UN, and other global sanctions violations.
-Regulatory Compliance - Ensures alignment with IMO, SOLAS, MARPOL, and other maritime regulations.
-AIS Integrity & Spoofing Detection - Verifies historical AIS manipulation and false reporting.
-Ownership & Beneficial Control - Identifies ultimate vessel ownership and potential sanctions risk.
-Operational History - Analyzes previous high-risk activities, including dark voyages and STS transfers.
-* Port State Control (PSC) Inspections - Reviews vessel detentions, deficiencies, and historical compliance records.
-Risk Assessment Score - Provides a quantified risk rating based on vessel behaviour, ownership, and operational history.
+- Sanctions Screening - Identifies OFAC, EU, UN, and other global sanctions violations.
+  Regulatory Compliance - Ensures alignment with IMO, SOLAS, MARPOL, and other maritime regulations.
+  AIS Integrity & Spoofing Detection - Verifies historical AIS manipulation and false reporting.
+  Ownership & Beneficial Control - Identifies ultimate vessel ownership and potential sanctions risk.
+  Operational History - Analyzes previous high-risk activities, including dark voyages and STS transfers.
+- Port State Control (PSC) Inspections - Reviews vessel detentions, deficiencies, and historical compliance records.
+  Risk Assessment Score - Provides a quantified risk rating based on vessel behaviour, ownership, and operational history.
 
 ### Pricing Model
 
 Vessel Compliance Reports will be available through a self-service e-commerce method. Below highlights ways to purchase:
 
-* Subscription Plans - Monthly or annual packages for ongoing compliance monitoring.
-Fleet Discounts - Bulk purchase options for multiple vessel reports.
-Individual Report - purchase.
+- Subscription Plans - Monthly or annual packages for ongoing compliance monitoring.
+  Fleet Discounts - Bulk purchase options for multiple vessel reports.
+  Individual Report - purchase.
 
 ### Features & Benefits
 
 This e-commerce-driven compliance solution empowers users to quickly assess and mitigate risk, ensuring vessels operate within global regulatory frameworks with minimal effort and maximum efficiency.
 Instant Access - No waiting period; reports are available on-demand.
 No Long-Term Commitment - Pay-as-you-go model eliminates contract requirements.
-* Automated Compliance Screening - Reduces the need for in-house compliance analysts.
-* Regulatory Peace of Mind - Ensures adherence to global shipping laws and sanctions lists.
-Scalable for Any Operation - Suitable for single vessel assessments or fleet-wide monitoring.
+
+- Automated Compliance Screening - Reduces the need for in-house compliance analysts.
+- Regulatory Peace of Mind - Ensures adherence to global shipping laws and sanctions lists.
+  Scalable for Any Operation - Suitable for single vessel assessments or fleet-wide monitoring.
 
 ### Delivery Channels
 
@@ -264,13 +266,13 @@ Vessel Chronology Report provides a comprehensive timeline of a vessel's activit
 
 Users can generate a customized chronology report covering a defined timeframe, with detailed insights into:
 
-* Ports of Call (PoC) - Logs all port entries and departures, including timestamps.
-Ship-to-Ship (STS) Transfers - Identifies mid-sea cargo exchanges, counterparty vessel details available at additional cost.
-Bunkering Activity - Tracks fuel loading events, including locations and timestamps.
-Dark Voyages - Highlights periods where AIS was disabled or manipulated.
-Spoofing & GPS Anomalies - Detects instances of location falsification.
-Risk Profile Changes - Identifies fluctuations in sanctions risk, compliance status, and behavioural patterns.
-Ownership & Registration Changes - Flags MMSI, flag state, and beneficial ownership updates.
+- Ports of Call (PoC) - Logs all port entries and departures, including timestamps.
+  Ship-to-Ship (STS) Transfers - Identifies mid-sea cargo exchanges, counterparty vessel details available at additional cost.
+  Bunkering Activity - Tracks fuel loading events, including locations and timestamps.
+  Dark Voyages - Highlights periods where AIS was disabled or manipulated.
+  Spoofing & GPS Anomalies - Detects instances of location falsification.
+  Risk Profile Changes - Identifies fluctuations in sanctions risk, compliance status, and behavioural patterns.
+  Ownership & Registration Changes - Flags MMSI, flag state, and beneficial ownership updates.
 
 ### Pricing Model
 
@@ -303,9 +305,9 @@ Maritime Investigations service, available through SIM, offers the most comprehe
 
 Clients can request in-depth investigations into:
 
-* Vessel Activity - Comprehensive analysis of historical and real-time movements, compliance status, risk indicators, and operational patterns.
-Maritime Areas of Interest (AOI) - Detailed monitoring and intelligence gathering for ports, shipping lanes, and offshore infrastructure.
-High-Risk Events - Investigation of dark voyages, ship-to-ship transfers, sanctions violations, illicit trade, and other suspicious activities.
+- Vessel Activity - Comprehensive analysis of historical and real-time movements, compliance status, risk indicators, and operational patterns.
+  Maritime Areas of Interest (AOI) - Detailed monitoring and intelligence gathering for ports, shipping lanes, and offshore infrastructure.
+  High-Risk Events - Investigation of dark voyages, ship-to-ship transfers, sanctions violations, illicit trade, and other suspicious activities.
 
 ### Intelligence Sources & Methodology
 
@@ -313,10 +315,11 @@ SynMax intelligence experts utilize a fusion of advanced intelligence sources to
 
 Satellite Imagery - High-resolution analysis for vessel positioning and verification.
 OSINT (Open-Source Intelligence) - Real-time tracking of news, social media, and public records.
-* SIGINT (Signals Intelligence) - AIS and RF data analysis to detect communication anomalies and spoofing events.
-Webcams & Sensors - Live feeds from coastal monitoring stations.
-HUMINT (Human Intelligence) - Insights from trusted industry and regional sources.
-* Proprietary Analytical Tools - Exclusive SynMax algorithms and risk assessment models to deliver actionable intelligence.
+
+- SIGINT (Signals Intelligence) - AIS and RF data analysis to detect communication anomalies and spoofing events.
+  Webcams & Sensors - Live feeds from coastal monitoring stations.
+  HUMINT (Human Intelligence) - Insights from trusted industry and regional sources.
+- Proprietary Analytical Tools - Exclusive SynMax algorithms and risk assessment models to deliver actionable intelligence.
 
 ### Pricing Model
 
@@ -333,8 +336,9 @@ This premium investigation service provides deep intelligence, expert insights, 
 Unrivalled Intelligence Depth - The most comprehensive maritime investigation service available.
 Actionable Insights - Intelligence designed to support decision-making, compliance, and risk mitigation.
 Custom-Tailored Analysis - Investigations are fully customized to client requirements.
-* Expert-Led Investigations - Conducted by SynMax intelligence professionals with deep maritime expertise.
-* Seamless Request Process - Customers can initiate investigations via SIM with a Request for Intelligence (RFI) form.
+
+- Expert-Led Investigations - Conducted by SynMax intelligence professionals with deep maritime expertise.
+- Seamless Request Process - Customers can initiate investigations via SIM with a Request for Intelligence (RFI) form.
 
 ### Delivery Channels
 
@@ -369,24 +373,25 @@ This new revenue generation strategy will require investment in a well-defined m
 
 ### Target Audience
 
-* Commercial Customers: P& clubs, traders, financial institutions, insurers, and fleet operators looking for actionable maritime data and insights.
-Regulatory Bodies: Government agencies and compliance teams seeking vessel tracking, dark ship detection, and risk assessments.
-Enterprises & SMEs: Companies with specific, customizable needs for vessel tracking, fleet monitoring, and maritime intelligence.
+- Commercial Customers: P& clubs, traders, financial institutions, insurers, and fleet operators looking for actionable maritime data and insights.
+  Regulatory Bodies: Government agencies and compliance teams seeking vessel tracking, dark ship detection, and risk assessments.
+  Enterprises & SMEs: Companies with specific, customizable needs for vessel tracking, fleet monitoring, and maritime intelligence.
 
 ### Key Value Propositions
 
-* Self-Service & Flexible: SIM offers pay-as-you-go access to essential data and reports, empowering users to tailor the service to their needs without the commitment of long-term contracts.
-* Affordable Intelligence: Provide cost-effective solutions for smaller players with limited research budgets, while offering premium services for larger clients.
-* Comprehensive Data: Leverage Theia's capabilities, integrating satellite imagery, AIS data, OSINT, and other intelligence sources to deliver detailed maritime insights.
-* Seamless Integration: Easy-to-use platform with no friction-instant access to vessel compliance reports, fleet monitoring, and maritime investigations.
+- Self-Service & Flexible: SIM offers pay-as-you-go access to essential data and reports, empowering users to tailor the service to their needs without the commitment of long-term contracts.
+- Affordable Intelligence: Provide cost-effective solutions for smaller players with limited research budgets, while offering premium services for larger clients.
+- Comprehensive Data: Leverage Theia's capabilities, integrating satellite imagery, AIS data, OSINT, and other intelligence sources to deliver detailed maritime insights.
+- Seamless Integration: Easy-to-use platform with no friction-instant access to vessel compliance reports, fleet monitoring, and maritime investigations.
 
 ### Channels & Tactics
 
 Content Marketing: Create valuable content such as case studies, whitepapers, and blog posts to educate target audiences on how SIM can address pain points in compliance, risk mitigation, and operational efficiency.
-* Email Campaigns: Regularly send newsletters and alerts about new features, case studies, and updates to engage potential customers.
-* Partnerships: Collaborate with maritime industry associations, compliance bodies, and global trade networks to expand SIM's reach.
-* SEO & SEM: Optimize for maritime intelligence-related keywords to capture organic traffic from search engines and run PPC campaigns targeting niche markets.
-* Webinars & Demos: Host live product demonstrations and educational webinars to showcase the capabilities of SIM and engage directly with potential customers.
+
+- Email Campaigns: Regularly send newsletters and alerts about new features, case studies, and updates to engage potential customers.
+- Partnerships: Collaborate with maritime industry associations, compliance bodies, and global trade networks to expand SIM's reach.
+- SEO & SEM: Optimize for maritime intelligence-related keywords to capture organic traffic from search engines and run PPC campaigns targeting niche markets.
+- Webinars & Demos: Host live product demonstrations and educational webinars to showcase the capabilities of SIM and engage directly with potential customers.
 
 ### Customer Retention & Upselling
 

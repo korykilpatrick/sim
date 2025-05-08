@@ -6,7 +6,9 @@ interface LogoutButtonProps {
   className?: string;
 }
 
-export const LogoutButton: React.FC<LogoutButtonProps> = ({ className = '' }) => {
+export const LogoutButton: React.FC<LogoutButtonProps> = ({
+  className = '',
+}) => {
   const navigate = useNavigate();
   const [logout, { isLoading }] = useLogoutMutation();
 
@@ -16,11 +18,12 @@ export const LogoutButton: React.FC<LogoutButtonProps> = ({ className = '' }) =>
       navigate('/auth/login', { replace: true });
     } catch (error) {
       // Properly type the error and handle it
-      const errorMessage = error instanceof Error 
-        ? error.message 
-        : 'An unknown error occurred during logout';
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : 'An unknown error occurred during logout';
       console.error('Logout failed:', errorMessage);
-      
+
       // You could also integrate with a notification system here if needed
       // For example: displayNotification('error', 'Failed to log out. Please try again.');
     }

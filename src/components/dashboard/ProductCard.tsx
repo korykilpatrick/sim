@@ -20,25 +20,20 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const {
-    id,
-    name,
-    type,
-    purchaseDate,
-    expiryDate,
-    status,
-    configuration,
-  } = product;
-  
+  const { id, name, type, purchaseDate, expiryDate, status, configuration } =
+    product;
+
   // Format dates
   const formattedPurchaseDate = format(new Date(purchaseDate), 'MMM d, yyyy');
   const formattedExpiryDate = format(new Date(expiryDate), 'MMM d, yyyy');
-  
+
   // Determine days remaining
   const today = new Date();
   const expiry = new Date(expiryDate);
-  const daysRemaining = Math.ceil((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-  
+  const daysRemaining = Math.ceil(
+    (expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+  );
+
   // Determine product status for display
   const statusDisplay = () => {
     if (status === 'active') {
@@ -55,9 +50,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       return { label: 'Expired', variant: 'danger' as const };
     }
   };
-  
+
   const { label, variant } = statusDisplay();
-  
+
   // Determine product link based on type
   const getProductLink = () => {
     switch (type) {
@@ -77,31 +72,43 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         return `/protected/dashboard`;
     }
   };
-  
+
   // Get configuration summary
   const getConfigSummary = () => {
     if (!configuration) return null;
-    
+
     const summaryItems = [];
-    
-    if (configuration.trackingDurationDays || configuration.monitoringDurationDays) {
-      const duration = configuration.trackingDurationDays || configuration.monitoringDurationDays;
+
+    if (
+      configuration.trackingDurationDays ||
+      configuration.monitoringDurationDays
+    ) {
+      const duration =
+        configuration.trackingDurationDays ||
+        configuration.monitoringDurationDays;
       summaryItems.push(`Duration: ${duration} days`);
     }
-    
+
     if (configuration.vesselIMOs && configuration.vesselIMOs.length) {
-      summaryItems.push(`Tracking ${configuration.vesselIMOs.length} vessel(s)`);
+      summaryItems.push(
+        `Tracking ${configuration.vesselIMOs.length} vessel(s)`,
+      );
     }
-    
-    if (configuration.selectedCriteria && configuration.selectedCriteria.length) {
-      summaryItems.push(`${configuration.selectedCriteria.length} criteria selected`);
+
+    if (
+      configuration.selectedCriteria &&
+      configuration.selectedCriteria.length
+    ) {
+      summaryItems.push(
+        `${configuration.selectedCriteria.length} criteria selected`,
+      );
     }
-    
+
     return summaryItems.length > 0 ? summaryItems.join(' • ') : null;
   };
-  
+
   const configSummary = getConfigSummary();
-  
+
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden">
       <div className="p-6">
@@ -112,7 +119,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <Badge variant={variant}>{label}</Badge>
             </p>
           </div>
-          
+
           <Button
             as={Link}
             to={getProductLink()}
@@ -123,22 +130,24 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             Launch
           </Button>
         </div>
-        
+
         {configSummary && (
-          <p className="text-sm text-secondary-600 mt-4">
-            {configSummary}
-          </p>
+          <p className="text-sm text-secondary-600 mt-4">{configSummary}</p>
         )}
-        
+
         <div className="mt-4 pt-4 border-t border-secondary-200 grid grid-cols-2 gap-4 text-sm">
           <div>
             <p className="text-secondary-500">Purchased On</p>
-            <p className="font-medium text-secondary-900">{formattedPurchaseDate}</p>
+            <p className="font-medium text-secondary-900">
+              {formattedPurchaseDate}
+            </p>
           </div>
-          
+
           <div>
             <p className="text-secondary-500">Expiry Date</p>
-            <p className={`font-medium ${daysRemaining <= 7 ? 'text-red-600' : 'text-secondary-900'}`}>
+            <p
+              className={`font-medium ${daysRemaining <= 7 ? 'text-red-600' : 'text-secondary-900'}`}
+            >
               {formattedExpiryDate}
               {daysRemaining > 0 && ` (${daysRemaining} days left)`}
             </p>

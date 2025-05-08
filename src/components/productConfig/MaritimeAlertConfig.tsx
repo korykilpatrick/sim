@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { ConfigFormBase } from './ConfigFormBase';
-import { RadioGroup, NumberField, TextField, SelectField, CheckboxGroup, TextareaField } from './FormFields';
+import {
+  RadioGroup,
+  NumberField,
+  TextField,
+  SelectField,
+  CheckboxGroup,
+  TextareaField,
+} from './FormFields';
 import { useAppDispatch } from '@hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { addItem } from '@store/slices/cartSlice';
@@ -11,16 +18,18 @@ interface MaritimeAlertConfigProps {
   product: MaritimeAlertProduct;
 }
 
-export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({ product }) => {
+export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({
+  product,
+}) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Available alert types (from product)
   const alertTypes = product.alertTypesAvailable;
-  
-  const alertTypeOptions = alertTypes.map(type => {
+
+  const alertTypeOptions = alertTypes.map((type) => {
     let label = '';
     switch (type) {
       case 'SHIP':
@@ -35,7 +44,7 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({ produc
     }
     return { value: type, label };
   });
-  
+
   // Criteria options
   const shipCriteriaOptions = [
     { value: 'AIS_REPORTING_6HR', label: 'AIS Reporting Gap (6+ hours)' },
@@ -44,14 +53,14 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({ produc
     { value: 'PORT_DEPARTURE', label: 'Port Departure' },
     { value: 'SPEED_THRESHOLD', label: 'Speed Threshold Crossing' },
   ];
-  
+
   const areaCriteriaOptions = [
     { value: 'VESSEL_ENTRY', label: 'Vessel Entry' },
     { value: 'VESSEL_EXIT', label: 'Vessel Exit' },
     { value: 'LOITERING', label: 'Loitering Detection' },
     { value: 'UNUSUAL_ACTIVITY', label: 'Unusual Activity' },
   ];
-  
+
   // Default form values
   const defaultValues = {
     alertType: '',
@@ -63,17 +72,17 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({ produc
     updateFrequencyHours: '24',
     notes: '',
   };
-  
+
   const handleSubmit = (data: any) => {
     setIsSubmitting(true);
     setError(null);
-    
+
     try {
       // Process vessel IMOs into an array
       const vesselIMOs = data.vesselIMOs
         ? data.vesselIMOs.split(',').map((imo: string) => imo.trim())
         : [];
-      
+
       // Create configuration object
       let configuration = {
         alertType: data.alertType,
@@ -81,7 +90,7 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({ produc
         updateFrequencyHours: parseInt(data.updateFrequencyHours),
         notes: data.notes,
       };
-      
+
       // Add type-specific configuration data
       if (data.alertType === 'SHIP' || data.alertType === 'SHIP_AND_AREA') {
         configuration = {
@@ -90,7 +99,7 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({ produc
           shipCriteria: data.shipCriteria || [],
         };
       }
-      
+
       if (data.alertType === 'AREA' || data.alertType === 'SHIP_AND_AREA') {
         configuration = {
           ...configuration,
@@ -100,33 +109,40 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({ produc
           aoiDefinition: { type: 'Placeholder for GeoJSON' },
         };
       }
-      
+
       // Calculate the price based on configuration
       // This is a simple example - in a real app, pricing would be more complex
       const basePriceMultiplier = data.monitoringDurationDays / 30; // Default is 30 days
-      const configuredPrice = Math.round(product.price * basePriceMultiplier * 100) / 100;
-      const configuredCreditCost = Math.round(product.creditCost * basePriceMultiplier);
-      
+      const configuredPrice =
+        Math.round(product.price * basePriceMultiplier * 100) / 100;
+      const configuredCreditCost = Math.round(
+        product.creditCost * basePriceMultiplier,
+      );
+
       // Add to cart
-      dispatch(addItem({
-        itemId: uuidv4(),
-        product,
-        quantity: 1,
-        configuredPrice,
-        configuredCreditCost,
-        configurationDetails: configuration,
-      }));
-      
+      dispatch(
+        addItem({
+          itemId: uuidv4(),
+          product,
+          quantity: 1,
+          configuredPrice,
+          configuredCreditCost,
+          configurationDetails: configuration,
+        }),
+      );
+
       // Navigate to cart
       navigate('/protected/cart');
     } catch (err) {
       console.error('Error adding to cart:', err);
-      setError('Failed to add the configured alert to your cart. Please try again.');
+      setError(
+        'Failed to add the configured alert to your cart. Please try again.',
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
-  
+
   return (
     <ConfigFormBase
       title="Configure Maritime Alert"
@@ -143,7 +159,7 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({ produc
           options={alertTypeOptions}
           required
         />
-        
+
         <NumberField
           name="monitoringDurationDays"
           label="Monitoring Duration (Days)"
@@ -152,7 +168,7 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({ produc
           required
           helperText="How long should this alert be active? (1-365 days)"
         />
-        
+
         <SelectField
           name="updateFrequencyHours"
           label="Update Frequency"
@@ -164,17 +180,19 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({ produc
           required
           helperText="How often should the system check for alert conditions?"
         />
-        
+
         {/* Conditional fields based on alert type */}
         {(formValues) => {
           const alertType = formValues.alertType;
-          
+
           return (
             <>
               {(alertType === 'SHIP' || alertType === 'SHIP_AND_AREA') && (
                 <div className="space-y-6 border-t border-secondary-200 pt-6">
-                  <h3 className="text-lg font-medium text-secondary-900">Ship-based Alert Configuration</h3>
-                  
+                  <h3 className="text-lg font-medium text-secondary-900">
+                    Ship-based Alert Configuration
+                  </h3>
+
                   <TextField
                     name="vesselIMOs"
                     label="Vessel IMO Numbers"
@@ -182,7 +200,7 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({ produc
                     required
                     helperText="Enter comma-separated IMO numbers for vessels to monitor"
                   />
-                  
+
                   <CheckboxGroup
                     name="shipCriteria"
                     label="Alert Criteria"
@@ -192,18 +210,20 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({ produc
                   />
                 </div>
               )}
-              
+
               {(alertType === 'AREA' || alertType === 'SHIP_AND_AREA') && (
                 <div className="space-y-6 border-t border-secondary-200 pt-6">
-                  <h3 className="text-lg font-medium text-secondary-900">Area-based Alert Configuration</h3>
-                  
+                  <h3 className="text-lg font-medium text-secondary-900">
+                    Area-based Alert Configuration
+                  </h3>
+
                   <TextField
                     name="areaName"
                     label="Area Name"
                     placeholder="Gulf of Mexico Monitoring Zone"
                     required
                   />
-                  
+
                   <div className="bg-secondary-50 p-4 rounded-md border border-secondary-200">
                     <p className="text-sm text-secondary-600 mb-2">
                       Area Selection Map
@@ -217,7 +237,7 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({ produc
                       Use the map to define your area of interest
                     </p>
                   </div>
-                  
+
                   <CheckboxGroup
                     name="areaCriteria"
                     label="Alert Criteria"
@@ -227,7 +247,7 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({ produc
                   />
                 </div>
               )}
-              
+
               <div className="space-y-6 border-t border-secondary-200 pt-6">
                 <TextareaField
                   name="notes"

@@ -1,5 +1,5 @@
 import { apiSlice } from './api';
-import { CartItem } from '@types/cart';
+import { CartItem } from '@/types/cart';
 import { clearCart } from '@store/slices/cartSlice';
 
 interface CreateOrderRequest {
@@ -67,18 +67,18 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
         try {
           await queryFulfilled;
           dispatch(clearCart());
-        } catch (err) {
+        } catch (_err) {
           // Error handling could happen here
         }
       },
       invalidatesTags: ['User', 'Credits'],
     }),
-    
+
     getOrder: builder.query<OrderResponse, string>({
       query: (orderId) => `/orders/${orderId}`,
       providesTags: (result, error, id) => [{ type: 'Orders', id }],
     }),
-    
+
     getUserOrders: builder.query<OrdersResponse, void>({
       query: () => '/orders',
       providesTags: ['Orders'],

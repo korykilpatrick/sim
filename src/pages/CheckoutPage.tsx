@@ -6,7 +6,6 @@ import { z } from 'zod';
 import { useAppSelector, useAppDispatch } from '@hooks/redux';
 import { clearCart } from '@store/slices/cartSlice';
 import { useCreateOrderMutation } from '@services/ordersApi';
-import { CartItem } from '@components/cart/CartItem';
 import { Input } from '@components/common/Input';
 import { Button } from '@components/common/Button';
 import { Spinner } from '@components/common/Spinner';
@@ -21,11 +20,17 @@ const checkoutSchema = z.object({
   state: z.string().min(1, 'State is required'),
   zipCode: z.string().min(1, 'ZIP code is required'),
   country: z.string().min(1, 'Country is required'),
-  cardNumber: z.string().min(1, 'Card number is required')
+  cardNumber: z
+    .string()
+    .min(1, 'Card number is required')
     .regex(/^\d{16}$/, 'Card number must be 16 digits'),
-  expiryDate: z.string().min(1, 'Expiry date is required')
+  expiryDate: z
+    .string()
+    .min(1, 'Expiry date is required')
     .regex(/^(0[1-9]|1[0-2])\/\d{2}$/, 'Expiry date must be in MM/YY format'),
-  cvv: z.string().min(1, 'CVV is required')
+  cvv: z
+    .string()
+    .min(1, 'CVV is required')
     .regex(/^\d{3,4}$/, 'CVV must be 3 or 4 digits'),
   cardholderName: z.string().min(1, 'Cardholder name is required'),
 });
@@ -35,12 +40,16 @@ type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { items, totalAmount, totalCredits } = useAppSelector((state) => state.cart);
-  const { credits } = useAppSelector((state) => state.credits);
-  
-  const [paymentMethod, setPaymentMethod] = useState<'credit_card' | 'credits'>('credit_card');
+  const { items, totalAmount, totalCredits } = useAppSelector(
+    (state) => state.cart,
+  );
+  const { balance: credits } = useAppSelector((state) => state.credits);
+
+  const [paymentMethod, setPaymentMethod] = useState<'credit_card' | 'credits'>(
+    'credit_card',
+  );
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
-  
+
   const {
     register,
     handleSubmit,
@@ -48,17 +57,17 @@ const CheckoutPage: React.FC = () => {
   } = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
   });
-  
+
   // Calculate tax and total
   const taxRate = 0.08; // 8%
   const taxAmount = totalAmount * taxRate;
   const total = totalAmount + taxAmount;
-  
+
   const hasSufficientCredits = credits >= totalCredits;
-  
+
   const onSubmit = async (data: CheckoutFormValues) => {
     if (items.length === 0) return;
-    
+
     try {
       // In a real app, we would send payment info to a payment processor separately
       // Here we're just mocking the order creation
@@ -75,53 +84,53 @@ const CheckoutPage: React.FC = () => {
           zipCode: data.zipCode,
           country: data.country,
         },
-        paymentDetails: paymentMethod === 'credit_card' ? {
-          cardNumber: data.cardNumber,
-          expiryDate: data.expiryDate,
-          cvv: data.cvv,
-          cardholderName: data.cardholderName,
-        } : undefined,
+        paymentDetails:
+          paymentMethod === 'credit_card'
+            ? {
+                cardNumber: data.cardNumber,
+                expiryDate: data.expiryDate,
+                cvv: data.cvv,
+                cardholderName: data.cardholderName,
+              }
+            : undefined,
       };
-      
+
       const result = await createOrder(orderData).unwrap();
       dispatch(clearCart());
-      
+
       // Navigate to confirmation page with order ID
-      navigate('/protected/confirmation', { 
-        state: { 
+      navigate('/protected/confirmation', {
+        state: {
           orderId: result.order.id,
           items: result.order.items,
-        } 
+        },
       });
-    } catch (err) {
+    } catch (_err) {
       // Error is handled by RTK Query and available in the error variable
     }
   };
-  
+
   if (items.length === 0) {
     return (
       <div className="text-center">
-        <Alert 
-          variant="info" 
-          title="Empty Cart" 
+        <Alert
+          variant="info"
+          title="Empty Cart"
           message="Your cart is empty. Please add some products before proceeding to checkout."
         />
         <div className="mt-6">
-          <Button 
-            variant="primary"
-            onClick={() => navigate('/marketplace')}
-          >
+          <Button variant="primary" onClick={() => navigate('/marketplace')}>
             Browse Products
           </Button>
         </div>
       </div>
     );
   }
-  
+
   return (
     <div>
       <h1 className="text-2xl font-bold mb-8">Checkout</h1>
-      
+
       {error && (
         <Alert
           variant="error"
@@ -130,15 +139,17 @@ const CheckoutPage: React.FC = () => {
           className="mb-6"
         />
       )}
-      
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Checkout Form */}
           <div className="flex-1 space-y-8">
             {/* Billing Information */}
             <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-medium text-secondary-900 mb-4">Billing Information</h2>
-              
+              <h2 className="text-lg font-medium text-secondary-900 mb-4">
+                Billing Information
+              </h2>
+
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div className="sm:col-span-2">
                   <Input
@@ -148,7 +159,7 @@ const CheckoutPage: React.FC = () => {
                     {...register('name')}
                   />
                 </div>
-                
+
                 <div className="sm:col-span-2">
                   <Input
                     label="Email Address"
@@ -158,7 +169,7 @@ const CheckoutPage: React.FC = () => {
                     {...register('email')}
                   />
                 </div>
-                
+
                 <div className="sm:col-span-2">
                   <Input
                     label="Address"
@@ -167,7 +178,7 @@ const CheckoutPage: React.FC = () => {
                     {...register('address')}
                   />
                 </div>
-                
+
                 <div>
                   <Input
                     label="City"
@@ -176,7 +187,7 @@ const CheckoutPage: React.FC = () => {
                     {...register('city')}
                   />
                 </div>
-                
+
                 <div>
                   <Input
                     label="State / Province"
@@ -185,7 +196,7 @@ const CheckoutPage: React.FC = () => {
                     {...register('state')}
                   />
                 </div>
-                
+
                 <div>
                   <Input
                     label="ZIP / Postal Code"
@@ -194,7 +205,7 @@ const CheckoutPage: React.FC = () => {
                     {...register('zipCode')}
                   />
                 </div>
-                
+
                 <div>
                   <Input
                     label="Country"
@@ -205,11 +216,13 @@ const CheckoutPage: React.FC = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Payment Method */}
             <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-medium text-secondary-900 mb-4">Payment Method</h2>
-              
+              <h2 className="text-lg font-medium text-secondary-900 mb-4">
+                Payment Method
+              </h2>
+
               <div className="mb-6">
                 <div className="flex space-x-4">
                   <label className="relative flex items-center">
@@ -221,7 +234,7 @@ const CheckoutPage: React.FC = () => {
                     />
                     <span className="ml-2 text-secondary-700">Credit Card</span>
                   </label>
-                  
+
                   <label className="relative flex items-center">
                     <input
                       type="radio"
@@ -233,13 +246,15 @@ const CheckoutPage: React.FC = () => {
                     <span className="ml-2 text-secondary-700">
                       Use Credits ({credits} available)
                       {!hasSufficientCredits && (
-                        <span className="text-red-500 ml-2">Insufficient credits</span>
+                        <span className="text-red-500 ml-2">
+                          Insufficient credits
+                        </span>
                       )}
                     </span>
                   </label>
                 </div>
               </div>
-              
+
               {paymentMethod === 'credit_card' && (
                 <div className="space-y-4">
                   <div>
@@ -250,7 +265,7 @@ const CheckoutPage: React.FC = () => {
                       {...register('cardNumber')}
                     />
                   </div>
-                  
+
                   <div className="grid grid-cols-3 gap-4">
                     <div>
                       <Input
@@ -260,7 +275,7 @@ const CheckoutPage: React.FC = () => {
                         {...register('expiryDate')}
                       />
                     </div>
-                    
+
                     <div>
                       <Input
                         label="CVV"
@@ -269,7 +284,7 @@ const CheckoutPage: React.FC = () => {
                         {...register('cvv')}
                       />
                     </div>
-                    
+
                     <div className="col-span-3">
                       <Input
                         label="Cardholder Name"
@@ -283,52 +298,66 @@ const CheckoutPage: React.FC = () => {
               )}
             </div>
           </div>
-          
+
           {/* Order Summary */}
           <div className="lg:w-96">
             <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-medium text-secondary-900 mb-4">Order Summary</h2>
-              
+              <h2 className="text-lg font-medium text-secondary-900 mb-4">
+                Order Summary
+              </h2>
+
               <div className="space-y-4 mb-6">
                 {items.map((item) => (
                   <div key={item.itemId} className="flex justify-between">
                     <div>
                       <p className="text-secondary-900">{item.product.name}</p>
-                      <p className="text-sm text-secondary-500">Qty: {item.quantity}</p>
+                      <p className="text-sm text-secondary-500">
+                        Qty: {item.quantity}
+                      </p>
                     </div>
                     <p className="text-secondary-900">
-                      ${((item.configuredPrice || item.product.price) * item.quantity).toFixed(2)}
+                      $
+                      {(
+                        (item.configuredPrice || item.product.price) *
+                        item.quantity
+                      ).toFixed(2)}
                     </p>
                   </div>
                 ))}
               </div>
-              
+
               <div className="border-t border-secondary-200 pt-4 space-y-2">
                 <div className="flex justify-between">
                   <p className="text-secondary-600">Subtotal</p>
-                  <p className="text-secondary-900">${totalAmount.toFixed(2)}</p>
+                  <p className="text-secondary-900">
+                    ${totalAmount.toFixed(2)}
+                  </p>
                 </div>
-                
+
                 <div className="flex justify-between">
                   <p className="text-secondary-600">Tax (8%)</p>
                   <p className="text-secondary-900">${taxAmount.toFixed(2)}</p>
                 </div>
-                
+
                 <div className="pt-2 border-t border-secondary-200">
                   <div className="flex justify-between font-medium">
                     <p className="text-secondary-900">Total</p>
                     <p className="text-secondary-900">${total.toFixed(2)}</p>
                   </div>
-                  
+
                   {paymentMethod === 'credits' && (
                     <div className="flex justify-between mt-1">
-                      <p className="text-secondary-600 text-sm">Credits to be used:</p>
-                      <p className="text-secondary-900 font-medium text-sm">{totalCredits}</p>
+                      <p className="text-secondary-600 text-sm">
+                        Credits to be used:
+                      </p>
+                      <p className="text-secondary-900 font-medium text-sm">
+                        {totalCredits}
+                      </p>
                     </div>
                   )}
                 </div>
               </div>
-              
+
               <div className="mt-6">
                 <Button
                   type="submit"
@@ -336,7 +365,7 @@ const CheckoutPage: React.FC = () => {
                   fullWidth
                   isLoading={isLoading}
                   disabled={
-                    isLoading || 
+                    isLoading ||
                     (paymentMethod === 'credits' && !hasSufficientCredits)
                   }
                 >
@@ -350,9 +379,10 @@ const CheckoutPage: React.FC = () => {
                   )}
                 </Button>
               </div>
-              
+
               <p className="text-xs text-secondary-500 text-center mt-4">
-                By completing your purchase, you agree to our Terms of Service and Privacy Policy.
+                By completing your purchase, you agree to our Terms of Service
+                and Privacy Policy.
               </p>
             </div>
           </div>

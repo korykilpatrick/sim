@@ -15,17 +15,11 @@ const registerSchema = z
       .string()
       .min(1, 'Email is required')
       .email('Invalid email address'),
-    name: z
-      .string()
-      .min(1, 'Name is required'),
-    password: z
-      .string()
-      .min(6, 'Password must be at least 6 characters'),
-    confirmPassword: z
-      .string()
-      .min(1, 'Confirm Password is required'),
+    name: z.string().min(1, 'Name is required'),
+    password: z.string().min(6, 'Password must be at least 6 characters'),
+    confirmPassword: z.string().min(1, 'Confirm Password is required'),
   })
-  .refine(data => data.password === data.confirmPassword, {
+  .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
     path: ['confirmPassword'],
   });
@@ -35,7 +29,7 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
   const [register, { isLoading, error }] = useRegisterMutation();
-  
+
   const {
     register: registerField,
     handleSubmit,
@@ -43,26 +37,31 @@ const RegisterPage: React.FC = () => {
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
   });
-  
+
   const onSubmit = async (data: RegisterFormValues) => {
     try {
-      const { confirmPassword, ...registerData } = data;
+      const { confirmPassword: _confirmPassword, ...registerData } = data;
       await register(registerData).unwrap();
       // If registration is successful, redirect to marketplace
       navigate('/marketplace', { replace: true });
     } catch (err) {
       // Error is handled by RTK Query and available in the error variable
       // We don't need to do anything else here, but including this for clarity
-      console.error('Registration error:', 
-        err instanceof Error ? err.message : 'An unknown error occurred during registration'
+      console.error(
+        'Registration error:',
+        err instanceof Error
+          ? err.message
+          : 'An unknown error occurred during registration',
       );
     }
   };
-  
+
   return (
     <div>
-      <h2 className="text-2xl font-bold text-center mb-6 text-ocean-200">Create Account</h2>
-      
+      <h2 className="text-2xl font-bold text-center mb-6 text-ocean-200">
+        Create Account
+      </h2>
+
       {error && (
         <Alert
           variant="error"
@@ -70,7 +69,7 @@ const RegisterPage: React.FC = () => {
           className="mb-4"
         />
       )}
-      
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-4">
           <div>
@@ -82,7 +81,7 @@ const RegisterPage: React.FC = () => {
               {...registerField('email')}
             />
           </div>
-          
+
           <div>
             <Input
               label="Name"
@@ -92,7 +91,7 @@ const RegisterPage: React.FC = () => {
               {...registerField('name')}
             />
           </div>
-          
+
           <div>
             <Input
               label="Password"
@@ -102,7 +101,7 @@ const RegisterPage: React.FC = () => {
               {...registerField('password')}
             />
           </div>
-          
+
           <div>
             <Input
               label="Confirm Password"
@@ -112,7 +111,7 @@ const RegisterPage: React.FC = () => {
               {...registerField('confirmPassword')}
             />
           </div>
-          
+
           <div className="pt-2">
             <Button
               type="submit"
@@ -125,11 +124,14 @@ const RegisterPage: React.FC = () => {
           </div>
         </div>
       </form>
-      
+
       <div className="mt-6 text-center">
         <p className="text-sm text-ocean-100">
           Already have an account?{' '}
-          <Link to="/auth/login" className="text-ocean-400 hover:text-ocean-300 hover:underline">
+          <Link
+            to="/auth/login"
+            className="text-ocean-400 hover:text-ocean-300 hover:underline"
+          >
             Sign in
           </Link>
         </p>

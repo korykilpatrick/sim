@@ -46,7 +46,7 @@ export const alertsApiSlice = apiSlice.injectEndpoints({
       query: () => '/alerts',
       providesTags: ['Alerts'],
     }),
-    
+
     createAlert: builder.mutation<CreateAlertResponse, CreateAlertRequest>({
       query: (alertData) => ({
         url: '/alerts',
@@ -55,12 +55,12 @@ export const alertsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Alerts'],
     }),
-    
+
     getAlert: builder.query<AlertResponse, string>({
       query: (alertId) => `/alerts/${alertId}`,
       providesTags: (result, error, id) => [{ type: 'Alerts', id }],
     }),
-    
+
     markAlertRead: builder.mutation<MarkAlertReadResponse, string>({
       query: (notificationId) => ({
         url: `/alerts/${notificationId}/read`,

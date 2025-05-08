@@ -1,5 +1,5 @@
 import { apiSlice } from './api';
-import { User } from '@types/user';
+import { User } from '@/types/user';
 import { setCredentials, logout } from '@store/slices/authSlice';
 
 interface LoginRequest {
@@ -31,12 +31,12 @@ export const authApiSlice = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(setCredentials(data));
-        } catch (err) {
+        } catch (_err) {
           // Handle error if needed
         }
       },
     }),
-    
+
     register: builder.mutation<AuthResponse, RegisterRequest>({
       query: (userData) => ({
         url: '/auth/register',
@@ -47,17 +47,17 @@ export const authApiSlice = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(setCredentials(data));
-        } catch (err) {
+        } catch (_err) {
           // Handle error if needed
         }
       },
     }),
-    
+
     getProfile: builder.query<{ user: User }, void>({
       query: () => '/auth/me',
       providesTags: ['User'],
     }),
-    
+
     logout: builder.mutation<void, void>({
       query: () => ({
         url: '/auth/logout',

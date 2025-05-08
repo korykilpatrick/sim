@@ -6,7 +6,9 @@ export const AuthLayout = () => {
       <div className="m-auto w-full max-w-md p-8 bg-navy-800 rounded-lg shadow-md border border-navy-700">
         <div className="mb-8 text-center">
           <span className="text-xl font-bold text-ocean-400">SYNMAX</span>
-          <h1 className="text-2xl font-bold text-ocean-300 mt-2">Intelligence Marketplace</h1>
+          <h1 className="text-2xl font-bold text-ocean-300 mt-2">
+            Intelligence Marketplace
+          </h1>
         </div>
         <Outlet />
       </div>

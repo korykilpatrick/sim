@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Button } from './Button';
 
 interface ModalProps {
@@ -38,7 +38,11 @@ export const Modal: React.FC<ModalProps> = ({
 
   // Handle click outside
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (closeOnOverlayClick && modalRef.current && !modalRef.current.contains(e.target as Node)) {
+    if (
+      closeOnOverlayClick &&
+      modalRef.current &&
+      !modalRef.current.contains(e.target as Node)
+    ) {
       onClose();
     }
   };
@@ -75,7 +79,10 @@ export const Modal: React.FC<ModalProps> = ({
           {/* Header */}
           {title && (
             <div className="flex justify-between items-center pb-3 border-b border-navy-700">
-              <h3 className="text-lg font-medium text-ocean-300" id="modal-title">
+              <h3
+                className="text-lg font-medium text-ocean-300"
+                id="modal-title"
+              >
                 {title}
               </h3>
               <Button
@@ -107,7 +114,9 @@ export const Modal: React.FC<ModalProps> = ({
           <div className={`${title ? 'mt-4' : ''}`}>{children}</div>
 
           {/* Footer */}
-          {footer && <div className="mt-6 pt-3 border-t border-navy-700">{footer}</div>}
+          {footer && (
+            <div className="mt-6 pt-3 border-t border-navy-700">{footer}</div>
+          )}
         </div>
       </div>
     </div>
