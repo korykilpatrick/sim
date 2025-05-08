@@ -88,13 +88,16 @@ This will create a production-ready build in the `dist` directory.
 ├── src/
 │   ├── assets/            # Static assets (images, icons, fonts)
 │   ├── components/        # Reusable UI components
-│   │   ├── common/        # Generic components (Button, Input, Modal, Card)
-│   │   ├── layout/        # Layout components (Header, Sidebar, Footer)
-│   │   ├── products/      # Product-related components
+│   │   ├── alerts/        # Alert-related components
+│   │   ├── auth/          # Authentication components
 │   │   ├── cart/          # Shopping cart components
+│   │   ├── common/        # Generic components (Button, Input, Modal, Card)
 │   │   ├── dashboard/     # Dashboard components
-│   │   └── productConfig/ # Product configuration forms
-│   ├── features/          # Feature-specific components and logic
+│   │   ├── layout/        # Layout components (Header, Sidebar, Footer)
+│   │   ├── map/           # Map-related components
+│   │   ├── maritime/      # Maritime-specific components
+│   │   ├── productConfig/ # Product configuration forms
+│   │   └── products/      # Product-related components
 │   ├── hooks/             # Custom React hooks
 │   ├── pages/             # Top-level route components
 │   ├── services/          # RTK Query API definitions
