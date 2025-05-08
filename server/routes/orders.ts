@@ -1,12 +1,22 @@
 import express from 'express';
 import { v4 as uuidv4 } from 'uuid';
-import { orders, userProducts, users } from '../data';
+import { orders, userProducts, users, products as allProducts } from '../data';
+import {
+  Order, 
+  OrderItem, 
+  UserProduct, 
+  PaymentMethod, 
+  OrderStatus, 
+  UserProductStatus,
+  ProductServiceConfig,
+  PaymentGatewayDetails
+} from '../../src/types';
 
 const router = express.Router();
 
 // Get user's orders
 router.get('/', (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = req.user!.id;
 
   if (!orders[userId]) {
     orders[userId] = [];
@@ -20,7 +30,7 @@ router.get('/', (req, res) => {
 
 // Get order by ID
 router.get('/:id', (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = req.user!.id;
   const { id } = req.params;
 
   if (!orders[userId]) {
@@ -36,10 +46,16 @@ router.get('/:id', (req, res) => {
   return res.json({ order });
 });
 
+interface CreateOrderRequestBody {
+  items: OrderItem[];
+  paymentMethod: PaymentMethod;
+  paymentDetails?: PaymentGatewayDetails;
+}
+
 // Create a new order
 router.post('/', (req, res) => {
-  const userId = (req as any).user.id;
-  const { items, paymentMethod, paymentDetails } = req.body;
+  const userId = req.user!.id;
+  const { items, paymentMethod, paymentDetails } = req.body as CreateOrderRequestBody;
 
   if (!items || items.length === 0) {
     return res
@@ -47,69 +63,74 @@ router.post('/', (req, res) => {
       .json({ message: 'Order must contain at least one item' });
   }
 
-  // Calculate total
-  const totalAmount = items.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
-    0,
-  );
-  const totalCredits = items.reduce(
-    (sum, item) => sum + item.product.creditCost * item.quantity,
-    0,
-  );
+  let calculatedTotalAmount = 0;
+  let calculatedTotalCredits = 0;
+  const validatedOrderItems: OrderItem[] = [];
 
-  // Check if user has enough credits if paying with credits
+  for (const clientItem of items) {
+    const product = allProducts.find(p => p.id === clientItem.product.id);
+    if (!product) {
+      return res.status(400).json({ message: `Product with ID ${clientItem.product.id} not found.` });
+    }
+    
+    calculatedTotalAmount += product.price * clientItem.quantity;
+    calculatedTotalCredits += product.creditCost * clientItem.quantity;
+    validatedOrderItems.push({
+        product: product,
+        quantity: clientItem.quantity,
+        configurationDetails: clientItem.configurationDetails
+    });
+  }
+
   if (paymentMethod === 'credits') {
     const user = users.find((u) => u.id === userId);
-    if (!user || user.credits < totalCredits) {
+    if (!user || user.credits < calculatedTotalCredits) {
       return res.status(400).json({ message: 'Insufficient credits' });
     }
-
-    // Update user credits (in a real app, this would be a transaction)
-    // This is a simplification for the mock backend
     if (user) {
-      user.credits -= totalCredits;
+      user.credits -= calculatedTotalCredits;
     }
   }
 
-  // Create new order
   const orderId = uuidv4();
-  const newOrder = {
+  const newOrder: Order = {
     id: orderId,
     userId,
-    items,
-    totalAmount,
-    totalCredits,
+    items: validatedOrderItems,
+    totalAmount: calculatedTotalAmount,
+    totalCredits: calculatedTotalCredits,
     paymentMethod,
     paymentDetails,
-    status: 'completed',
+    status: 'completed' as OrderStatus,
     purchaseDate: new Date().toISOString(),
   };
 
-  // Add to orders
   if (!orders[userId]) {
     orders[userId] = [];
   }
   orders[userId].push(newOrder);
 
-  // Add products to user's active products
   if (!userProducts[userId]) {
     userProducts[userId] = [];
   }
 
-  items.forEach((item) => {
+  validatedOrderItems.forEach((item) => {
     const expiryDate = new Date();
-    expiryDate.setDate(expiryDate.getDate() + 30); // Default 30 days
+    expiryDate.setDate(expiryDate.getDate() + 30);
 
-    userProducts[userId].push({
+    const newUserProduct: UserProduct = {
       id: `${orderId}-${item.product.id}`,
+      orderId: orderId,
+      userId: userId,
       productId: item.product.id,
       name: item.product.name,
       type: item.product.type,
       purchaseDate: newOrder.purchaseDate,
       expiryDate: expiryDate.toISOString(),
-      status: 'active',
+      status: 'active' as UserProductStatus,
       configuration: item.configurationDetails,
-    });
+    };
+    userProducts[userId].push(newUserProduct);
   });
 
   return res.status(201).json({ order: newOrder });

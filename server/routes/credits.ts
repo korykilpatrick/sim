@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Get user's credit balance
 router.get('/balance', (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = req.user!.id;
   const user = users.find((u) => u.id === userId);
 
   if (!user) {
@@ -20,7 +20,7 @@ router.get('/balance', (req, res) => {
 
 // Get user's credit transactions
 router.get('/transactions', (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = req.user!.id;
 
   if (!creditTransactions[userId]) {
     creditTransactions[userId] = [];
@@ -34,7 +34,7 @@ router.get('/transactions', (req, res) => {
 
 // Purchase credits
 router.post('/purchase', (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = req.user!.id;
   const { amount } = req.body;
 
   if (!amount || amount <= 0) {

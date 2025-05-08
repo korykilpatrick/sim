@@ -2,6 +2,15 @@ import { BaseProduct, MaritimeAlertProduct } from '../../src/types/product';
 import { User } from '../../src/types/user';
 import { AlertNotification } from '../../src/types/alert';
 import { CreditTransaction } from '../../src/types/credits';
+import {
+  Order,
+  UserProduct,
+  OrderStatus,
+  PaymentMethod,
+  UserProductStatus,
+  VesselTrackingServiceConfig,
+  AreaMonitoringServiceConfig
+} from '../../src/types';
 
 // Products
 export const products: BaseProduct[] = [
@@ -178,7 +187,7 @@ export const alertNotifications: Record<string, AlertNotification[]> = {
 };
 
 // Orders (purchases)
-export const orders: Record<string, any[]> = {
+export const orders: Record<string, Order[]> = {
   '1': [
     {
       id: '1001',
@@ -188,16 +197,17 @@ export const orders: Record<string, any[]> = {
           product: products[0],
           quantity: 1,
           configurationDetails: {
+            productId: '1',
             trackingDurationDays: 30,
             selectedCriteria: ['AIS_REPORTING_6HR', 'DARK_EVENT'],
             vesselIMOs: ['9876543'],
-          },
+          } as VesselTrackingServiceConfig,
         },
       ],
       totalAmount: 199.99,
       totalCredits: 20,
-      paymentMethod: 'credits',
-      status: 'completed',
+      paymentMethod: 'credits' as PaymentMethod,
+      status: 'completed' as OrderStatus,
       purchaseDate: '2023-06-05T15:30:00Z',
     },
   ],
@@ -210,55 +220,62 @@ export const orders: Record<string, any[]> = {
           product: products[1],
           quantity: 1,
           configurationDetails: {
+            productId: '2',
             monitoringDurationDays: 60,
             updateFrequencyHours: 12,
             selectedCriteria: ['VESSEL_ENTRY', 'VESSEL_EXIT'],
             areaName: 'Gulf of Mexico',
-          },
+          } as AreaMonitoringServiceConfig,
         },
       ],
       totalAmount: 299.99,
       totalCredits: 30,
-      paymentMethod: 'credits',
-      status: 'completed',
+      paymentMethod: 'credits' as PaymentMethod,
+      status: 'completed' as OrderStatus,
       purchaseDate: '2023-06-12T09:00:00Z',
     },
   ],
 };
 
 // Purchased products (user's active products)
-export const userProducts: Record<string, any[]> = {
+export const userProducts: Record<string, UserProduct[]> = {
   '1': [
     {
       id: '1001-1',
+      orderId: '1001',
+      userId: '1',
       productId: '1',
       name: 'Vessel Tracking Service',
       type: 'VTS',
       purchaseDate: '2023-06-05T15:30:00Z',
       expiryDate: '2023-07-05T15:30:00Z',
-      status: 'active',
+      status: 'active' as UserProductStatus,
       configuration: {
+        productId: '1',
         trackingDurationDays: 30,
         selectedCriteria: ['AIS_REPORTING_6HR', 'DARK_EVENT'],
         vesselIMOs: ['9876543'],
-      },
+      } as VesselTrackingServiceConfig,
     },
   ],
   '2': [
     {
-      id: '2001-2',
+      id: '2001-1',
+      orderId: '2001',
+      userId: '2',
       productId: '2',
       name: 'Area Monitoring Service',
       type: 'AMS',
       purchaseDate: '2023-06-12T09:00:00Z',
-      expiryDate: '2023-08-11T09:00:00Z',
-      status: 'active',
+      expiryDate: '2023-08-12T09:00:00Z',
+      status: 'active' as UserProductStatus,
       configuration: {
+        productId: '2',
         monitoringDurationDays: 60,
         updateFrequencyHours: 12,
         selectedCriteria: ['VESSEL_ENTRY', 'VESSEL_EXIT'],
         areaName: 'Gulf of Mexico',
-      },
+      } as AreaMonitoringServiceConfig,
     },
   ],
 };

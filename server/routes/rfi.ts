@@ -1,14 +1,20 @@
 import express from 'express';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  RFI, 
+  RFIStatus, 
+  RFITimeRange, 
+  RFIAdditionalDetails 
+} from '../../src/types'; // Import RFI related types
 
 const router = express.Router();
 
 // Mock RFI storage (in-memory)
-const userRfis: Record<string, any[]> = {};
+const userRfis: Record<string, RFI[]> = {}; // Use RFI[]
 
 // Get user's RFIs
 router.get('/', (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = req.user!.id; // Updated
 
   if (!userRfis[userId]) {
     userRfis[userId] = [];
@@ -22,7 +28,7 @@ router.get('/', (req, res) => {
 
 // Get RFI by ID
 router.get('/:id', (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = req.user!.id; // Updated
   const { id } = req.params;
 
   if (!userRfis[userId]) {
@@ -38,11 +44,26 @@ router.get('/:id', (req, res) => {
   return res.json({ rfi });
 });
 
+// Define a type for the request body for creating an RFI
+// Most fields from RFI are optional at creation or set by server
+interface CreateRfiRequestBody {
+  title: string;
+  description: string;
+  targetArea?: RFI['targetArea'];
+  dateRange?: RFITimeRange;
+  additionalDetails?: RFIAdditionalDetails;
+}
+
 // Create a new RFI
 router.post('/', (req, res) => {
-  const userId = (req as any).user.id;
-  const { title, description, targetArea, dateRange, additionalDetails } =
-    req.body;
+  const userId = req.user!.id; // Updated
+  const { 
+    title,
+    description,
+    targetArea,
+    dateRange,
+    additionalDetails 
+  } = req.body as CreateRfiRequestBody;
 
   if (!title || !description) {
     return res
@@ -50,7 +71,7 @@ router.post('/', (req, res) => {
       .json({ message: 'Title and description are required' });
   }
 
-  const newRfi = {
+  const newRfi: RFI = { // Typed as RFI
     id: uuidv4(),
     userId,
     title,
@@ -58,7 +79,7 @@ router.post('/', (req, res) => {
     targetArea,
     dateRange,
     additionalDetails,
-    status: 'submitted',
+    status: 'submitted' as RFIStatus, // Type assertion
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
@@ -72,12 +93,29 @@ router.post('/', (req, res) => {
   return res.status(201).json({ rfi: newRfi });
 });
 
+// Define a type for the request body for updating an RFI
+// All fields are optional during an update
+interface UpdateRfiRequestBody {
+  title?: string;
+  description?: string;
+  targetArea?: RFI['targetArea'];
+  dateRange?: RFITimeRange;
+  additionalDetails?: RFIAdditionalDetails;
+  status?: RFIStatus; // Allow status updates if business logic permits
+}
+
 // Update an RFI
 router.put('/:id', (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = req.user!.id; // Updated
   const { id } = req.params;
-  const { title, description, targetArea, dateRange, additionalDetails } =
-    req.body;
+  const { 
+    title,
+    description,
+    targetArea,
+    dateRange,
+    additionalDetails,
+    status // Include status if it can be updated via PUT
+  } = req.body as UpdateRfiRequestBody;
 
   if (!userRfis[userId]) {
     return res.status(404).json({ message: 'RFI not found' });
@@ -89,19 +127,22 @@ router.put('/:id', (req, res) => {
     return res.status(404).json({ message: 'RFI not found' });
   }
 
-  // Only allow updates if RFI is not already processed
-  if (userRfis[userId][rfiIndex].status === 'completed') {
-    return res.status(400).json({ message: 'Cannot update a completed RFI' });
+  const existingRfi = userRfis[userId][rfiIndex];
+
+  // Example: Prevent updates on already completed or cancelled RFIs
+  if (existingRfi.status === 'completed' || existingRfi.status === 'cancelled') {
+    return res.status(400).json({ message: `Cannot update RFI in '${existingRfi.status}' status` });
   }
 
-  const updatedRfi = {
-    ...userRfis[userId][rfiIndex],
-    title: title || userRfis[userId][rfiIndex].title,
-    description: description || userRfis[userId][rfiIndex].description,
-    targetArea: targetArea || userRfis[userId][rfiIndex].targetArea,
-    dateRange: dateRange || userRfis[userId][rfiIndex].dateRange,
+  const updatedRfi: RFI = { // Typed as RFI
+    ...existingRfi,
+    title: title !== undefined ? title : existingRfi.title,
+    description: description !== undefined ? description : existingRfi.description,
+    targetArea: targetArea !== undefined ? targetArea : existingRfi.targetArea,
+    dateRange: dateRange !== undefined ? dateRange : existingRfi.dateRange,
     additionalDetails:
-      additionalDetails || userRfis[userId][rfiIndex].additionalDetails,
+      additionalDetails !== undefined ? additionalDetails : existingRfi.additionalDetails,
+    status: status !== undefined ? status : existingRfi.status, // Update status if provided
     updatedAt: new Date().toISOString(),
   };
 
@@ -112,7 +153,7 @@ router.put('/:id', (req, res) => {
 
 // Cancel an RFI
 router.delete('/:id', (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = req.user!.id; // This is the correct, updated line
   const { id } = req.params;
 
   if (!userRfis[userId]) {
@@ -130,7 +171,7 @@ router.delete('/:id', (req, res) => {
     return res.status(400).json({ message: 'Cannot cancel a completed RFI' });
   }
 
-  userRfis[userId][rfiIndex].status = 'cancelled';
+  userRfis[userId][rfiIndex].status = 'cancelled' as RFIStatus; // Type assertion for status
   userRfis[userId][rfiIndex].updatedAt = new Date().toISOString();
 
   return res.json({

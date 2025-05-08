@@ -47,7 +47,7 @@ const authenticateToken = (
     return res.status(404).json({ message: 'User not found' });
   }
 
-  (req as any).user = user;
+  req.user = user;
   next();
 };
 

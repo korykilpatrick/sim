@@ -1,14 +1,15 @@
 import express from 'express';
 import { products } from '../data';
+import { CartItem, ProductServiceConfig } from '../../src/types';
 
 const router = express.Router();
 
 // Mock cart storage (in-memory)
-const userCarts: Record<string, any[]> = {};
+const userCarts: Record<string, CartItem[]> = {};
 
 // Get user's cart
 router.get('/', (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = req.user!.id;
 
   if (!userCarts[userId]) {
     userCarts[userId] = [];
@@ -20,10 +21,20 @@ router.get('/', (req, res) => {
   });
 });
 
+interface AddToCartRequestBody {
+  productId: string;
+  quantity?: number;
+  configurationDetails?: ProductServiceConfig;
+}
+
 // Add item to cart
 router.post('/items', (req, res) => {
-  const userId = (req as any).user.id;
-  const { productId, quantity = 1, configurationDetails = {} } = req.body;
+  const userId = req.user!.id;
+  const { 
+    productId,
+    quantity = 1,
+    configurationDetails 
+  } = req.body as AddToCartRequestBody;
 
   if (!userCarts[userId]) {
     userCarts[userId] = [];
@@ -34,13 +45,15 @@ router.post('/items', (req, res) => {
   if (!product) {
     return res.status(404).json({ message: 'Product not found' });
   }
+  
+  const currentConfigurationDetails = configurationDetails || getDefaultConfigForProduct(product.id, product.type);
 
   // Check if product is already in cart
   const existingItemIndex = userCarts[userId].findIndex(
     (item) =>
       item.product.id === productId &&
       JSON.stringify(item.configurationDetails) ===
-        JSON.stringify(configurationDetails),
+        JSON.stringify(currentConfigurationDetails),
   );
 
   if (existingItemIndex > -1) {
@@ -51,7 +64,7 @@ router.post('/items', (req, res) => {
     userCarts[userId].push({
       product,
       quantity,
-      configurationDetails,
+      configurationDetails: currentConfigurationDetails,
     });
   }
 
@@ -61,11 +74,16 @@ router.post('/items', (req, res) => {
   });
 });
 
+interface UpdateCartItemRequestBody {
+    quantity?: number;
+    configurationDetails?: ProductServiceConfig;
+}
+
 // Update cart item
 router.put('/items/:itemIndex', (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = req.user!.id;
   const { itemIndex } = req.params;
-  const { quantity, configurationDetails } = req.body;
+  const { quantity, configurationDetails } = req.body as UpdateCartItemRequestBody;
 
   if (!userCarts[userId] || !userCarts[userId][Number(itemIndex)]) {
     return res.status(404).json({ message: 'Cart item not found' });
@@ -88,7 +106,7 @@ router.put('/items/:itemIndex', (req, res) => {
 
 // Remove item from cart
 router.delete('/items/:itemIndex', (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = req.user!.id;
   const { itemIndex } = req.params;
 
   if (!userCarts[userId] || !userCarts[userId][Number(itemIndex)]) {
@@ -105,7 +123,7 @@ router.delete('/items/:itemIndex', (req, res) => {
 
 // Clear cart
 router.delete('/', (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = req.user!.id;
   userCarts[userId] = [];
 
   return res.json({
@@ -115,7 +133,7 @@ router.delete('/', (req, res) => {
 });
 
 // Helper function to calculate total price and credits
-function calculateTotal(items: any[]) {
+function calculateTotal(items: CartItem[]) {
   return items.reduce(
     (total, item) => {
       return {
@@ -125,6 +143,12 @@ function calculateTotal(items: any[]) {
     },
     { price: 0, credits: 0 },
   );
+}
+
+// Placeholder for getDefaultConfigForProduct - this needs proper implementation
+function getDefaultConfigForProduct(productId: string, productType: string): ProductServiceConfig {
+    console.warn(`getDefaultConfigForProduct called for ${productId} (${productType}), returning basic object. IMPLEMENT DEFAULTS.`);
+    return { productId } as ProductServiceConfig;
 }
 
 export const cartRoutes = router;

@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Get user's alert notifications
 router.get('/', (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = req.user!.id;
 
   if (!alertNotifications[userId]) {
     alertNotifications[userId] = [];
@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
 
 // Mark alert as read
 router.put('/:id/read', (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = req.user!.id;
   const { id } = req.params;
 
   if (!alertNotifications[userId]) {
@@ -47,7 +47,7 @@ router.put('/:id/read', (req, res) => {
 
 // Mark all alerts as read
 router.put('/read-all', (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = req.user!.id;
 
   if (!alertNotifications[userId]) {
     alertNotifications[userId] = [];
