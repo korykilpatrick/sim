@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { BaseProduct } from '../../types/product'; // Import BaseProduct
+import { ProductConfigurationDetailsU } from '../../types/productConfiguration'; // Import ProductConfigurationDetailsU
 
 export interface CartItem {
-  itemId: string;
-  product: any; // Using any for simplicity, should be properly typed in a real app
+  itemId: string; // Unique ID for the cart item instance
+  product: BaseProduct;
   quantity: number;
-  configuredPrice?: number;
-  configuredCreditCost?: number;
-  configurationDetails?: any;
+  configuredPrice?: number; // Price after configuration, if different from product.price
+  configuredCreditCost?: number; // Credit cost after configuration
+  configurationDetails?: ProductConfigurationDetailsU; // Holds the specific configuration chosen for this product instance
 }
 
 export interface CartState {

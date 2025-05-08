@@ -1,3 +1,5 @@
+import { Geometry } from 'geojson'; // Import GeoJSON type
+
 export type ProductType =
   | 'VTS'
   | 'AMS'
@@ -37,7 +39,7 @@ export interface VesselTrackingServiceConfig {
 export interface AreaMonitoringServiceConfig {
   productId: string; // Links to BaseProduct of type AMS
   monitoringDurationDays: number;
-  aoiDefinition: any; // GeoJSON or similar
+  aoiDefinition: Geometry; // Use GeoJSON Geometry type
   selectedCriteria: string[];
   updateFrequencyHours: 6 | 12 | 24;
 }

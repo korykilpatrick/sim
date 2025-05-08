@@ -1,6 +1,7 @@
 import { apiSlice } from './api';
-import { CreditTransaction } from '@/types/credits';
-import { setCreditsBalance } from '@store/slices/creditsSlice';
+import { CreditTransaction } from '../types/credits';
+import { setCreditsBalance } from '../store/slices/creditsSlice';
+import { PaymentGatewayDetails } from '../types/payment';
 
 interface CreditsBalanceResponse {
   credits: number;
@@ -12,7 +13,7 @@ interface TransactionsResponse {
 
 interface PurchaseCreditsRequest {
   amount: number;
-  paymentDetails: any;
+  paymentDetails: PaymentGatewayDetails;
 }
 
 interface PurchaseCreditsResponse {

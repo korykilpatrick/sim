@@ -1,38 +1,37 @@
 import { apiSlice } from './api';
-import { AlertNotification } from '@types/alert';
+import { AlertNotification } from '../types/alert';
+import { AlertConfigurationU } from '../types/alertConfiguration';
+import { ProductType } from '../types/product';
 
 interface AlertsResponse {
   alerts: AlertNotification[];
 }
 
+interface Alert {
+  id: string;
+  productId: string;
+  name: string;
+  alertType: ProductType;
+  configuration: AlertConfigurationU;
+  createdAt: string;
+  expiryDate?: string;
+  status: string;
+}
+
 interface AlertResponse {
-  alert: {
-    id: string;
-    productId: string;
-    name: string;
-    configuration: any;
-    createdAt: string;
-    expiryDate: string;
-    status: string;
-  };
+  alert: Alert;
 }
 
 interface CreateAlertRequest {
   productId: string;
-  alertType: string;
-  configuration: any;
+  name: string;
+  alertType: ProductType;
+  configuration: AlertConfigurationU;
 }
 
 interface CreateAlertResponse {
   success: boolean;
-  alert: {
-    id: string;
-    productId: string;
-    alertType: string;
-    configuration: any;
-    createdAt: string;
-    status: string;
-  };
+  alert: Alert;
 }
 
 interface MarkAlertReadResponse {
