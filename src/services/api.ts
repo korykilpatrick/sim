@@ -2,7 +2,11 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '@store/index';
 
 // Define a base URL for our API
-const baseUrl = '/api';
+// In development, we point to our local Express server
+// In production, we'll use environment variables to configure the API URL
+const baseUrl = import.meta.env.DEV 
+  ? 'http://localhost:3001/api' 
+  : '/api';
 
 // Create our API service
 export const apiSlice = createApi({

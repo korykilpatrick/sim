@@ -33,7 +33,7 @@ The SynMax Intelligence Marketplace (SIM) frontend provides a user-friendly inte
 - **React Router**: For navigation
 - **React Hook Form**: For form management
 - **Zod**: For schema validation
-- **Mock Service Worker (MSW)**: For API mocking
+- **Express**: For the lightweight backend API
 
 ## Getting Started
 
@@ -53,13 +53,22 @@ npm install
 
 ### Development
 
-Start the development server:
+You have two options to start the application:
+
+1. Start the frontend development server only:
 
 ```bash
 npm run dev
 ```
 
-This will start the app at http://localhost:3009.
+2. Start both the frontend and the Express backend:
+
+```bash
+npm run dev:full
+```
+
+The frontend will be available at http://localhost:3009 (or whichever port Vite selects).
+The backend API will be available at http://localhost:3001.
 
 ### Building for Production
 
@@ -72,41 +81,45 @@ This will create a production-ready build in the `dist` directory.
 ## Project Structure
 
 ```
-src/
-├── assets/                # Static assets (images, icons, fonts)
-├── components/            # Reusable UI components
-│   ├── common/            # Generic components (Button, Input, Modal, Card)
-│   ├── layout/            # Layout components (Header, Sidebar, Footer)
-│   ├── products/          # Product-related components
-│   ├── cart/              # Shopping cart components
-│   ├── dashboard/         # Dashboard components
-│   └── productConfig/     # Product configuration forms
-├── features/              # Feature-specific components and logic
-├── hooks/                 # Custom React hooks
-├── mocks/                 # Mock server implementation (MSW)
-│   ├── handlers/          # MSW request handlers
-│   └── data/              # Mock data
-├── pages/                 # Top-level route components
-├── services/              # RTK Query API definitions
-├── store/                 # Redux store configuration
-│   └── slices/            # Redux feature slices
-├── types/                 # TypeScript type definitions
-├── utils/                 # Utility functions
-├── App.tsx                # Main application component
-└── main.tsx               # Application entry point
+├── server/                # Express backend server
+│   ├── data/              # Mock data for the backend
+│   ├── routes/            # API route handlers
+│   └── server.ts          # Main server entry point
+├── src/
+│   ├── assets/            # Static assets (images, icons, fonts)
+│   ├── components/        # Reusable UI components
+│   │   ├── common/        # Generic components (Button, Input, Modal, Card)
+│   │   ├── layout/        # Layout components (Header, Sidebar, Footer)
+│   │   ├── products/      # Product-related components
+│   │   ├── cart/          # Shopping cart components
+│   │   ├── dashboard/     # Dashboard components
+│   │   └── productConfig/ # Product configuration forms
+│   ├── features/          # Feature-specific components and logic
+│   ├── hooks/             # Custom React hooks
+│   ├── pages/             # Top-level route components
+│   ├── services/          # RTK Query API definitions
+│   ├── store/             # Redux store configuration
+│   │   └── slices/        # Redux feature slices
+│   ├── types/             # TypeScript type definitions
+│   ├── utils/             # Utility functions
+│   ├── App.tsx            # Main application component
+│   └── main.tsx           # Application entry point
 ```
 
-## Mock API
+## Backend API
 
-The application uses Mock Service Worker (MSW) to simulate backend functionality. This allows the app to function without a real backend, while still providing realistic API interactions.
+The application includes a lightweight Express backend that serves mock data through realistic API endpoints. This backend replaces the previous Mock Service Worker (MSW) implementation for production use, while still maintaining the same data and behavior.
 
-The mock API includes handlers for:
+The backend API includes endpoints for:
 - Authentication (login, register)
 - Products (listing, details)
 - Cart operations
 - Orders and checkout
 - User dashboard data
 - Alerts and notifications
+- Request for Information (RFI)
+
+See the `server/README.md` file for more details on the backend implementation.
 
 ## Authentication
 
@@ -115,8 +128,8 @@ For testing, you can use the following credentials:
 - Email: user@example.com
 - Password: password
 
-Or register a new account (no email verification required in the mock implementation).
+Or register a new account (no email verification required in the implementation).
 
 ## Notes
 
-This is a frontend-only implementation and doesn't include actual payment processing, data persistence, or real-time data. In a production environment, the MSW layer would be replaced with calls to a real backend API.
+This implementation uses mock data and doesn't include actual payment processing, data persistence, or real-time data. In a full production environment, you would replace the mock data with connections to your actual data sources and services.

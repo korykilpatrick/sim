@@ -1,8 +1,8 @@
-// Mock database for MSW
-import { BaseProduct, MaritimeAlertProduct, ProductType } from '@types/product';
-import { User } from '@types/user';
-import { AlertNotification } from '@types/alert';
-import { CreditTransaction } from '@types/credits';
+// Mock database for Express backend
+import { BaseProduct, MaritimeAlertProduct } from '../../src/types/product';
+import { User } from '../../src/types/user';
+import { AlertNotification } from '../../src/types/alert';
+import { CreditTransaction } from '../../src/types/credits';
 
 // Products
 export const products: BaseProduct[] = [

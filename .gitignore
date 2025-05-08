@@ -7,32 +7,12 @@ yarn-debug.log*
 yarn-error.log*
 package-lock.json
 *.env
+*.env.*
 .DS_Store
 dist/
 dist-ssr/
 *.local
 
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
 
 # OS-specific
 .DS_Store

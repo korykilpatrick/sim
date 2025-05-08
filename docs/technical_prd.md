@@ -44,7 +44,6 @@ This document covers the frontend development specifications for SIM. Key aspect
 
 **2.3 Additional Libraries**
 * **React Router (v6+):** For application routing and navigation.
-* **Mock Service Worker (MSW):** For API mocking during development.
 * **React Hook Form:** For efficient and maintainable form validation and submission.
 * **Zod:** For schema definition and validation, usable with React Hook Form.
 * **Chart.js / Recharts (or similar):** For any data visualization components required (e.g., in dashboards, AMS/FTS GUIs if complex visualizations are needed beyond basic mapping).
@@ -72,11 +71,6 @@ src/
 │   ├── reports/           # UI for accessing/displaying reports
 │   └── investigations/    # UI for RFI forms
 ├── hooks/                 # Custom React hooks (e.g., useAuth, useDebounce)
-├── mocks/                 # Mock server implementation (MSW)
-│   ├── handlers/          # MSW request handlers (grouped by feature)
-│   ├── data/              # Mock data (products, users, alerts)
-│   ├── db.ts              # Mock database utilities (if using MSW's data modeling)
-│   └── browser.ts         # MSW browser setup
 ├── pages/                 # Top-level route components
 ├── services/              # RTK Query API definitions (alternatively in store/api/)
 ├── store/                 # Redux store configuration
@@ -223,13 +217,6 @@ App
 
 **7. API Integration & Mocking**
 
-**7.1. Mock Service Worker (MSW)**
-* **Implementation:** Intercept all API calls defined in RTK Query.
-* **Handlers:** Create handlers in `src/mocks/handlers/` for each resource (auth, products, cart, orders, alerts, user).
-* **Mock Data:** Store mock data in `src/mocks/data/`.
-* **Features:** Simulate realistic delays, pagination, error responses (4xx, 5xx), different data scenarios.
-* **Activation:** MSW enabled in development builds.
-
 **7.2. API Endpoint Structure (Examples to be mocked by MSW)**
 ```javascript
 // Base URL: /api (configurable)
@@ -307,8 +294,7 @@ This roadmap outlines a logical sequence for tackling development, focusing on b
 1.  **Project Setup:** Vite, React, TypeScript, Tailwind CSS. Basic folder structure.
 2.  **Core Layout:** Main App component, basic routing setup (React Router), Header, Footer, Sidebar stubs.
 3.  **Redux & RTK Query Setup:** Configure Redux store, set up initial RTK Query API slice (e.g., for a simple health check or user profile).
-4.  **MSW Initial Setup:** Implement `browser.ts` and a few basic handlers to prove the mocking layer.
-5.  **UI Component Library (Common):** Develop essential common components (Button, Input, Card, Modal).
+4.  **UI Component Library (Common):** Develop essential common components (Button, Input, Card, Modal).
 
 **Phase 2: Authentication & User Management**
 1.  **Auth State:** Redux slice for authentication.
