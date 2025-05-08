@@ -1,10 +1,10 @@
 import express from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import {
-  RFI, 
-  RFIStatus, 
-  RFITimeRange, 
-  RFIAdditionalDetails 
+  RFI,
+  RFIStatus,
+  RFITimeRange,
+  RFIAdditionalDetails,
 } from '../../src/types'; // Import RFI related types
 
 const router = express.Router();
@@ -57,13 +57,8 @@ interface CreateRfiRequestBody {
 // Create a new RFI
 router.post('/', (req, res) => {
   const userId = req.user!.id; // Updated
-  const { 
-    title,
-    description,
-    targetArea,
-    dateRange,
-    additionalDetails 
-  } = req.body as CreateRfiRequestBody;
+  const { title, description, targetArea, dateRange, additionalDetails } =
+    req.body as CreateRfiRequestBody;
 
   if (!title || !description) {
     return res
@@ -71,7 +66,8 @@ router.post('/', (req, res) => {
       .json({ message: 'Title and description are required' });
   }
 
-  const newRfi: RFI = { // Typed as RFI
+  const newRfi: RFI = {
+    // Typed as RFI
     id: uuidv4(),
     userId,
     title,
@@ -108,13 +104,13 @@ interface UpdateRfiRequestBody {
 router.put('/:id', (req, res) => {
   const userId = req.user!.id; // Updated
   const { id } = req.params;
-  const { 
+  const {
     title,
     description,
     targetArea,
     dateRange,
     additionalDetails,
-    status // Include status if it can be updated via PUT
+    status, // Include status if it can be updated via PUT
   } = req.body as UpdateRfiRequestBody;
 
   if (!userRfis[userId]) {
@@ -130,18 +126,27 @@ router.put('/:id', (req, res) => {
   const existingRfi = userRfis[userId][rfiIndex];
 
   // Example: Prevent updates on already completed or cancelled RFIs
-  if (existingRfi.status === 'completed' || existingRfi.status === 'cancelled') {
-    return res.status(400).json({ message: `Cannot update RFI in '${existingRfi.status}' status` });
+  if (
+    existingRfi.status === 'completed' ||
+    existingRfi.status === 'cancelled'
+  ) {
+    return res
+      .status(400)
+      .json({ message: `Cannot update RFI in '${existingRfi.status}' status` });
   }
 
-  const updatedRfi: RFI = { // Typed as RFI
+  const updatedRfi: RFI = {
+    // Typed as RFI
     ...existingRfi,
     title: title !== undefined ? title : existingRfi.title,
-    description: description !== undefined ? description : existingRfi.description,
+    description:
+      description !== undefined ? description : existingRfi.description,
     targetArea: targetArea !== undefined ? targetArea : existingRfi.targetArea,
     dateRange: dateRange !== undefined ? dateRange : existingRfi.dateRange,
     additionalDetails:
-      additionalDetails !== undefined ? additionalDetails : existingRfi.additionalDetails,
+      additionalDetails !== undefined
+        ? additionalDetails
+        : existingRfi.additionalDetails,
     status: status !== undefined ? status : existingRfi.status, // Update status if provided
     updatedAt: new Date().toISOString(),
   };

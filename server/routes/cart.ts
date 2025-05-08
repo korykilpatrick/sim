@@ -30,10 +30,10 @@ interface AddToCartRequestBody {
 // Add item to cart
 router.post('/items', (req, res) => {
   const userId = req.user!.id;
-  const { 
+  const {
     productId,
     quantity = 1,
-    configurationDetails 
+    configurationDetails,
   } = req.body as AddToCartRequestBody;
 
   if (!userCarts[userId]) {
@@ -45,8 +45,10 @@ router.post('/items', (req, res) => {
   if (!product) {
     return res.status(404).json({ message: 'Product not found' });
   }
-  
-  const currentConfigurationDetails = configurationDetails || getDefaultConfigForProduct(product.id, product.type);
+
+  const currentConfigurationDetails =
+    configurationDetails ||
+    getDefaultConfigForProduct(product.id, product.type);
 
   // Check if product is already in cart
   const existingItemIndex = userCarts[userId].findIndex(
@@ -75,15 +77,16 @@ router.post('/items', (req, res) => {
 });
 
 interface UpdateCartItemRequestBody {
-    quantity?: number;
-    configurationDetails?: ProductServiceConfig;
+  quantity?: number;
+  configurationDetails?: ProductServiceConfig;
 }
 
 // Update cart item
 router.put('/items/:itemIndex', (req, res) => {
   const userId = req.user!.id;
   const { itemIndex } = req.params;
-  const { quantity, configurationDetails } = req.body as UpdateCartItemRequestBody;
+  const { quantity, configurationDetails } =
+    req.body as UpdateCartItemRequestBody;
 
   if (!userCarts[userId] || !userCarts[userId][Number(itemIndex)]) {
     return res.status(404).json({ message: 'Cart item not found' });
@@ -146,9 +149,14 @@ function calculateTotal(items: CartItem[]) {
 }
 
 // Placeholder for getDefaultConfigForProduct - this needs proper implementation
-function getDefaultConfigForProduct(productId: string, productType: string): ProductServiceConfig {
-    console.warn(`getDefaultConfigForProduct called for ${productId} (${productType}), returning basic object. IMPLEMENT DEFAULTS.`);
-    return { productId } as ProductServiceConfig;
+function getDefaultConfigForProduct(
+  productId: string,
+  productType: string,
+): ProductServiceConfig {
+  console.warn(
+    `getDefaultConfigForProduct called for ${productId} (${productType}), returning basic object. IMPLEMENT DEFAULTS.`,
+  );
+  return { productId } as ProductServiceConfig;
 }
 
 export const cartRoutes = router;

@@ -130,8 +130,8 @@ const ReportsPage: React.FC = () => {
                   No reports yet
                 </h2>
                 <p className="text-secondary-600 mb-6">
-                  You haven&apos;t purchased any reports yet. Visit our marketplace
-                  to get started.
+                  You haven&apos;t purchased any reports yet. Visit our
+                  marketplace to get started.
                 </p>
 
                 <Link to="/marketplace">

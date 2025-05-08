@@ -1,4 +1,4 @@
-import { BaseProduct, ProductServiceConfig, ProductType } from './product';
+import { BaseProduct, ProductServiceConfig } from './product';
 import { PaymentGatewayDetails } from './payment';
 
 export interface OrderItem {
@@ -7,7 +7,13 @@ export interface OrderItem {
   configurationDetails: ProductServiceConfig; // This should be discriminated based on product.type
 }
 
-export type OrderStatus = 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled' | 'refunded';
+export type OrderStatus =
+  | 'pending'
+  | 'processing'
+  | 'completed'
+  | 'failed'
+  | 'cancelled'
+  | 'refunded';
 export type PaymentMethod = 'credits' | 'stripe' | 'paypal'; // Example payment methods
 
 export interface Order {
@@ -22,4 +28,4 @@ export interface Order {
   purchaseDate: string; // ISO 8601 date string
   lastUpdated?: string; // ISO 8601 date string
   transactionId?: string; // From payment gateway
-} 
+}

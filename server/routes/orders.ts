@@ -2,15 +2,14 @@ import express from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { orders, userProducts, users, products as allProducts } from '../data';
 import {
-  Order, 
-  OrderItem, 
-  UserProduct, 
-  PaymentMethod, 
-  OrderStatus, 
+  Order,
+  OrderItem,
+  UserProduct,
+  PaymentMethod,
+  OrderStatus,
   UserProductStatus,
-  ProductServiceConfig,
-  PaymentGatewayDetails
-} from '../../src/types';
+  PaymentGatewayDetails,
+} from '@shared-types/index';
 
 const router = express.Router();
 
@@ -55,7 +54,8 @@ interface CreateOrderRequestBody {
 // Create a new order
 router.post('/', (req, res) => {
   const userId = req.user!.id;
-  const { items, paymentMethod, paymentDetails } = req.body as CreateOrderRequestBody;
+  const { items, paymentMethod, paymentDetails } =
+    req.body as CreateOrderRequestBody;
 
   if (!items || items.length === 0) {
     return res
@@ -68,17 +68,21 @@ router.post('/', (req, res) => {
   const validatedOrderItems: OrderItem[] = [];
 
   for (const clientItem of items) {
-    const product = allProducts.find(p => p.id === clientItem.product.id);
+    const product = allProducts.find((p) => p.id === clientItem.product.id);
     if (!product) {
-      return res.status(400).json({ message: `Product with ID ${clientItem.product.id} not found.` });
+      return res
+        .status(400)
+        .json({
+          message: `Product with ID ${clientItem.product.id} not found.`,
+        });
     }
-    
+
     calculatedTotalAmount += product.price * clientItem.quantity;
     calculatedTotalCredits += product.creditCost * clientItem.quantity;
     validatedOrderItems.push({
-        product: product,
-        quantity: clientItem.quantity,
-        configurationDetails: clientItem.configurationDetails
+      product: product,
+      quantity: clientItem.quantity,
+      configurationDetails: clientItem.configurationDetails,
     });
   }
 

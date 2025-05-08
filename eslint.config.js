@@ -1,25 +1,25 @@
 // eslint.config.js
-import globals from "globals";
-import js from "@eslint/js";
-import tseslint from "typescript-eslint";
-import pluginReact from "eslint-plugin-react";
-import pluginReactHooks from "eslint-plugin-react-hooks";
-import eslintConfigPrettier from "eslint-config-prettier";
+import globals from 'globals';
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import pluginReact from 'eslint-plugin-react';
+import pluginReactHooks from 'eslint-plugin-react-hooks';
+import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default [
   // 1. Global Ignores
   {
     ignores: [
-      "node_modules/",
-      "dist/",
-      "build/",
-      "public/",
-      "vite-env.d.ts",
-      "*.config.js", // e.g., postcss.config.js, tailwind.config.js
-      "*.config.ts", // e.g., vite.config.ts
-      ".claude/",
-      "coverage/",
-      "server/dist/" // Ignore server build output from server/tsconfig.json
+      'node_modules/',
+      'dist/',
+      'build/',
+      'public/',
+      'vite-env.d.ts',
+      '*.config.js', // e.g., postcss.config.js, tailwind.config.js
+      '*.config.ts', // e.g., vite.config.ts
+      '.claude/',
+      'coverage/',
+      'server/dist/', // Ignore server build output from server/tsconfig.json
     ],
   },
 
@@ -28,11 +28,11 @@ export default [
 
   // 3. Configuration for SRC files (React, TypeScript, type-aware)
   {
-    files: ["src/**/*.{ts,tsx}"],
+    files: ['src/**/*.{ts,tsx}'],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        project: "./tsconfig.json", // Points to the root tsconfig.json for src files
+        project: './tsconfig.json', // Points to the root tsconfig.json for src files
         tsconfigRootDir: import.meta.dirname,
         ecmaFeatures: { jsx: true },
       },
@@ -41,13 +41,13 @@ export default [
       },
     },
     plugins: {
-      "@typescript-eslint": tseslint.plugin,
+      '@typescript-eslint': tseslint.plugin,
       react: pluginReact,
-      "react-hooks": pluginReactHooks,
+      'react-hooks': pluginReactHooks,
     },
     settings: {
       react: {
-        version: "detect",
+        version: 'detect',
       },
     },
     rules: {
@@ -58,8 +58,8 @@ export default [
       ...pluginReact.configs.recommended.rules,
       ...pluginReactHooks.configs.recommended.rules,
       // Customizations & Overrides
-      "react/react-in-jsx-scope": "off",
-      "react/prop-types": "off",
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
       // Add other src specific rules or overrides here
       // e.g., "@typescript-eslint/no-explicit-any": "warn",
     },
@@ -67,11 +67,11 @@ export default [
 
   // 4. Configuration for SERVER files (Node.js, TypeScript, type-aware)
   {
-    files: ["server/**/*.ts"],
+    files: ['server/**/*.ts'],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        project: "./server/tsconfig.json", // Points to the server-specific tsconfig.json
+        project: './server/tsconfig.json', // Points to the server-specific tsconfig.json
         tsconfigRootDir: import.meta.dirname,
       },
       globals: {
@@ -79,7 +79,7 @@ export default [
       },
     },
     plugins: {
-      "@typescript-eslint": tseslint.plugin,
+      '@typescript-eslint': tseslint.plugin,
     },
     rules: {
       // Start with typescript-eslint recommended rules for type-checked projects
@@ -96,18 +96,18 @@ export default [
   // 6. Global Custom Rules (apply if not overridden by more specific file blocks)
   {
     rules: {
-      "no-unused-vars": "off", // Disable base rule, prefer @typescript-eslint/no-unused-vars
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
+      'no-unused-vars': 'off', // Disable base rule, prefer @typescript-eslint/no-unused-vars
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
         {
-          "argsIgnorePattern": "^_",
-          "varsIgnorePattern": "^_",
-          "caughtErrors": "all", // Keep checking caught errors...
-          "caughtErrorsIgnorePattern": "^_" // ...unless they start with _
-        }
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrors: 'all', // Keep checking caught errors...
+          caughtErrorsIgnorePattern: '^_', // ...unless they start with _
+        },
       ],
       // You might want to temporarily ease rules like no-explicit-any during refactoring:
       // "@typescript-eslint/no-explicit-any": ["warn", { "fixToUnknown": true }],
     },
   },
-]; 
+];

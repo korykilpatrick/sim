@@ -54,7 +54,9 @@ const ProductConfigPage: React.FC = () => {
         return <AreaMonitoringConfig product={product} />;
 
       case 'MARITIME_ALERT':
-        return <MaritimeAlertConfig product={product as MaritimeAlertProduct} />;
+        return (
+          <MaritimeAlertConfig product={product as MaritimeAlertProduct} />
+        );
 
       case 'REPORT_COMPLIANCE':
       case 'REPORT_CHRONOLOGY':

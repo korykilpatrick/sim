@@ -8,4 +8,4 @@ export * from './product';
 export * from './productConfiguration';
 export * from './user';
 export * from './userProduct';
-export * from './rfi'; 
+export * from './rfi';

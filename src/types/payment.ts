@@ -22,4 +22,4 @@ export interface PaymentGatewayDetails {
 //   paymentMethodId: string; // Typically pm_xxx
 //   // Stripe might also require a return_url for certain payment flows
 //   returnUrl?: string;
-// } 
+// }

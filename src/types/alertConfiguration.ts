@@ -1,4 +1,3 @@
-import { ProductType } from './product';
 import { Geometry } from 'geojson'; // Import GeoJSON type
 
 // Configuration for Vessel Tracking Service Alerts
@@ -92,10 +91,10 @@ export type AlertConfigurationU =
 // but alertType in each configuration interface serves as the discriminant.
 // We ensure that the 'alertType' literals match values from ProductType.
 
-// Helper type to ensure alertType literals match ProductType values
-type EnsureAlertTypesValid<T extends { alertType: ProductType }> = T;
+// Helper type to ensure alertType literals match ProductType values -- REMOVED
+// type EnsureAlertTypesValid<T extends { alertType: ProductType }> = T; -- REMOVED
 
-// Test the configurations (not for runtime, just for type checking during dev)
-// const _testVTS: EnsureAlertTypesValid<VTSAlertConfiguration> = {} as any;
-// const _testAMS: EnsureAlertTypesValid<AMSAlertConfiguration> = {} as any;
-// ... and so on for other types 
+// Test the configurations (not for runtime, just for type checking during dev) -- REMOVED
+// const _testVTS: EnsureAlertTypesValid<VTSAlertConfiguration> = {} as any; -- REMOVED
+// const _testAMS: EnsureAlertTypesValid<AMSAlertConfiguration> = {} as any; -- REMOVED
+// ... and so on for other types -- REMOVED

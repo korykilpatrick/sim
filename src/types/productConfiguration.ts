@@ -33,7 +33,8 @@ export interface FTSProductConfiguration extends BaseProductConfiguration {
 }
 
 // Configuration for Report Compliance Products
-export interface ReportComplianceProductConfiguration extends BaseProductConfiguration {
+export interface ReportComplianceProductConfiguration
+  extends BaseProductConfiguration {
   type: 'REPORT_COMPLIANCE';
   vesselIMO: string;
   timeframeStart: string; // ISO date string
@@ -42,7 +43,8 @@ export interface ReportComplianceProductConfiguration extends BaseProductConfigu
 }
 
 // Configuration for Report Chronology Products
-export interface ReportChronologyProductConfiguration extends BaseProductConfiguration {
+export interface ReportChronologyProductConfiguration
+  extends BaseProductConfiguration {
   type: 'REPORT_CHRONOLOGY';
   vesselIMO: string;
   timeframeStart: string; // ISO date string
@@ -51,7 +53,8 @@ export interface ReportChronologyProductConfiguration extends BaseProductConfigu
 }
 
 // Configuration for Investigation Products
-export interface InvestigationProductConfiguration extends BaseProductConfiguration {
+export interface InvestigationProductConfiguration
+  extends BaseProductConfiguration {
   type: 'INVESTIGATION';
   investigationType: string;
   vesselIMO?: string;
@@ -64,7 +67,8 @@ export interface InvestigationProductConfiguration extends BaseProductConfigurat
 }
 
 // Configuration for Maritime Alert Products
-export interface MaritimeAlertProductConfiguration extends BaseProductConfiguration {
+export interface MaritimeAlertProductConfiguration
+  extends BaseProductConfiguration {
   type: 'MARITIME_ALERT';
   maritimeAlertType: 'SHIP' | 'AREA' | 'SHIP_AND_AREA';
   selectedCriteria: string[];
@@ -83,4 +87,4 @@ export type ProductConfigurationDetailsU =
   | ReportComplianceProductConfiguration
   | ReportChronologyProductConfiguration
   | InvestigationProductConfiguration
-  | MaritimeAlertProductConfiguration; 
+  | MaritimeAlertProductConfiguration;

@@ -69,12 +69,9 @@ router.post('/register', (req, res) => {
   }
 
   // If trying to register something else, just fail for now
-  return res
-    .status(400)
-    .json({
-      message:
-        'Only newuser@somewhere.com can be newly registered in this mock.',
-    });
+  return res.status(400).json({
+    message: 'Only newuser@somewhere.com can be newly registered in this mock.',
+  });
 });
 
 // Get current user

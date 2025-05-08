@@ -1,16 +1,8 @@
-import { BaseProduct, MaritimeAlertProduct } from '../../src/types/product';
-import { User } from '../../src/types/user';
-import { AlertNotification } from '../../src/types/alert';
-import { CreditTransaction } from '../../src/types/credits';
-import {
-  Order,
-  UserProduct,
-  OrderStatus,
-  PaymentMethod,
-  UserProductStatus,
-  VesselTrackingServiceConfig,
-  AreaMonitoringServiceConfig
-} from '../../src/types';
+import { BaseProduct, MaritimeAlertProduct } from '@shared-types/product';
+import { User } from '@shared-types/user';
+import { AlertNotification } from '@shared-types/alert';
+import { CreditTransaction } from '@shared-types/credits';
+import { Order, UserProduct } from '@shared-types/index';
 
 // Products
 export const products: BaseProduct[] = [
@@ -97,6 +89,7 @@ export const products: BaseProduct[] = [
     creditCost: 25,
     imageUrl: 'https://placehold.co/400x300?text=Alert',
     tags: ['alert', 'maritime', 'tracking'],
+    alertTypesAvailable: ['SHIP', 'AREA', 'SHIP_AND_AREA'],
   } as MaritimeAlertProduct,
 ];
 
@@ -201,13 +194,13 @@ export const orders: Record<string, Order[]> = {
             trackingDurationDays: 30,
             selectedCriteria: ['AIS_REPORTING_6HR', 'DARK_EVENT'],
             vesselIMOs: ['9876543'],
-          } as VesselTrackingServiceConfig,
+          },
         },
       ],
       totalAmount: 199.99,
       totalCredits: 20,
-      paymentMethod: 'credits' as PaymentMethod,
-      status: 'completed' as OrderStatus,
+      paymentMethod: 'credits',
+      status: 'completed',
       purchaseDate: '2023-06-05T15:30:00Z',
     },
   ],
@@ -225,13 +218,13 @@ export const orders: Record<string, Order[]> = {
             updateFrequencyHours: 12,
             selectedCriteria: ['VESSEL_ENTRY', 'VESSEL_EXIT'],
             areaName: 'Gulf of Mexico',
-          } as AreaMonitoringServiceConfig,
+          },
         },
       ],
       totalAmount: 299.99,
       totalCredits: 30,
-      paymentMethod: 'credits' as PaymentMethod,
-      status: 'completed' as OrderStatus,
+      paymentMethod: 'credits',
+      status: 'completed',
       purchaseDate: '2023-06-12T09:00:00Z',
     },
   ],
@@ -249,13 +242,13 @@ export const userProducts: Record<string, UserProduct[]> = {
       type: 'VTS',
       purchaseDate: '2023-06-05T15:30:00Z',
       expiryDate: '2023-07-05T15:30:00Z',
-      status: 'active' as UserProductStatus,
+      status: 'active',
       configuration: {
         productId: '1',
         trackingDurationDays: 30,
         selectedCriteria: ['AIS_REPORTING_6HR', 'DARK_EVENT'],
         vesselIMOs: ['9876543'],
-      } as VesselTrackingServiceConfig,
+      },
     },
   ],
   '2': [
@@ -268,14 +261,14 @@ export const userProducts: Record<string, UserProduct[]> = {
       type: 'AMS',
       purchaseDate: '2023-06-12T09:00:00Z',
       expiryDate: '2023-08-12T09:00:00Z',
-      status: 'active' as UserProductStatus,
+      status: 'active',
       configuration: {
         productId: '2',
         monitoringDurationDays: 60,
         updateFrequencyHours: 12,
         selectedCriteria: ['VESSEL_ENTRY', 'VESSEL_EXIT'],
         areaName: 'Gulf of Mexico',
-      } as AreaMonitoringServiceConfig,
+      },
     },
   ],
 };

@@ -169,10 +169,10 @@ export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
           <TextareaField
             name="investigationScope"
             label="Investigation Scope & Details"
-            placeholder="Please describe what you&apos;re looking to find out..."
+            placeholder="Please describe what you're looking to find out..."
             required
             rows={6}
-            helperText="Provide as much detail as possible about what you&apos;re looking to investigate"
+            helperText="Provide as much detail as possible about what you're looking to investigate"
           />
         </div>
 
@@ -184,8 +184,8 @@ export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
             After submission, our team will review your request and may contact
             you for additional information. Standard investigations are
             typically completed within 2-3 business days, while urgent requests
-            receive priority handling. You&apos;ll receive a notification when your
-            report is ready.
+            receive priority handling. You&apos;ll receive a notification when
+            your report is ready.
           </p>
         </div>
       </div>

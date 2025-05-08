@@ -1,6 +1,11 @@
 import { ProductServiceConfig, ProductType } from './product';
 
-export type UserProductStatus = 'active' | 'pending_activation' | 'expired' | 'cancelled' | 'suspended';
+export type UserProductStatus =
+  | 'active'
+  | 'pending_activation'
+  | 'expired'
+  | 'cancelled'
+  | 'suspended';
 
 export interface UserProduct {
   id: string; // Unique ID for this instance of a user owning/using a product
@@ -15,4 +20,4 @@ export interface UserProduct {
   status: UserProductStatus;
   configuration: ProductServiceConfig; // The specific configuration for this instance
   lastUpdated?: string; // ISO 8601 date string
-} 
+}
