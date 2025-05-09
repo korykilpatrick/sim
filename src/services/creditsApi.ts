@@ -1,7 +1,7 @@
 import { apiSlice } from './api';
-import { CreditTransaction } from '../types/credits';
+import { CreditTransaction } from '@shared-types/credits';
 import { setCreditsBalance } from '../store/slices/creditsSlice';
-import { PaymentGatewayDetails } from '../types/payment';
+import { PaymentGatewayDetails } from '@shared-types/payment';
 
 interface CreditsBalanceResponse {
   credits: number;

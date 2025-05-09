@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 import { Button } from '@components/common/Button';
 
-interface ConfigFormBaseProps {
+type ConfigFormBaseProps = {
   title: string;
   description: string;
   defaultValues: any;
@@ -11,7 +11,7 @@ interface ConfigFormBaseProps {
   isSubmitting: boolean;
   error: any;
   children: React.ReactNode;
-}
+};
 
 export const ConfigFormBase: React.FC<ConfigFormBaseProps> = ({
   title,

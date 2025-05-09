@@ -1,9 +1,14 @@
 import React from 'react';
 
-interface ProductImageGalleryProps {
+// interface ProductImageGalleryProps {
+//   mainImage?: string;
+//   alt: string;
+// }
+
+type ProductImageGalleryProps = {
   mainImage?: string;
   alt: string;
-}
+};
 
 export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   mainImage,

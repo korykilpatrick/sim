@@ -1,10 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '@services/authApi';
+import { mapErrorToKnownType } from '@utils/errorUtils';
 
-interface LogoutButtonProps {
+// interface LogoutButtonProps {
+//   className?: string;
+// }
+
+type LogoutButtonProps = {
   className?: string;
-}
+};
 
 export const LogoutButton: React.FC<LogoutButtonProps> = ({
   className = '',
@@ -17,12 +22,8 @@ export const LogoutButton: React.FC<LogoutButtonProps> = ({
       await logout().unwrap();
       navigate('/auth/login', { replace: true });
     } catch (error) {
-      // Properly type the error and handle it
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : 'An unknown error occurred during logout';
-      console.error('Logout failed:', errorMessage);
+      const knownError = mapErrorToKnownType(error);
+      console.error('Logout failed:', knownError.message);
 
       // You could also integrate with a notification system here if needed
       // For example: displayNotification('error', 'Failed to log out. Please try again.');

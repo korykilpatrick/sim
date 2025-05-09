@@ -11,7 +11,9 @@ import { useAppDispatch } from '@hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { addItem } from '@store/slices/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
-import { BaseProduct } from '@types/product';
+import { BaseProduct } from '@shared-types/product';
+import { AMSProductConfiguration } from '@shared-types/productConfiguration';
+import { mapErrorToKnownType, KnownError } from '@utils/errorUtils';
 
 interface AreaMonitoringConfigProps {
   product: BaseProduct;
@@ -23,7 +25,7 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<KnownError | null>(null);
 
   // Criteria options
   const areaCriteriaOptions = [
@@ -40,52 +42,42 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
   const defaultValues = {
     areaName: '',
     monitoringDurationDays: 30,
-    updateFrequencyHours: '24',
-    selectedCriteria: [],
+    updateFrequencyHours: '24' as '6' | '12' | '24',
+    selectedCriteria: [] as string[],
     specificVesselIMOs: '',
     notes: '',
   };
 
-  const handleSubmit = (data: any) => {
+  // Type for the full form data
+  type AreaMonitoringFormData = typeof defaultValues;
+
+  const handleSubmit = (data: AreaMonitoringFormData) => {
     setIsSubmitting(true);
     setError(null);
 
     try {
-      // Process specific vessel IMOs into an array (if any)
-      const specificVesselIMOs = data.specificVesselIMOs
+      // Ensure product.type is correctly 'AMS' for this configuration
+      if (product.type !== 'AMS') {
+        console.error('Invalid product type for AreaMonitoringConfig:', product.type);
+        setError(mapErrorToKnownType(new Error('Misconfigured product type for AMS.')));
+        setIsSubmitting(false);
+        return;
+      }
+
+      const specificVesselIMOsArray = data.specificVesselIMOs
         ? data.specificVesselIMOs.split(',').map((imo: string) => imo.trim())
         : [];
 
-      // Create configuration object
-      const configuration = {
-        areaName: data.areaName,
+      const configuration: AMSProductConfiguration = {
+        type: 'AMS',
+        areaName: data.areaName || undefined,
         monitoringDurationDays: data.monitoringDurationDays,
-        updateFrequencyHours: parseInt(data.updateFrequencyHours),
+        updateFrequencyHours: parseInt(data.updateFrequencyHours, 10) as (6 | 12 | 24),
         selectedCriteria: data.selectedCriteria || [],
-        specificVesselIMOs,
-        notes: data.notes,
-        // In a real app, we'd include the GeoJSON for the area
-        aoiDefinition: { type: 'Placeholder for GeoJSON' },
+        specificVesselIMOs: specificVesselIMOsArray.length > 0 ? specificVesselIMOsArray : undefined,
+        notes: data.notes || undefined,
+        aoiDefinition: { type: 'Polygon', coordinates: [] },
       };
-
-      // Calculate the price based on configuration
-      const durationMultiplier = data.monitoringDurationDays / 30; // Default is 30 days
-
-      // Update frequency affects price - more frequent updates cost more
-      const frequencyMultiplier =
-        data.updateFrequencyHours === '6'
-          ? 1.5
-          : data.updateFrequencyHours === '12'
-            ? 1.25
-            : 1;
-
-      const configuredPrice =
-        Math.round(
-          product.price * durationMultiplier * frequencyMultiplier * 100,
-        ) / 100;
-      const configuredCreditCost = Math.round(
-        product.creditCost * durationMultiplier * frequencyMultiplier,
-      );
 
       // Add to cart
       dispatch(
@@ -93,19 +85,15 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
           itemId: uuidv4(),
           product,
           quantity: 1,
-          configuredPrice,
-          configuredCreditCost,
           configurationDetails: configuration,
         }),
       );
 
-      // Navigate to cart
       navigate('/protected/cart');
     } catch (err) {
-      console.error('Error adding to cart:', err);
-      setError(
-        'Failed to add the configured area monitoring service to your cart. Please try again.',
-      );
+      const knownError = mapErrorToKnownType(err);
+      console.error('Error adding to cart:', knownError.message);
+      setError(knownError);
     } finally {
       setIsSubmitting(false);
     }
@@ -118,7 +106,7 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
       defaultValues={defaultValues}
       onSubmit={handleSubmit}
       isSubmitting={isSubmitting}
-      error={error}
+      error={error?.message}
     >
       <div className="space-y-6">
         <TextField

@@ -7,6 +7,7 @@ import { Input } from '@components/common/Input';
 import { Button } from '@components/common/Button';
 import { Alert } from '@components/common/Alert';
 import { useRegisterMutation } from '@services/authApi';
+import { mapErrorToKnownType } from '@utils/errorUtils';
 
 // Form validation schema using zod
 const registerSchema = z
@@ -46,13 +47,8 @@ const RegisterPage: React.FC = () => {
       navigate('/marketplace', { replace: true });
     } catch (err) {
       // Error is handled by RTK Query and available in the error variable
-      // We don't need to do anything else here, but including this for clarity
-      console.error(
-        'Registration error:',
-        err instanceof Error
-          ? err.message
-          : 'An unknown error occurred during registration',
-      );
+      const knownError = mapErrorToKnownType(err);
+      console.error('Registration error:', knownError.message);
     }
   };
 

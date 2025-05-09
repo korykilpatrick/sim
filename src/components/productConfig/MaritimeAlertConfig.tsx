@@ -12,7 +12,10 @@ import { useAppDispatch } from '@hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { addItem } from '@store/slices/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
-import { MaritimeAlertProduct } from '@types/product';
+import { MaritimeAlertProduct } from '@shared-types/product';
+import { MaritimeAlertProductConfiguration } from '@shared-types/productConfiguration';
+import { mapErrorToKnownType, KnownError } from '@utils/errorUtils';
+import { useFormContext } from 'react-hook-form';
 
 interface MaritimeAlertConfigProps {
   product: MaritimeAlertProduct;
@@ -24,7 +27,7 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<KnownError | null>(null);
 
   // Available alert types (from product)
   const alertTypes = product.alertTypesAvailable;
@@ -63,63 +66,69 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({
 
   // Default form values
   const defaultValues = {
-    alertType: '',
+    alertType: '' as 'SHIP' | 'AREA' | 'SHIP_AND_AREA' | '',
     monitoringDurationDays: 30,
     vesselIMOs: '',
     areaName: '',
-    shipCriteria: [],
-    areaCriteria: [],
-    updateFrequencyHours: '24',
+    shipCriteria: [] as string[],
+    areaCriteria: [] as string[],
+    updateFrequencyHours: '24' as '6' | '12' | '24',
     notes: '',
   };
 
-  const handleSubmit = (data: any) => {
+  // Type for the full form data
+  type MaritimeAlertFormData = typeof defaultValues;
+
+  const handleSubmit = (data: MaritimeAlertFormData) => {
     setIsSubmitting(true);
     setError(null);
 
     try {
+      // Ensure product.type is correctly 'MARITIME_ALERT' for this configuration
+      if (product.type !== 'MARITIME_ALERT') {
+        console.error('Invalid product type for MaritimeAlertConfig:', product.type);
+        setError(mapErrorToKnownType(new Error('Misconfigured product type for MARITIME_ALERT.')));
+        setIsSubmitting(false);
+        return;
+      }
+      if (!data.alertType) { // Ensure alertType is selected
+        setError(mapErrorToKnownType(new Error('Alert type is required.')));
+        setIsSubmitting(false);
+        return;
+      }
+
       // Process vessel IMOs into an array
-      const vesselIMOs = data.vesselIMOs
+      const formVesselIMOs = data.vesselIMOs
         ? data.vesselIMOs.split(',').map((imo: string) => imo.trim())
         : [];
 
-      // Create configuration object
-      let configuration = {
-        alertType: data.alertType,
+      let compiledSelectedCriteria: string[] = [];
+      if (data.alertType === 'SHIP' || data.alertType === 'SHIP_AND_AREA') {
+        compiledSelectedCriteria = [...compiledSelectedCriteria, ...(data.shipCriteria || [])];
+      }
+      if (data.alertType === 'AREA' || data.alertType === 'SHIP_AND_AREA') {
+        compiledSelectedCriteria = [...compiledSelectedCriteria, ...(data.areaCriteria || [])];
+      }
+
+      const configuration: MaritimeAlertProductConfiguration = {
+        type: 'MARITIME_ALERT',
+        maritimeAlertType: data.alertType as 'SHIP' | 'AREA' | 'SHIP_AND_AREA',
+        selectedCriteria: compiledSelectedCriteria,
         monitoringDurationDays: data.monitoringDurationDays,
-        updateFrequencyHours: parseInt(data.updateFrequencyHours),
-        notes: data.notes,
+        updateFrequencyHours: parseInt(data.updateFrequencyHours, 10) as (6 | 12 | 24),
+        notes: data.notes || undefined,
+        customRuleName: (data.alertType === 'AREA' || data.alertType === 'SHIP_AND_AREA') ? data.areaName || undefined : undefined,
+        vesselIMOs: (data.alertType === 'SHIP' || data.alertType === 'SHIP_AND_AREA') && formVesselIMOs.length > 0 ? formVesselIMOs : undefined,
+        aoiDefinition: (data.alertType === 'AREA' || data.alertType === 'SHIP_AND_AREA') ? { type: 'Polygon', coordinates: [] } : undefined,
       };
 
-      // Add type-specific configuration data
-      if (data.alertType === 'SHIP' || data.alertType === 'SHIP_AND_AREA') {
-        configuration = {
-          ...configuration,
-          vesselIMOs,
-          shipCriteria: data.shipCriteria || [],
-        };
-      }
-
-      if (data.alertType === 'AREA' || data.alertType === 'SHIP_AND_AREA') {
-        configuration = {
-          ...configuration,
-          areaName: data.areaName,
-          areaCriteria: data.areaCriteria || [],
-          // In a real app, we'd include the GeoJSON for the area as well
-          aoiDefinition: { type: 'Placeholder for GeoJSON' },
-        };
-      }
-
-      // Calculate the price based on configuration
-      // This is a simple example - in a real app, pricing would be more complex
-      const basePriceMultiplier = data.monitoringDurationDays / 30; // Default is 30 days
+      const basePriceMultiplier = data.monitoringDurationDays / 30;
       const configuredPrice =
         Math.round(product.price * basePriceMultiplier * 100) / 100;
       const configuredCreditCost = Math.round(
         product.creditCost * basePriceMultiplier,
       );
 
-      // Add to cart
       dispatch(
         addItem({
           itemId: uuidv4(),
@@ -131,16 +140,87 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({
         }),
       );
 
-      // Navigate to cart
       navigate('/protected/cart');
     } catch (err) {
-      console.error('Error adding to cart:', err);
-      setError(
-        'Failed to add the configured alert to your cart. Please try again.',
-      );
+      const knownError = mapErrorToKnownType(err);
+      console.error('Error adding to cart:', knownError.message);
+      setError(knownError);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Component for conditional rendering using useFormContext
+  const ConditionalFields: React.FC = () => {
+    const { watch } = useFormContext<MaritimeAlertFormData>();
+    const alertType = watch('alertType');
+
+    return (
+      <>
+        {(alertType === 'SHIP' || alertType === 'SHIP_AND_AREA') && (
+          <div className="space-y-6 border-t border-secondary-200 pt-6">
+            <h3 className="text-lg font-medium text-secondary-900">
+              Ship-based Alert Configuration
+            </h3>
+            <TextField
+              name="vesselIMOs"
+              label="Vessel IMO Numbers"
+              placeholder="9876543, 1234567"
+              required
+              helperText="Enter comma-separated IMO numbers for vessels to monitor"
+            />
+            <CheckboxGroup
+              name="shipCriteria"
+              label="Alert Criteria"
+              options={shipCriteriaOptions}
+              required
+              helperText="Select at least one criterion"
+            />
+          </div>
+        )}
+        {(alertType === 'AREA' || alertType === 'SHIP_AND_AREA') && (
+          <div className="space-y-6 border-t border-secondary-200 pt-6">
+            <h3 className="text-lg font-medium text-secondary-900">
+              Area-based Alert Configuration
+            </h3>
+            <TextField
+              name="areaName"
+              label="Area Name"
+              placeholder="Gulf of Mexico Monitoring Zone"
+              required
+            />
+            <div className="bg-secondary-50 p-4 rounded-md border border-secondary-200">
+              <p className="text-sm text-secondary-600 mb-2">
+                Area Selection Map
+              </p>
+              <div className="h-64 bg-white border border-secondary-300 rounded-md flex items-center justify-center">
+                <p className="text-secondary-500">
+                  Map interface would be here in a complete implementation
+                </p>
+              </div>
+              <p className="text-xs text-secondary-500 mt-2">
+                Use the map to define your area of interest
+              </p>
+            </div>
+            <CheckboxGroup
+              name="areaCriteria"
+              label="Alert Criteria"
+              options={areaCriteriaOptions}
+              required
+              helperText="Select at least one criterion"
+            />
+          </div>
+        )}
+        <div className="space-y-6 border-t border-secondary-200 pt-6">
+          <TextareaField
+            name="notes"
+            label="Notes"
+            placeholder="Add any additional information or requirements"
+            helperText="Optional: Add any special instructions or notes for this alert"
+          />
+        </div>
+      </>
+    );
   };
 
   return (
@@ -150,7 +230,7 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({
       defaultValues={defaultValues}
       onSubmit={handleSubmit}
       isSubmitting={isSubmitting}
-      error={error}
+      error={error?.message}
     >
       <div className="space-y-6">
         <RadioGroup
@@ -181,84 +261,7 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({
           helperText="How often should the system check for alert conditions?"
         />
 
-        {/* Conditional fields based on alert type */}
-        {(formValues) => {
-          const alertType = formValues.alertType;
-
-          return (
-            <>
-              {(alertType === 'SHIP' || alertType === 'SHIP_AND_AREA') && (
-                <div className="space-y-6 border-t border-secondary-200 pt-6">
-                  <h3 className="text-lg font-medium text-secondary-900">
-                    Ship-based Alert Configuration
-                  </h3>
-
-                  <TextField
-                    name="vesselIMOs"
-                    label="Vessel IMO Numbers"
-                    placeholder="9876543, 1234567"
-                    required
-                    helperText="Enter comma-separated IMO numbers for vessels to monitor"
-                  />
-
-                  <CheckboxGroup
-                    name="shipCriteria"
-                    label="Alert Criteria"
-                    options={shipCriteriaOptions}
-                    required
-                    helperText="Select at least one criterion"
-                  />
-                </div>
-              )}
-
-              {(alertType === 'AREA' || alertType === 'SHIP_AND_AREA') && (
-                <div className="space-y-6 border-t border-secondary-200 pt-6">
-                  <h3 className="text-lg font-medium text-secondary-900">
-                    Area-based Alert Configuration
-                  </h3>
-
-                  <TextField
-                    name="areaName"
-                    label="Area Name"
-                    placeholder="Gulf of Mexico Monitoring Zone"
-                    required
-                  />
-
-                  <div className="bg-secondary-50 p-4 rounded-md border border-secondary-200">
-                    <p className="text-sm text-secondary-600 mb-2">
-                      Area Selection Map
-                    </p>
-                    <div className="h-64 bg-white border border-secondary-300 rounded-md flex items-center justify-center">
-                      <p className="text-secondary-500">
-                        Map interface would be here in a complete implementation
-                      </p>
-                    </div>
-                    <p className="text-xs text-secondary-500 mt-2">
-                      Use the map to define your area of interest
-                    </p>
-                  </div>
-
-                  <CheckboxGroup
-                    name="areaCriteria"
-                    label="Alert Criteria"
-                    options={areaCriteriaOptions}
-                    required
-                    helperText="Select at least one criterion"
-                  />
-                </div>
-              )}
-
-              <div className="space-y-6 border-t border-secondary-200 pt-6">
-                <TextareaField
-                  name="notes"
-                  label="Notes"
-                  placeholder="Add any additional information or requirements"
-                  helperText="Optional: Add any special instructions or notes for this alert"
-                />
-              </div>
-            </>
-          );
-        }}
+        <ConditionalFields />
       </div>
     </ConfigFormBase>
   );

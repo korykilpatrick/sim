@@ -1,7 +1,7 @@
 import { apiSlice } from './api';
-import { AlertNotification } from '../types/alert';
-import { AlertConfigurationU } from '../types/alertConfiguration';
-import { ProductType } from '../types/product';
+import { AlertNotification } from '@shared-types/alert';
+import { AlertConfigurationU } from '@shared-types/alertConfiguration';
+import { ProductType } from '@shared-types/product';
 
 interface AlertsResponse {
   alerts: AlertNotification[];

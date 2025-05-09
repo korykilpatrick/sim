@@ -1,15 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { BaseProduct } from '../../types/product'; // Import BaseProduct
-import { ProductConfigurationDetailsU } from '../../types/productConfiguration'; // Import ProductConfigurationDetailsU
+// import { BaseProduct } from '../../types/product'; // No longer needed directly if CartItem imports it
+// import { ProductConfigurationDetailsU } from '../../types/productConfiguration'; // No longer needed directly
+import { CartItem } from '@shared-types/cart'; // Import unified CartItem
 
-export interface CartItem {
-  itemId: string; // Unique ID for the cart item instance
-  product: BaseProduct;
-  quantity: number;
-  configuredPrice?: number; // Price after configuration, if different from product.price
-  configuredCreditCost?: number; // Credit cost after configuration
-  configurationDetails?: ProductConfigurationDetailsU; // Holds the specific configuration chosen for this product instance
-}
+// export interface CartItem { // Remove local definition
+//   itemId: string; 
+//   product: BaseProduct;
+//   quantity: number;
+//   configuredPrice?: number; 
+//   configuredCreditCost?: number; 
+//   configurationDetails?: ProductConfigurationDetailsU; 
+// }
 
 export interface CartState {
   items: CartItem[];

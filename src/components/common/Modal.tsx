@@ -1,7 +1,17 @@
 import React, { useRef, useEffect } from 'react';
 import { Button } from './Button';
 
-interface ModalProps {
+// interface ModalProps {
+//   isOpen: boolean;
+//   onClose: () => void;
+//   title?: string;
+//   children: React.ReactNode;
+//   footer?: React.ReactNode;
+//   size?: 'sm' | 'md' | 'lg' | 'xl';
+//   closeOnOverlayClick?: boolean;
+// }
+
+type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
@@ -9,7 +19,7 @@ interface ModalProps {
   footer?: React.ReactNode;
   size?: 'sm' | 'md' | 'lg' | 'xl';
   closeOnOverlayClick?: boolean;
-}
+};
 
 export const Modal: React.FC<ModalProps> = ({
   isOpen,

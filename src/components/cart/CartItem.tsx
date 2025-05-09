@@ -1,11 +1,15 @@
 import React from 'react';
-import { CartItem as CartItemType } from '@types/cart';
+import { CartItem as CartItemType } from '@/types';
 import { useAppDispatch } from '@hooks/redux';
 import { updateItemQuantity, removeItem } from '@store/slices/cartSlice';
 
-interface CartItemProps {
+// interface CartItemProps {
+//   item: CartItemType;
+// }
+
+type CartItemProps = {
   item: CartItemType;
-}
+};
 
 export const CartItem: React.FC<CartItemProps> = ({ item }) => {
   const dispatch = useAppDispatch();
@@ -30,12 +34,29 @@ export const CartItem: React.FC<CartItemProps> = ({ item }) => {
   const getConfigSummary = () => {
     if (!item.configurationDetails) return null;
 
-    const { trackingDurationDays, monitoringDurationDays } =
-      item.configurationDetails;
-    const duration = trackingDurationDays || monitoringDurationDays;
+    const config = item.configurationDetails;
+    let duration: number | undefined = undefined;
 
-    if (duration) {
+    // Type guards for accessing properties on discriminated union
+    if (config.type === 'VTS') {
+      duration = config.trackingDurationDays;
+    } else if (config.type === 'AMS') {
+      duration = config.monitoringDurationDays;
+    } else if (config.type === 'MARITIME_ALERT' && config.monitoringDurationDays !== undefined) {
+      duration = config.monitoringDurationDays;
+    } else if (config.type === 'FTS' && 'monitoringDurationDays' in config) {
+      // Assuming FTSProductConfiguration might also have monitoringDurationDays
+      duration = config.monitoringDurationDays; 
+    }
+
+    if (duration !== undefined) {
       return `${duration} days`;
+    }
+
+    // Potentially add summaries for other config types if needed
+    // e.g., for reports:
+    if ((config.type === 'REPORT_COMPLIANCE' || config.type === 'REPORT_CHRONOLOGY') && 'depth' in config) {
+        return `Depth: ${config.depth}`;
     }
 
     return null;

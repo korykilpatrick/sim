@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Button } from '@components/common/Button';
-import { CartItem } from '@types/cart';
+import { CartItem } from '@shared-types/cart';
 
 interface LocationState {
   orderId: string;

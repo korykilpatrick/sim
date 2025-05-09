@@ -3,14 +3,14 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { Input } from '@components/common/Input';
 
 // Text Input Field
-interface TextFieldProps {
+type TextFieldProps = {
   name: string;
   label: string;
   placeholder?: string;
   helperText?: string;
   type?: string;
   required?: boolean;
-}
+};
 
 export const TextField: React.FC<TextFieldProps> = ({
   name,
@@ -42,7 +42,7 @@ export const TextField: React.FC<TextFieldProps> = ({
 };
 
 // Number Input Field
-interface NumberFieldProps {
+type NumberFieldProps = {
   name: string;
   label: string;
   placeholder?: string;
@@ -50,7 +50,7 @@ interface NumberFieldProps {
   min?: number;
   max?: number;
   required?: boolean;
-}
+};
 
 export const NumberField: React.FC<NumberFieldProps> = ({
   name,
@@ -98,13 +98,13 @@ export const NumberField: React.FC<NumberFieldProps> = ({
 };
 
 // Select Field
-interface SelectFieldProps {
+type SelectFieldProps = {
   name: string;
   label: string;
   options: { value: string; label: string }[];
   helperText?: string;
   required?: boolean;
-}
+};
 
 export const SelectField: React.FC<SelectFieldProps> = ({
   name,
@@ -154,13 +154,13 @@ export const SelectField: React.FC<SelectFieldProps> = ({
 };
 
 // Checkbox Group
-interface CheckboxGroupProps {
+type CheckboxGroupProps = {
   name: string;
   label: string;
   options: { value: string; label: string }[];
   helperText?: string;
   required?: boolean;
-}
+};
 
 export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
   name,
@@ -230,13 +230,13 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
 };
 
 // Radio Group
-interface RadioGroupProps {
+type RadioGroupProps = {
   name: string;
   label: string;
   options: { value: string; label: string }[];
   helperText?: string;
   required?: boolean;
-}
+};
 
 export const RadioGroup: React.FC<RadioGroupProps> = ({
   name,
@@ -290,12 +290,12 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
 };
 
 // Date Field
-interface DateFieldProps {
+type DateFieldProps = {
   name: string;
   label: string;
   helperText?: string;
   required?: boolean;
-}
+};
 
 export const DateField: React.FC<DateFieldProps> = ({
   name,
@@ -324,14 +324,14 @@ export const DateField: React.FC<DateFieldProps> = ({
 };
 
 // Textarea Field
-interface TextareaFieldProps {
+type TextareaFieldProps = {
   name: string;
   label: string;
   placeholder?: string;
   helperText?: string;
   rows?: number;
   required?: boolean;
-}
+};
 
 export const TextareaField: React.FC<TextareaFieldProps> = ({
   name,

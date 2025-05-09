@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@components/common/Button';
 
-interface OrderSummaryProps {
+type OrderSummaryProps = {
   subtotal: number;
   totalCredits: number;
   itemCount: number;
   isAuthenticated: boolean;
-}
+};
 
 export const OrderSummary: React.FC<OrderSummaryProps> = ({
   subtotal,

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { BaseProduct } from '@types/product';
+import { BaseProduct } from '@shared-types/product';
 import { useAppSelector } from '@hooks/redux';
 import { Button } from '@components/common/Button';
 
-interface ProductPricingProps {
+type ProductPricingProps = {
   product: BaseProduct;
   onAddToCart: () => void;
   onBuyNow: () => void;
-}
+};
 
 export const ProductPricing: React.FC<ProductPricingProps> = ({
   product,
@@ -16,14 +16,14 @@ export const ProductPricing: React.FC<ProductPricingProps> = ({
 }) => {
   const { price, creditCost } = product;
   const { isAuthenticated } = useAppSelector((state) => state.auth);
-  const { credits } = useAppSelector((state) => state.credits);
+  const creditsBalance = useAppSelector((state) => state.credits.balance);
 
   // Payment method selection (for display only, actual selection happens at checkout)
   const [selectedPayment, setSelectedPayment] = useState<'credits' | 'money'>(
     'money',
   );
 
-  const hasSufficientCredits = credits >= creditCost;
+  const hasSufficientCredits = creditsBalance >= creditCost;
 
   return (
     <div className="bg-white rounded-lg shadow p-6">
@@ -42,7 +42,7 @@ export const ProductPricing: React.FC<ProductPricingProps> = ({
         {isAuthenticated && (
           <div className="text-right">
             <p className="text-sm text-secondary-500">Your credit balance:</p>
-            <p className="font-medium">{credits} credits</p>
+            <p className="font-medium">{creditsBalance} credits</p>
           </div>
         )}
       </div>

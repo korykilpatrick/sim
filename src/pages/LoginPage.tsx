@@ -7,6 +7,7 @@ import { Input } from '@components/common/Input';
 import { Button } from '@components/common/Button';
 import { Alert } from '@components/common/Alert';
 import { useLoginMutation } from '@services/authApi';
+import { mapErrorToKnownType } from '@utils/errorUtils';
 
 // Form validation schema using zod
 const loginSchema = z.object({
@@ -38,13 +39,8 @@ const LoginPage: React.FC = () => {
       navigate(from, { replace: true });
     } catch (err) {
       // Error is handled by RTK Query and available in the error variable
-      // We don't need to do anything else here, but including this for clarity
-      console.error(
-        'Login error:',
-        err instanceof Error
-          ? err.message
-          : 'An unknown error occurred during login',
-      );
+      const knownError = mapErrorToKnownType(err);
+      console.error('Login error:', knownError.message);
     }
   };
 

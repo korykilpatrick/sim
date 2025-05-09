@@ -3,9 +3,11 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   RFI,
   RFIStatus,
-  RFITimeRange,
-  RFIAdditionalDetails,
-} from '../../src/types'; // Import RFI related types
+  RFITimeRange as _RFITimeRange,
+  RFIAdditionalDetails as _RFIAdditionalDetails,
+  UpdateRfiRequestBody,
+  CreateRfiRequestBody,
+} from '@shared-types/rfi'; // Reverted to @shared-types/rfi
 
 const router = express.Router();
 
@@ -44,16 +46,6 @@ router.get('/:id', (req, res) => {
   return res.json({ rfi });
 });
 
-// Define a type for the request body for creating an RFI
-// Most fields from RFI are optional at creation or set by server
-interface CreateRfiRequestBody {
-  title: string;
-  description: string;
-  targetArea?: RFI['targetArea'];
-  dateRange?: RFITimeRange;
-  additionalDetails?: RFIAdditionalDetails;
-}
-
 // Create a new RFI
 router.post('/', (req, res) => {
   const userId = req.user!.id; // Updated
@@ -88,17 +80,6 @@ router.post('/', (req, res) => {
 
   return res.status(201).json({ rfi: newRfi });
 });
-
-// Define a type for the request body for updating an RFI
-// All fields are optional during an update
-interface UpdateRfiRequestBody {
-  title?: string;
-  description?: string;
-  targetArea?: RFI['targetArea'];
-  dateRange?: RFITimeRange;
-  additionalDetails?: RFIAdditionalDetails;
-  status?: RFIStatus; // Allow status updates if business logic permits
-}
 
 // Update an RFI
 router.put('/:id', (req, res) => {

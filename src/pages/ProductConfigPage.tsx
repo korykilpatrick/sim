@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useGetProductQuery } from '@services/productsApi';
-import { MaritimeAlertProduct } from '@/types/product';
+import { MaritimeAlertProduct } from '@shared-types/product';
 import { VesselTrackingConfig } from '@components/productConfig/VesselTrackingConfig';
 import { AreaMonitoringConfig } from '@components/productConfig/AreaMonitoringConfig';
 import { MaritimeAlertConfig } from '@components/productConfig/MaritimeAlertConfig';

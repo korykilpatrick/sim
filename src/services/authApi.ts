@@ -1,22 +1,7 @@
 import { apiSlice } from './api';
-import { User } from '@/types/user';
+import type { User } from '@shared-types/user';
+import type { LoginRequest, RegisterRequest, AuthResponse } from '@shared-types/auth';
 import { setCredentials, logout } from '@store/slices/authSlice';
-
-interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-interface RegisterRequest {
-  email: string;
-  password: string;
-  name?: string;
-}
-
-interface AuthResponse {
-  user: User;
-  token: string;
-}
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

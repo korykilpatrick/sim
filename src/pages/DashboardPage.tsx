@@ -8,9 +8,12 @@ import { AlertsCard } from '@components/dashboard/AlertsCard';
 import { Button } from '@components/common/Button';
 import { Spinner } from '@components/common/Spinner';
 import { Alert } from '@components/common/Alert';
+import type { UserProduct, UserProductStatus } from '@shared-types/userProduct';
+import type { Order, OrderItem } from '@shared-types/order';
+import type { ProductType } from '@shared-types/product';
 
 const DashboardPage: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [activeFilter, setActiveFilter] = useState<ProductType | null>(null);
 
   // Fetch user orders and purchased products
   const {
@@ -26,46 +29,59 @@ const DashboardPage: React.FC = () => {
   const userProducts = React.useMemo(() => {
     if (!ordersData || !ordersData.orders) return [];
 
-    // Flatten products from all orders
-    return ordersData.orders.reduce((acc: any[], order: any) => {
-      // Add products from this order to the list
-      const products = order.items.map((item: any) => ({
-        id: `${order.id}-${item.product.id}`,
-        productId: item.product.id,
-        name: item.product.name,
-        type: item.product.type,
-        purchaseDate: order.purchaseDate,
-        expiryDate: new Date(
-          new Date(order.purchaseDate).getTime() + 30 * 24 * 60 * 60 * 1000,
-        ).toISOString(), // Mock 30 days expiry
-        status: 'active',
-        configuration: item.configurationDetails,
-      }));
+    return ordersData.orders.reduce((acc: UserProduct[], order: Order) => {
+      const productsFromOrder: UserProduct[] = order.items.map((item: OrderItem) => {
+        // Determine UserProductStatus based on OrderStatus
+        let currentStatus: UserProductStatus = 'pending_activation'; // Default
+        if (order.status === 'completed') {
+          currentStatus = 'active';
+        } else if (order.status === 'cancelled' || order.status === 'failed' || order.status === 'refunded') {
+          currentStatus = 'cancelled'; // Or map to a more specific UserProductStatus if available
+        }
+        // Other order statuses like 'pending', 'processing' might map to 'pending_activation' or a custom UserProductStatus
 
-      return [...acc, ...products];
+        // Mock expiry for now - ideally, this comes from order data or business logic
+        const anHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+        const thirtyDaysFromPurchase = order.purchaseDate 
+          ? new Date(new Date(order.purchaseDate).getTime() + 30 * 24 * 60 * 60 * 1000) 
+          : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // Fallback if purchaseDate is missing
+
+        return {
+          id: `${order.id}-${item.product.id}`, // Composite ID for display
+          orderId: order.id,
+          productId: item.product.id,
+          name: item.product.name, 
+          type: item.product.type, 
+          userId: order.userId,
+          purchaseDate: order.purchaseDate || anHourAgo.toISOString(), // Ensure purchaseDate is a string
+          // activationDate: undefined, // Set if available from order
+          expiryDate: thirtyDaysFromPurchase.toISOString(), 
+          status: currentStatus, 
+          configuration: item.configurationDetails,
+          // lastUpdated: order.lastUpdated, // Set if available
+        };
+      });
+      return [...acc, ...productsFromOrder];
     }, []);
   }, [ordersData]);
 
   // Filter products based on active filter
   const filteredProducts = React.useMemo(() => {
     if (!activeFilter) return userProducts;
-    return userProducts.filter((product) => product.type === activeFilter);
+    return userProducts.filter((product: UserProduct) => product.type === activeFilter);
   }, [userProducts, activeFilter]);
 
   // Get unique product types for filtering
   const productTypes = React.useMemo(() => {
     if (!userProducts.length) return [];
-    const types = [...new Set(userProducts.map((product) => product.type))];
-    return types.map((type) => {
-      const label = type
+    const types = [...new Set(userProducts.map((product: UserProduct) => product.type))] as ProductType[];
+    return types.map((typeValue: ProductType) => {
+      const label = typeValue
         .replace('_', ' ')
         .split(' ')
-        .map(
-          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
-        )
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
         .join(' ');
-
-      return { value: type, label };
+      return { value: typeValue, label };
     });
   }, [userProducts]);
 
@@ -114,17 +130,17 @@ const DashboardPage: React.FC = () => {
                   All Products
                 </button>
 
-                {productTypes.map((type) => (
+                {productTypes.map((typeOpt) => (
                   <button
-                    key={type.value}
+                    key={typeOpt.value}
                     className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                      activeFilter === type.value
+                      activeFilter === typeOpt.value
                         ? 'bg-primary-100 text-primary-800'
                         : 'bg-secondary-100 text-secondary-700 hover:bg-secondary-200'
                     }`}
-                    onClick={() => setActiveFilter(type.value)}
+                    onClick={() => setActiveFilter(typeOpt.value)}
                   >
-                    {type.label}
+                    {typeOpt.label}
                   </button>
                 ))}
               </div>

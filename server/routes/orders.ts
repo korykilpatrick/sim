@@ -1,21 +1,31 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { orders, userProducts, users, products as allProducts } from '../data';
-import {
-  Order,
-  OrderItem,
-  UserProduct,
-  PaymentMethod,
-  OrderStatus,
-  UserProductStatus,
-  PaymentGatewayDetails,
-} from '@shared-types/index';
+// Import specific shared types
+import type { Order, OrderItem, OrderStatus as _OrderStatus, PaymentMethod as _PaymentMethod, CreateOrderRequestBody } from '@shared-types/order';
+import type { UserProduct, UserProductStatus as _UserProductStatus } from '@shared-types/userProduct';
+import type { PaymentGatewayDetails as _PaymentGatewayDetails } from '@shared-types/payment';
+import type { User } from '@shared-types/user';
+import type { BaseProduct } from '@shared-types/product';
 
 const router = express.Router();
 
+// Define expected response types
+interface OrdersResponse {
+    orders: Order[];
+    total: number;
+}
+interface SingleOrderResponse {
+    order: Order;
+}
+interface ErrorResponse {
+    message: string;
+}
+
 // Get user's orders
-router.get('/', (req, res) => {
-  const userId = req.user!.id;
+router.get('/', (req: Request, res: Response<OrdersResponse | ErrorResponse>) => {
+  const userId = (req.user as User)?.id;
+  if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
   if (!orders[userId]) {
     orders[userId] = [];
@@ -28,8 +38,10 @@ router.get('/', (req, res) => {
 });
 
 // Get order by ID
-router.get('/:id', (req, res) => {
-  const userId = req.user!.id;
+router.get('/:id', (req: Request<{ id: string }>, res: Response<SingleOrderResponse | ErrorResponse>) => {
+  const userId = (req.user as User)?.id;
+  if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+
   const { id } = req.params;
 
   if (!orders[userId]) {
@@ -45,17 +57,12 @@ router.get('/:id', (req, res) => {
   return res.json({ order });
 });
 
-interface CreateOrderRequestBody {
-  items: OrderItem[];
-  paymentMethod: PaymentMethod;
-  paymentDetails?: PaymentGatewayDetails;
-}
-
 // Create a new order
-router.post('/', (req, res) => {
-  const userId = req.user!.id;
-  const { items, paymentMethod, paymentDetails } =
-    req.body as CreateOrderRequestBody;
+router.post('/', (req: Request<{}, SingleOrderResponse | ErrorResponse, CreateOrderRequestBody>, res: Response<SingleOrderResponse | ErrorResponse>) => {
+  const userId = (req.user as User)?.id;
+  if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+
+  const { items, paymentMethod, paymentDetails } = req.body;
 
   if (!items || items.length === 0) {
     return res
@@ -68,7 +75,11 @@ router.post('/', (req, res) => {
   const validatedOrderItems: OrderItem[] = [];
 
   for (const clientItem of items) {
-    const product = allProducts.find((p) => p.id === clientItem.product.id);
+    // Ensure clientItem.product has an id
+    if (!clientItem?.product?.id) {
+        return res.status(400).json({ message: 'Invalid item data: product ID missing.' });
+    }
+    const product = allProducts.find((p) => p.id === clientItem.product.id) as BaseProduct | undefined;
     if (!product) {
       return res
         .status(400)
@@ -79,8 +90,9 @@ router.post('/', (req, res) => {
 
     calculatedTotalAmount += product.price * clientItem.quantity;
     calculatedTotalCredits += product.creditCost * clientItem.quantity;
+    // Create a new validated OrderItem using the found product
     validatedOrderItems.push({
-      product: product,
+      product: product, // Use the validated product from the server data
       quantity: clientItem.quantity,
       configurationDetails: clientItem.configurationDetails,
     });
@@ -92,7 +104,7 @@ router.post('/', (req, res) => {
       return res.status(400).json({ message: 'Insufficient credits' });
     }
     if (user) {
-      user.credits -= calculatedTotalCredits;
+      user.credits -= calculatedTotalCredits; // Modify mock data
     }
   }
 
@@ -105,7 +117,7 @@ router.post('/', (req, res) => {
     totalCredits: calculatedTotalCredits,
     paymentMethod,
     paymentDetails,
-    status: 'completed' as OrderStatus,
+    status: 'completed', // Set explicit status
     purchaseDate: new Date().toISOString(),
   };
 
@@ -120,19 +132,20 @@ router.post('/', (req, res) => {
 
   validatedOrderItems.forEach((item) => {
     const expiryDate = new Date();
-    expiryDate.setDate(expiryDate.getDate() + 30);
+    expiryDate.setDate(expiryDate.getDate() + 30); // Mock 30 day expiry
 
     const newUserProduct: UserProduct = {
-      id: `${orderId}-${item.product.id}`,
+      id: `${orderId}-${item.product.id}-${Math.random().toString(16).slice(2)}`, // More unique mock ID
       orderId: orderId,
       userId: userId,
       productId: item.product.id,
       name: item.product.name,
-      type: item.product.type,
+      type: item.product.type, // Already BaseProduct type
       purchaseDate: newOrder.purchaseDate,
       expiryDate: expiryDate.toISOString(),
-      status: 'active' as UserProductStatus,
+      status: 'active', // Set explicit status
       configuration: item.configurationDetails,
+      lastUpdated: new Date().toISOString(),
     };
     userProducts[userId].push(newUserProduct);
   });

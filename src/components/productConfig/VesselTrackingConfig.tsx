@@ -10,7 +10,9 @@ import { useAppDispatch } from '@hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { addItem } from '@store/slices/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
-import { BaseProduct } from '@types/product';
+import { BaseProduct, ProductType as _ProductType } from '@shared-types/product';
+import { mapErrorToKnownType, KnownError } from '@utils/errorUtils';
+import { VTSProductConfiguration } from '@shared-types/productConfiguration';
 
 interface VesselTrackingConfigProps {
   product: BaseProduct;
@@ -22,7 +24,7 @@ export const VesselTrackingConfig: React.FC<VesselTrackingConfigProps> = ({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<KnownError | null>(null);
 
   // Criteria options
   const trackingCriteriaOptions = [
@@ -35,40 +37,47 @@ export const VesselTrackingConfig: React.FC<VesselTrackingConfigProps> = ({
     { value: 'ZONE_ENTRY', label: 'Zone Entry/Exit (Predefined Zones)' },
   ];
 
-  // Default form values
+  // Default form values for the form itself, may contain more fields than the strict configuration type
   const defaultValues = {
     trackingDurationDays: 30,
     vesselIMOs: '',
-    selectedCriteria: [],
-    additionalVessels: 0,
+    selectedCriteria: [] as string[],
+    // Fields like additionalVessels and notes are used for price calculation or UI but not part of VTSProductConfiguration
+    additionalVessels: 0, 
     notes: '',
   };
+  
+  // Type for the full form data
+  type VesselTrackingFormData = typeof defaultValues;
 
-  const handleSubmit = (data: any) => {
+  const handleSubmit = (data: VesselTrackingFormData) => {
     setIsSubmitting(true);
     setError(null);
 
     try {
-      // Process vessel IMOs into an array
-      const vesselIMOs = data.vesselIMOs
+      const parsedIMOs = data.vesselIMOs
         ? data.vesselIMOs.split(',').map((imo: string) => imo.trim())
         : [];
 
-      const totalVessels = vesselIMOs.length + data.additionalVessels;
+      // Ensure product.type is correctly 'VTS' for this configuration
+      if (product.type !== 'VTS') {
+        console.error('Invalid product type for VesselTrackingConfig:', product.type);
+        setError(mapErrorToKnownType(new Error('Misconfigured product type for VTS.')));
+        setIsSubmitting(false);
+        return;
+      }
 
-      // Create configuration object
-      const configuration = {
+      const configuration: VTSProductConfiguration = {
+        type: 'VTS', // Explicitly set based on ProductType and expected config
         trackingDurationDays: data.trackingDurationDays,
-        vesselIMOs,
+        vesselIMOs: parsedIMOs, // Use parsed IMOs
         selectedCriteria: data.selectedCriteria || [],
-        additionalVessels: data.additionalVessels,
-        totalVessels,
-        notes: data.notes,
       };
 
-      // Calculate the price based on configuration
-      const durationMultiplier = data.trackingDurationDays / 30; // Default is 30 days
-      const vesselMultiplier = 1 + (totalVessels - 1) * 0.1; // 10% extra for each additional vessel
+      // Price calculation can still use fields from `data` like `additionalVessels`
+      const totalVessels = parsedIMOs.length + data.additionalVessels;
+      const durationMultiplier = data.trackingDurationDays / 30;
+      const vesselMultiplier = Math.max(1, 1 + (totalVessels - 1) * 0.1); // Ensure multiplier is at least 1
 
       const configuredPrice =
         Math.round(
@@ -78,7 +87,6 @@ export const VesselTrackingConfig: React.FC<VesselTrackingConfigProps> = ({
         product.creditCost * durationMultiplier * vesselMultiplier,
       );
 
-      // Add to cart
       dispatch(
         addItem({
           itemId: uuidv4(),
@@ -86,17 +94,15 @@ export const VesselTrackingConfig: React.FC<VesselTrackingConfigProps> = ({
           quantity: 1,
           configuredPrice,
           configuredCreditCost,
-          configurationDetails: configuration,
+          configurationDetails: configuration, // Use the typed configuration
         }),
       );
 
-      // Navigate to cart
       navigate('/protected/cart');
     } catch (err) {
-      console.error('Error adding to cart:', err);
-      setError(
-        'Failed to add the configured tracking service to your cart. Please try again.',
-      );
+      const knownError = mapErrorToKnownType(err);
+      console.error('Error adding to cart:', knownError.message);
+      setError(knownError);
     } finally {
       setIsSubmitting(false);
     }
@@ -109,7 +115,7 @@ export const VesselTrackingConfig: React.FC<VesselTrackingConfigProps> = ({
       defaultValues={defaultValues}
       onSubmit={handleSubmit}
       isSubmitting={isSubmitting}
-      error={error}
+      error={error?.message} // Access message property for display
     >
       <div className="space-y-6">
         <NumberField

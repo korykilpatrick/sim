@@ -26,6 +26,28 @@ export default [
   // 2. ESLint JavaScript Recommended Rules (apply globally)
   js.configs.recommended,
 
+  // NEW Configuration for SHARED/TYPES files (TypeScript, type-aware)
+  {
+    files: ['shared/types/**/*.ts'],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: './tsconfig.json', // Or a more specific tsconfig if available
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+    plugins: {
+      '@typescript-eslint': tseslint.plugin,
+    },
+    rules: {
+      ...tseslint.configs.recommendedTypeChecked.rules,
+      ...tseslint.configs.stylisticTypeChecked.rules,
+      // Add any specific rules for shared type definitions here
+      // For example, you might want to be stricter about explicit any
+      // '@typescript-eslint/no-explicit-any': 'error',
+    },
+  },
+
   // 3. Configuration for SRC files (React, TypeScript, type-aware)
   {
     files: ['src/**/*.{ts,tsx}'],
@@ -95,6 +117,9 @@ export default [
 
   // 6. Global Custom Rules (apply if not overridden by more specific file blocks)
   {
+    plugins: {
+      '@typescript-eslint': tseslint.plugin,
+    },
     rules: {
       'no-unused-vars': 'off', // Disable base rule, prefer @typescript-eslint/no-unused-vars
       '@typescript-eslint/no-unused-vars': [

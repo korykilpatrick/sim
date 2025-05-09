@@ -6,4 +6,4 @@ export interface AlertNotification {
   read: boolean;
   linkToDetails?: string; // e.g., /dashboard/ams/xyz?eventId=123
   severity?: 'info' | 'warning' | 'critical';
-}
+} 

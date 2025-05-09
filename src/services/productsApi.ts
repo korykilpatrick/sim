@@ -1,5 +1,5 @@
 import { apiSlice } from './api';
-import { BaseProduct, ProductType } from '@types/product';
+import { BaseProduct, ProductType } from '@shared-types/product';
 
 interface ProductsResponse {
   products: BaseProduct[];

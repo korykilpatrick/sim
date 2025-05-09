@@ -1,12 +1,12 @@
 import React from 'react';
-import { ProductType } from '@types/product';
+import { ProductType } from '@shared-types/product';
 
-interface FilterSidebarProps {
+type FilterSidebarProps = {
   selectedType: ProductType | null;
   onTypeChange: (type: ProductType | null) => void;
   onSearchChange: (search: string) => void;
   searchQuery: string;
-}
+};
 
 export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   selectedType,

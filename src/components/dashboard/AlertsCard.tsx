@@ -8,16 +8,18 @@ import {
 import { Spinner } from '@components/common/Spinner';
 import { Alert } from '@components/common/Alert';
 import { Button } from '@components/common/Button';
+import { mapErrorToKnownType } from '@utils/errorUtils';
 
 export const AlertsCard: React.FC = () => {
-  const { data, isLoading, error } = useGetUserAlertsQuery();
+  const { data, isLoading, error: queryError } = useGetUserAlertsQuery();
   const [markAlertRead] = useMarkAlertReadMutation();
 
   const handleMarkAsRead = async (alertId: string) => {
     try {
       await markAlertRead(alertId).unwrap();
-    } catch (error) {
-      console.error('Failed to mark alert as read:', error);
+    } catch (err) {
+      const knownError = mapErrorToKnownType(err);
+      console.error('Failed to mark alert as read:', knownError.message);
     }
   };
 
@@ -34,7 +36,8 @@ export const AlertsCard: React.FC = () => {
     );
   }
 
-  if (error) {
+  if (queryError) {
+    const knownQueryError = mapErrorToKnownType(queryError);
     return (
       <div className="bg-white rounded-lg shadow p-6">
         <h2 className="text-lg font-medium text-secondary-900 mb-4">
@@ -42,7 +45,7 @@ export const AlertsCard: React.FC = () => {
         </h2>
         <Alert
           variant="error"
-          message="There was an error loading your alerts. Please try again later."
+          message={knownQueryError.message || 'There was an error loading your alerts. Please try again later.'}
         />
       </div>
     );

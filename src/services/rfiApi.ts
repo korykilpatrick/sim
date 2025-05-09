@@ -1,5 +1,5 @@
 import { apiSlice } from './api';
-import { InvestigationConfig } from '@types/product';
+import { InvestigationConfig } from '@frontend-types/product';
 
 interface RFISubmitRequest extends InvestigationConfig {
   additionalInfo?: string;

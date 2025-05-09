@@ -1,40 +1,64 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import { Button } from '@components/common/Button';
 import { Badge } from '@components/common/Badge';
+import type { UserProduct } from '@shared-types/userProduct';
+import type { 
+  VTSProductConfiguration, 
+  AMSProductConfiguration, 
+  FTSProductConfiguration,
+  MaritimeAlertProductConfiguration,
+  ReportComplianceProductConfiguration,
+  ReportChronologyProductConfiguration
+} from '@shared-types/productConfiguration';
 
-interface UserProduct {
-  id: string;
-  productId: string;
-  name: string;
-  type: string;
-  purchaseDate: string;
-  expiryDate: string;
-  status: 'active' | 'expired' | 'pending';
-  configuration?: any;
-}
+// interface UserProduct {
+//   id: string;
+//   productId: string;
+//   name: string;
+//   type: string;
+//   purchaseDate: string;
+//   expiryDate: string;
+//   status: 'active' | 'expired' | 'pending';
+//   configuration?: any;
+// }
 
-interface ProductCardProps {
+// interface ProductCardProps {
+//   product: UserProduct;
+// }
+
+type ProductCardProps = {
   product: UserProduct;
-}
+};
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { id, name, type, purchaseDate, expiryDate, status, configuration } =
-    product;
+  const { 
+    id: _id,
+    name, 
+    type, 
+    purchaseDate, 
+    expiryDate, 
+    status, 
+    configuration 
+  } = product;
 
-  // Format dates
-  const formattedPurchaseDate = format(new Date(purchaseDate), 'MMM d, yyyy');
-  const formattedExpiryDate = format(new Date(expiryDate), 'MMM d, yyyy');
+  const purchaseDateObj = purchaseDate ? new Date(purchaseDate) : null;
+  const expiryDateObj = expiryDate ? new Date(expiryDate) : null;
 
-  // Determine days remaining
+  const formattedPurchaseDate = purchaseDateObj && isValid(purchaseDateObj) ? format(purchaseDateObj, 'MMM d, yyyy') : 'N/A';
+  const formattedExpiryDate = expiryDateObj && isValid(expiryDateObj) ? format(expiryDateObj, 'MMM d, yyyy') : 'N/A';
+
   const today = new Date();
-  const expiry = new Date(expiryDate);
-  const daysRemaining = Math.ceil(
-    (expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
-  );
+  let daysRemaining = -1; 
+  if (expiryDateObj && isValid(expiryDateObj)) {
+    daysRemaining = Math.ceil(
+        (expiryDateObj.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+    );
+  }
+  
+  const canLaunch = status === 'active' && daysRemaining > 0;
 
-  // Determine product status for display
   const statusDisplay = () => {
     if (status === 'active') {
       if (daysRemaining <= 0) {
@@ -44,65 +68,71 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       } else {
         return { label: 'Active', variant: 'success' as const };
       }
-    } else if (status === 'pending') {
-      return { label: 'Processing', variant: 'info' as const };
-    } else {
+    } else if (status === 'pending_activation') {
+      return { label: 'Pending Activation', variant: 'info' as const };
+    } else if (status === 'expired') {
       return { label: 'Expired', variant: 'danger' as const };
+    } else if (status === 'cancelled') {
+      return { label: 'Cancelled', variant: 'secondary' as const };
+    } else if (status === 'suspended') {
+      return { label: 'Suspended', variant: 'warning' as const };
     }
+    // Fallback should not be reached if all UserProductStatus cases are handled above.
+    // If UserProductStatus expands, this will cause a type error, which is good.
+    // To satisfy TS that all paths return a value, explicitly handle 'never' or assert.
+    // However, a robust way is to ensure all enum members are checked.
+    // For now, let's add a default that should ideally not be hit.
+    return { label: 'Unknown', variant: 'secondary' as const };
   };
 
   const { label, variant } = statusDisplay();
 
-  // Determine product link based on type
   const getProductLink = () => {
     switch (type) {
       case 'VTS':
-        return `/protected/vts/${id}`;
+        return `/protected/vts/${product.productId}`;
       case 'AMS':
-        return `/protected/ams/${id}`;
+        return `/protected/ams/${product.productId}`;
       case 'FTS':
-        return `/protected/fts/${id}`;
+        return `/protected/fts/${product.productId}`;
       case 'REPORT_COMPLIANCE':
       case 'REPORT_CHRONOLOGY':
-        return `/protected/reports/${id}`;
+        return `/protected/reports/${product.productId}`;
       case 'MARITIME_ALERT':
-        // Could go to alert configuration or alert list
-        return `/protected/alerts/${id}`;
+        return `/protected/alerts/${product.productId}`;
       default:
-        return `/protected/dashboard`;
+        return `/protected/dashboard`; // Fallback link
     }
   };
 
-  // Get configuration summary
   const getConfigSummary = () => {
     if (!configuration) return null;
-
     const summaryItems = [];
-
-    if (
-      configuration.trackingDurationDays ||
-      configuration.monitoringDurationDays
-    ) {
-      const duration =
-        configuration.trackingDurationDays ||
-        configuration.monitoringDurationDays;
-      summaryItems.push(`Duration: ${duration} days`);
-    }
-
-    if (configuration.vesselIMOs && configuration.vesselIMOs.length) {
-      summaryItems.push(
-        `Tracking ${configuration.vesselIMOs.length} vessel(s)`,
-      );
-    }
-
-    if (
-      configuration.selectedCriteria &&
-      configuration.selectedCriteria.length
-    ) {
-      summaryItems.push(
-        `${configuration.selectedCriteria.length} criteria selected`,
-      );
-    }
+    
+    if (configuration.type === 'VTS') {
+      const config = configuration as VTSProductConfiguration;
+      if (config.trackingDurationDays) summaryItems.push(`Duration: ${config.trackingDurationDays} days`);
+      if (config.vesselIMOs && config.vesselIMOs.length) summaryItems.push(`Tracking ${config.vesselIMOs.length} vessel(s)`);
+      if (config.selectedCriteria && config.selectedCriteria.length) summaryItems.push(`${config.selectedCriteria.length} criteria`);
+    } else if (configuration.type === 'AMS') {
+      const config = configuration as AMSProductConfiguration;
+      if (config.monitoringDurationDays) summaryItems.push(`Duration: ${config.monitoringDurationDays} days`);
+      if (config.areaName) summaryItems.push(`Area: ${config.areaName}`);
+      if (config.selectedCriteria && config.selectedCriteria.length) summaryItems.push(`${config.selectedCriteria.length} criteria`);
+    } else if (configuration.type === 'FTS') {
+        const config = configuration as FTSProductConfiguration;
+        if (config.fleetName) summaryItems.push(`Fleet: ${config.fleetName}`);
+        if (config.monitoringDurationDays) summaryItems.push(`Duration: ${config.monitoringDurationDays} days`); 
+    } else if (configuration.type === 'MARITIME_ALERT') {
+        const config = configuration as MaritimeAlertProductConfiguration;
+        if (config.customRuleName) summaryItems.push(`Rule: ${config.customRuleName}`);
+        if (config.monitoringDurationDays) summaryItems.push(`Duration: ${config.monitoringDurationDays} days`);
+        if (config.selectedCriteria && config.selectedCriteria.length) summaryItems.push(`${config.selectedCriteria.length} criteria`);
+    } else if (configuration.type === 'REPORT_COMPLIANCE' || configuration.type === 'REPORT_CHRONOLOGY') {
+        const config = configuration as ReportComplianceProductConfiguration | ReportChronologyProductConfiguration;
+        summaryItems.push(`Vessel: ${config.vesselIMO}`);
+        summaryItems.push(`Depth: ${config.depth}`);
+    } // Add Investigation if needed
 
     return summaryItems.length > 0 ? summaryItems.join(' • ') : null;
   };
@@ -120,15 +150,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </p>
           </div>
 
-          <Button
-            as={Link}
-            to={getProductLink()}
-            variant="primary"
-            size="sm"
-            disabled={status === 'expired' || daysRemaining <= 0}
+          <Link 
+            to={getProductLink()} 
+            onClick={(e) => {
+              if (!canLaunch) {
+                e.preventDefault();
+              }
+            }}
+            aria-disabled={!canLaunch}
+            tabIndex={!canLaunch ? -1 : undefined}
+            className={!canLaunch ? 'pointer-events-none opacity-50' : ''}
           >
-            Launch
-          </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              disabled={!canLaunch}
+            >
+              Launch
+            </Button>
+          </Link>
         </div>
 
         {configSummary && (
@@ -146,10 +186,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <div>
             <p className="text-secondary-500">Expiry Date</p>
             <p
-              className={`font-medium ${daysRemaining <= 7 ? 'text-red-600' : 'text-secondary-900'}`}
+              className={`font-medium ${daysRemaining <= 7 && daysRemaining > 0 ? 'text-yellow-600' : daysRemaining <= 0 ? 'text-red-600' : 'text-secondary-900'}`}
             >
               {formattedExpiryDate}
               {daysRemaining > 0 && ` (${daysRemaining} days left)`}
+              {status === 'active' && daysRemaining <= 0 && formattedExpiryDate !== 'N/A' && ' (Expired)'}
             </p>
           </div>
         </div>

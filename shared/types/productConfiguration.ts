@@ -1,5 +1,5 @@
-import { ProductType } from './product';
-import { Geometry } from 'geojson';
+import type { ProductType } from '@shared-types/product';
+import type { Geometry } from 'geojson';
 
 // Base for product configurations, ensuring 'type' matches ProductType
 interface BaseProductConfiguration {
@@ -17,10 +17,13 @@ export interface VTSProductConfiguration extends BaseProductConfiguration {
 // Configuration for Area Monitoring Service Products
 export interface AMSProductConfiguration extends BaseProductConfiguration {
   type: 'AMS';
+  areaName?: string;
   monitoringDurationDays: number;
   aoiDefinition: Geometry;
   selectedCriteria: string[];
   updateFrequencyHours: 6 | 12 | 24;
+  specificVesselIMOs?: string[];
+  notes?: string;
 }
 
 // Configuration for Fleet Tracking Service Products
@@ -77,6 +80,7 @@ export interface MaritimeAlertProductConfiguration
   monitoringDurationDays?: number;
   updateFrequencyHours?: 6 | 12 | 24;
   customRuleName?: string;
+  notes?: string;
 }
 
 // Discriminated union for all possible product configuration details
@@ -87,4 +91,4 @@ export type ProductConfigurationDetailsU =
   | ReportComplianceProductConfiguration
   | ReportChronologyProductConfiguration
   | InvestigationProductConfiguration
-  | MaritimeAlertProductConfiguration;
+  | MaritimeAlertProductConfiguration; 

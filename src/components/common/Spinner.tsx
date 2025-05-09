@@ -3,11 +3,17 @@ import React from 'react';
 type SpinnerSize = 'sm' | 'md' | 'lg';
 type SpinnerColor = 'primary' | 'secondary' | 'white';
 
-interface SpinnerProps {
+// interface SpinnerProps {
+//   size?: SpinnerSize;
+//   color?: SpinnerColor;
+//   className?: string;
+// }
+
+type SpinnerProps = {
   size?: SpinnerSize;
   color?: SpinnerColor;
   className?: string;
-}
+};
 
 export const Spinner: React.FC<SpinnerProps> = ({
   size = 'md',

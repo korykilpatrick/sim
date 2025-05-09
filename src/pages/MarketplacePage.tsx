@@ -6,6 +6,23 @@ import { Spinner } from '@components/common/Spinner';
 import { Alert } from '@components/common/Alert';
 import { useGetProductsQuery } from '@services/productsApi';
 import { ProductType } from '@/types/product';
+import { RtkQueryError, ApiErrorPayload as _ApiErrorPayload } from '@/types/apiError';
+import { SerializedError } from '@reduxjs/toolkit';
+
+// Helper to check if it's an RTK Query API error with our expected payload
+function isApiError(error: any): error is RtkQueryError {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'status' in error &&
+    typeof error.status === 'number' &&
+    'data' in error &&
+    typeof error.data === 'object' &&
+    error.data !== null &&
+    'message' in error.data &&
+    typeof error.data.message === 'string'
+  );
+}
 
 const MarketplacePage: React.FC = () => {
   const [selectedType, setSelectedType] = useState<ProductType | null>(null);
@@ -60,7 +77,12 @@ const MarketplacePage: React.FC = () => {
             <Alert
               variant="error"
               title="Error loading products"
-              message="There was an error loading the product catalog. Please try again later."
+              message={
+                isApiError(error)
+                  ? error.data.message
+                  : (error as SerializedError)?.message ||
+                    'There was an error loading the product catalog. Please try again later.'
+              }
             />
           ) : data && data.products.length > 0 ? (
             <div>

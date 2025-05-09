@@ -9,7 +9,7 @@ import { Spinner } from '@components/common/Spinner';
 import { Alert } from '@components/common/Alert';
 import { ProductImageGallery } from '@components/products/ProductImageGallery';
 import { ProductPricing } from '@components/products/ProductPricing';
-import { MaritimeAlertProduct } from '@types/product';
+import { MaritimeAlertProduct } from '@shared-types/product';
 
 const ProductDetailsPage: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();

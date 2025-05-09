@@ -10,6 +10,7 @@ import {
 import { useSubmitRFIMutation } from '@services/rfiApi';
 import { useNavigate } from 'react-router-dom';
 import { BaseProduct } from '@/types/product';
+import { mapErrorToKnownType, KnownError } from '@utils/errorUtils';
 
 interface InvestigationRFIFormProps {
   product: BaseProduct;
@@ -19,14 +20,14 @@ export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
   product,
 }) => {
   const navigate = useNavigate();
-  const [submitRFI, { isLoading: isSubmitting, error: submitError }] =
+  const [submitRFI, { isLoading: isSubmitting, error: rtkQueryError }] =
     useSubmitRFIMutation();
-  const [error, setError] = useState<string | null>(null);
+  const [formError, setFormError] = useState<KnownError | null>(null);
 
   // Default form values
   const defaultValues = {
     investigationType: '',
-    priority: 'standard',
+    priority: 'standard' as 'standard' | 'urgent',
     vesselIMO: '',
     vesselName: '',
     region: '',
@@ -35,16 +36,19 @@ export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
     investigationScope: '',
   };
 
-  const handleSubmit = async (data: any) => {
+  type RFIFormData = typeof defaultValues;
+
+  const handleSubmit = async (data: RFIFormData) => {
+    setFormError(null);
     try {
       // Format request data
       const rfiData = {
         productId: product.id,
         investigationType: data.investigationType,
         priority: data.priority,
-        vesselIMO: data.vesselIMO,
-        vesselName: data.vesselName,
-        region: data.region,
+        vesselIMO: data.vesselIMO || undefined,
+        vesselName: data.vesselName || undefined,
+        region: data.region || undefined,
         timeframe: {
           start: data.timeframeStart,
           end: data.timeframeEnd,
@@ -65,12 +69,20 @@ export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
         },
       });
     } catch (err) {
-      console.error('Error submitting RFI:', err);
-      setError(
-        'Failed to submit your investigation request. Please try again.',
-      );
+      const knownError = mapErrorToKnownType(err);
+      console.error('Error submitting RFI:', knownError.message);
+      setFormError(knownError);
     }
   };
+
+  // Determine the error message to display
+  let displayError: string | null = null;
+  if (formError) {
+    displayError = formError.message;
+  } else if (rtkQueryError) {
+    const knownRTKError = mapErrorToKnownType(rtkQueryError);
+    displayError = knownRTKError.message || 'Failed to submit request. Please try again later.';
+  }
 
   return (
     <ConfigFormBase
@@ -79,12 +91,7 @@ export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
       defaultValues={defaultValues}
       onSubmit={handleSubmit}
       isSubmitting={isSubmitting}
-      error={
-        error ||
-        (submitError
-          ? 'Failed to submit request. Please try again later.'
-          : null)
-      }
+      error={displayError}
     >
       <div className="space-y-6">
         <SelectField

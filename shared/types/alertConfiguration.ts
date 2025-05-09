@@ -85,16 +85,4 @@ export type AlertConfigurationU =
   | ReportComplianceAlertConfiguration
   | ReportChronologyAlertConfiguration
   | InvestigationAlertConfiguration
-  | MaritimeAlertConfiguration;
-
-// Example of how ProductType could be used if needed directly,
-// but alertType in each configuration interface serves as the discriminant.
-// We ensure that the 'alertType' literals match values from ProductType.
-
-// Helper type to ensure alertType literals match ProductType values -- REMOVED
-// type EnsureAlertTypesValid<T extends { alertType: ProductType }> = T; -- REMOVED
-
-// Test the configurations (not for runtime, just for type checking during dev) -- REMOVED
-// const _testVTS: EnsureAlertTypesValid<VTSAlertConfiguration> = {} as any; -- REMOVED
-// const _testAMS: EnsureAlertTypesValid<AMSAlertConfiguration> = {} as any; -- REMOVED
-// ... and so on for other types -- REMOVED
+  | MaritimeAlertConfiguration; 

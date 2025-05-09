@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BaseProduct } from '@types/product';
+import { BaseProduct } from '@shared-types/product';
 import { Badge } from '@components/common/Badge';
 import { Button } from '@components/common/Button';
 
-interface ProductCardProps {
+type ProductCardProps = {
   product: BaseProduct;
-}
+};
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { id, name, shortDescription, price, creditCost, imageUrl, tags } =

@@ -5,17 +5,23 @@ import { useAppDispatch } from '@hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { addItem } from '@store/slices/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
-import { BaseProduct } from '@types/product';
+import { BaseProduct, ProductType as _ProductType } from '@shared-types/product';
+import { mapErrorToKnownType, KnownError } from '@utils/errorUtils';
+import {
+  ProductConfigurationDetailsU,
+  ReportComplianceProductConfiguration,
+  ReportChronologyProductConfiguration,
+} from '@shared-types/productConfiguration';
 
-interface ReportConfigProps {
+type ReportConfigProps = {
   product: BaseProduct;
-}
+};
 
 export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<KnownError | null>(null);
 
   // Determine if this is a compliance or chronology report
   const isComplianceReport = product.type === 'REPORT_COMPLIANCE';
@@ -23,30 +29,54 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
   // Default form values
   const defaultValues = {
     vesselIMO: '',
-    vesselName: '',
     timeframeStart: '',
     timeframeEnd: '',
-    reportDepth: 'standard',
-    additionalInfo: '',
+    reportDepth: 'standard' as 'basic' | 'standard' | 'comprehensive',
   };
 
-  const handleSubmit = (data: any) => {
+  // This component also uses vesselName and additionalInfo for UI or other logic,
+  // but they are not part of the strictly typed configuration for cart item.
+  // We collect all form data first.
+  type ReportFormData = typeof defaultValues & {
+    vesselName: string;
+    additionalInfo: string;
+  };
+
+  const handleSubmit = (data: ReportFormData) => {
     setIsSubmitting(true);
     setError(null);
 
     try {
-      // Create configuration object
-      const configuration = {
-        vesselIMO: data.vesselIMO,
-        vesselName: data.vesselName,
-        timeframeStart: data.timeframeStart,
-        timeframeEnd: data.timeframeEnd,
-        reportDepth: data.reportDepth,
-        additionalInfo: data.additionalInfo,
-      };
+      let configuration: ProductConfigurationDetailsU;
 
-      // Calculate the price based on configuration
-      // For reports, different depths have different prices
+      if (product.type === 'REPORT_COMPLIANCE') {
+        configuration = {
+          type: product.type,
+          vesselIMO: data.vesselIMO,
+          timeframeStart: data.timeframeStart,
+          timeframeEnd: data.timeframeEnd,
+          depth: data.reportDepth,
+        } as ReportComplianceProductConfiguration;
+      } else if (product.type === 'REPORT_CHRONOLOGY') {
+        configuration = {
+          type: product.type,
+          vesselIMO: data.vesselIMO,
+          timeframeStart: data.timeframeStart,
+          timeframeEnd: data.timeframeEnd,
+          depth: data.reportDepth,
+        } as ReportChronologyProductConfiguration;
+      } else {
+        // Fallback or error for unexpected product type if necessary
+        // For now, assume product.type will be one of the two handled
+        console.error('Unexpected product type for report configuration:', product.type);
+        // Set a generic error or handle appropriately
+        const err = new Error('Invalid product type for report configuration.');
+        const knownError = mapErrorToKnownType(err);
+        setError(knownError);
+        setIsSubmitting(false);
+        return;
+      }
+
       const depthMultiplier =
         data.reportDepth === 'comprehensive'
           ? 1.5
@@ -60,7 +90,6 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
         product.creditCost * depthMultiplier,
       );
 
-      // Add to cart
       dispatch(
         addItem({
           itemId: uuidv4(),
@@ -72,13 +101,11 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
         }),
       );
 
-      // Navigate to cart
       navigate('/protected/cart');
     } catch (err) {
-      console.error('Error adding to cart:', err);
-      setError(
-        'Failed to add the configured report to your cart. Please try again.',
-      );
+      const knownError = mapErrorToKnownType(err);
+      console.error('Error adding to cart:', knownError.message);
+      setError(knownError);
     } finally {
       setIsSubmitting(false);
     }
@@ -95,7 +122,7 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
       defaultValues={defaultValues}
       onSubmit={handleSubmit}
       isSubmitting={isSubmitting}
-      error={error}
+      error={error?.message}
     >
       <div className="space-y-6">
         <TextField

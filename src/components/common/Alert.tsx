@@ -2,13 +2,13 @@ import React from 'react';
 
 type AlertVariant = 'info' | 'success' | 'warning' | 'error';
 
-interface AlertProps {
+type AlertProps = {
   variant?: AlertVariant;
   title?: string;
   message: string;
   onClose?: () => void;
   className?: string;
-}
+};
 
 export const Alert: React.FC<AlertProps> = ({
   variant = 'info',
