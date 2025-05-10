@@ -3,9 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Input } from '@components/common/Input';
-import { Button } from '@components/common/Button';
-import { Alert } from '@components/common/Alert';
+import { Input, Button, Alert } from '@components/common';
 import { useLoginMutation } from '@services/authApi';
 import { getErrorMessage, logError } from '@utils/errorUtils';
 
@@ -25,7 +23,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 /**
  * Login page component that handles user authentication
  */
-const LoginPage = (): JSX.Element => {
+const LoginPage = (): React.ReactElement => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/marketplace';

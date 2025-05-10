@@ -7,7 +7,7 @@ import {
   isErrorOfType,
   ErrorCode,
 } from '@utils/errorUtils';
-import { isDefined } from '../../typeGuards/baseTypeGuards';
+import { isDefined } from '@typeGuards/baseTypeGuards';
 
 /**
  * Props for the LogoutButton component

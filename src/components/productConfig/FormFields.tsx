@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Input } from '@components/common/Input';
+import { Input } from '@components/common';
 
 // Text Input Field
 type TextFieldProps = {

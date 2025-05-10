@@ -61,6 +61,7 @@ For testing authentication:
 
 1.  **Login via API**:
     Use the following credentials with the `/api/auth/login` endpoint:
+
     - Email: `user@example.com`
     - Password: `password` (Note: The password is not strictly validated in this mock setup, the email is the key.)
 

@@ -43,7 +43,7 @@ export const Button = ({
   className = '',
   disabled,
   ...rest
-}: ButtonProps): JSX.Element => {
+}: ButtonProps): React.ReactElement => {
   // Base classes
   const baseClasses =
     'inline-flex items-center justify-center font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors';

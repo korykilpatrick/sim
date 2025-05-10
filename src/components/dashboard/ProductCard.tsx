@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { format, isValid } from 'date-fns';
-import { Button } from '@components/common/Button';
-import { Badge } from '@components/common/Badge';
+import { Button, Badge } from '@components/common';
 import type { UserProduct } from '@shared-types/userProduct';
 import type {
   VTSProductConfiguration,

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@components/common/Button';
+import { Button } from '@components/common';
 
 /**
  * Props for the OrderSummary component

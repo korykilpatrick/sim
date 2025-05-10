@@ -1,0 +1,5 @@
+# Components to Refactor
+1. [x] AlertsCard.tsx → Created AlertItem, AlertsHeader, and EmptyAlertsState components
+2. [x] ProductDetailsPage.tsx → Split into ProductHeader, ProductInformation, and ProductSpecialFeatures
+3. [x] MarketplacePage.tsx → Extracted SearchResults, EmptySearchState, and MarketplaceHeader components
+4. [ ] CartPage.tsx → Create EmptyCartState and CartHeader components

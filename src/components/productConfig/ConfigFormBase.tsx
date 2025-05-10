@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
-import { Button } from '@components/common/Button';
+import { Button } from '@components/common';
 
 type ConfigFormBaseProps = {
   title: string;

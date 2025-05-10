@@ -3,9 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Input } from '@components/common/Input';
-import { Button } from '@components/common/Button';
-import { Alert } from '@components/common/Alert';
+import { Input, Button, Alert } from '@components/common';
 import { useRegisterMutation } from '@services/authApi';
 import { getErrorMessage, logError } from '@utils/errorUtils';
 
@@ -35,7 +33,7 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 /**
  * Registration page component
  */
-const RegisterPage = (): JSX.Element => {
+const RegisterPage = (): React.ReactElement => {
   const navigate = useNavigate();
   const [register, { isLoading, error }] = useRegisterMutation();
 
