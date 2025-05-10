@@ -84,7 +84,12 @@ This will create a production-ready build in the `dist` directory.
 ├── server/                # Express backend server
 │   ├── data/              # Mock data for the backend
 │   ├── routes/            # API route handlers
-│   └── server.ts          # Main server entry point
+│   ├── types/             # Backend-specific TypeScript types
+│   ├── server.ts          # Main server entry point
+│   ├── README.md          # Backend specific documentation
+│   └── tsconfig.json      # TypeScript configuration for the server
+├── shared/
+│   └── types/             # TypeScript types shared between frontend and backend
 ├── src/
 │   ├── assets/            # Static assets (images, icons, fonts)
 │   ├── components/        # Reusable UI components
@@ -103,10 +108,14 @@ This will create a production-ready build in the `dist` directory.
 │   ├── services/          # RTK Query API definitions
 │   ├── store/             # Redux store configuration
 │   │   └── slices/        # Redux feature slices
-│   ├── types/             # TypeScript type definitions
+│   ├── types/             # Global TypeScript type definitions
+│   ├── typeGuards/        # TypeScript type guard functions
 │   ├── utils/             # Utility functions
 │   ├── App.tsx            # Main application component
-│   └── main.tsx           # Application entry point
+│   ├── main.tsx           # Application entry point
+│   ├── routes.tsx         # Application routing configuration
+│   ├── index.css          # Global styles
+│   └── vite-env.d.ts      # Vite environment type definitions
 ```
 
 ## Backend API
