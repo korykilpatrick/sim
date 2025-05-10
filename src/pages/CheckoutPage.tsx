@@ -13,7 +13,11 @@ import {
   PaymentDetailsForm,
   OrderSummary,
 } from '../components/checkout';
-import { checkoutSchema, type CheckoutFormValues, type PaymentMethod } from '../types';
+import {
+  checkoutSchema,
+  type CheckoutFormValues,
+  type PaymentMethod,
+} from '../types';
 
 /**
  * Checkout page component for completing purchases
@@ -26,7 +30,8 @@ const CheckoutPage: React.FC = () => {
   );
   const { balance: credits } = useAppSelector((state) => state.credits);
 
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('credit_card');
+  const [paymentMethod, setPaymentMethod] =
+    useState<PaymentMethod>('credit_card');
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
 
   const {
@@ -37,10 +42,6 @@ const CheckoutPage: React.FC = () => {
     resolver: zodResolver(checkoutSchema),
   });
 
-  // Calculate tax and total
-  const taxRate = 0.08; // 8%
-  const taxAmount = totalAmount * taxRate;
-  const total = totalAmount + taxAmount;
 
   const hasSufficientCredits = credits >= totalCredits;
 
@@ -151,7 +152,8 @@ const CheckoutPage: React.FC = () => {
               paymentMethod={paymentMethod}
               isLoading={isLoading}
               isDisabled={
-                isLoading || (paymentMethod === 'credits' && !hasSufficientCredits)
+                isLoading ||
+                (paymentMethod === 'credits' && !hasSufficientCredits)
               }
             />
           </div>

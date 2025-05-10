@@ -47,15 +47,12 @@ export const OrderSummary: FC<OrderSummaryProps> = ({
           <div key={item.itemId} className="flex justify-between">
             <div>
               <p className="text-secondary-900">{item.product.name}</p>
-              <p className="text-sm text-secondary-500">
-                Qty: {item.quantity}
-              </p>
+              <p className="text-sm text-secondary-500">Qty: {item.quantity}</p>
             </div>
             <p className="text-secondary-900">
               $
               {(
-                (item.configuredPrice || item.product.price) *
-                item.quantity
+                (item.configuredPrice || item.product.price) * item.quantity
               ).toFixed(2)}
             </p>
           </div>
@@ -81,9 +78,7 @@ export const OrderSummary: FC<OrderSummaryProps> = ({
 
           {paymentMethod === 'credits' && (
             <div className="flex justify-between mt-1">
-              <p className="text-secondary-600 text-sm">
-                Credits to be used:
-              </p>
+              <p className="text-secondary-600 text-sm">Credits to be used:</p>
               <p className="text-secondary-900 font-medium text-sm">
                 {totalCredits}
               </p>

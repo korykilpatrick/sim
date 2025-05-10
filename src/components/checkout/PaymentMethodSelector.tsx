@@ -54,9 +54,7 @@ export const PaymentMethodSelector: FC<PaymentMethodSelectorProps> = ({
             <span className="ml-2 text-secondary-700">
               Use Credits ({availableCredits} available)
               {!hasSufficientCredits && (
-                <span className="text-red-500 ml-2">
-                  Insufficient credits
-                </span>
+                <span className="text-red-500 ml-2">Insufficient credits</span>
               )}
             </span>
           </label>
