@@ -4,7 +4,7 @@ import { useAppSelector, useAppDispatch } from '@hooks/redux';
 import { clearCart } from '@store/slices/cartSlice';
 import { CartItem } from '@components/cart/CartItem';
 import { OrderSummary } from '@components/cart/OrderSummary';
-import { Button } from '@components/common/Button';
+import { Button } from '@components/common';
 
 const CartPage: React.FC = () => {
   const dispatch = useAppDispatch();

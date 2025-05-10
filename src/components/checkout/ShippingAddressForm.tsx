@@ -1,7 +1,7 @@
 import React, { type FC } from 'react';
-import { Input } from '../common/Input';
+import { Input } from '@components/common';
 import type { UseFormRegister, FieldErrors } from 'react-hook-form';
-import type { CheckoutFormValues } from '../../types';
+import type { CheckoutFormValues } from '@shared-types/checkout';
 
 /**
  * Props for the ShippingAddressForm component

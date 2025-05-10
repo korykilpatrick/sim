@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ProductCard } from '@components/products/ProductCard';
 import { FilterSidebar } from '@components/products/FilterSidebar';
 import { PromotionalSlider } from '@components/products/PromotionalSlider';
-import { Spinner } from '@components/common/Spinner';
-import { Alert } from '@components/common/Alert';
+import { Spinner, Alert } from '@components/common';
 import { useGetProductsQuery } from '@services/productsApi';
 import { ProductType } from '@/types/product';
 import {

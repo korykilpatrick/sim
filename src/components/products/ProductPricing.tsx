@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BaseProduct } from '@shared-types/product';
 import { useAppSelector } from '@hooks/redux';
-import { Button } from '@components/common/Button';
+import { Button } from '@components/common';
 
 type ProductPricingProps = {
   product: BaseProduct;

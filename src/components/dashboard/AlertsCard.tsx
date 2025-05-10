@@ -5,9 +5,7 @@ import {
   useGetUserAlertsQuery,
   useMarkAlertReadMutation,
 } from '@services/alertsApi';
-import { Spinner } from '@components/common/Spinner';
-import { Alert } from '@components/common/Alert';
-import { Button } from '@components/common/Button';
+import { Spinner, Alert, Button } from '@components/common';
 import { getErrorMessage, logError } from '@utils/errorUtils';
 
 export const AlertsCard: React.FC = () => {

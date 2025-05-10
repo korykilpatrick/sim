@@ -7,9 +7,7 @@ import { AreaMonitoringConfig } from '@components/productConfig/AreaMonitoringCo
 import { MaritimeAlertConfig } from '@components/productConfig/MaritimeAlertConfig';
 import { ReportConfig } from '@components/productConfig/ReportConfig';
 import { InvestigationRFIForm } from '@components/productConfig/InvestigationRFIForm';
-import { Spinner } from '@components/common/Spinner';
-import { Alert } from '@components/common/Alert';
-import { Button } from '@components/common/Button';
+import { Spinner, Alert, Button } from '@components/common';
 
 const ProductConfigPage: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();

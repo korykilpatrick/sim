@@ -5,19 +5,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppSelector, useAppDispatch } from '@hooks/redux';
 import { clearCart } from '@store/slices/cartSlice';
 import { useCreateOrderMutation } from '@services/ordersApi';
-import { Alert } from '@components/common/Alert';
-import { Button } from '@components/common/Button';
+import { Alert, Button } from '@components/common';
 import {
   ShippingAddressForm,
   PaymentMethodSelector,
   PaymentDetailsForm,
   OrderSummary,
-} from '../components/checkout';
-import {
-  checkoutSchema,
-  type CheckoutFormValues,
-  type PaymentMethod,
-} from '../types';
+} from '@components/checkout';
+import { checkoutSchema, type CheckoutFormValues, type PaymentMethod } from '@shared-types/checkout';
 
 /**
  * Checkout page component for completing purchases

@@ -4,9 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAppSelector } from '@hooks/redux';
 import { DashboardSidebar } from '@components/dashboard/DashboardSidebar';
-import { Input } from '@components/common/Input';
-import { Button } from '@components/common/Button';
-import { Alert } from '@components/common/Alert';
+import { Input, Button, Alert } from '@components/common';
 
 // Form validation schema
 const profileSchema = z.object({

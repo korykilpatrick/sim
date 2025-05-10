@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import { Button } from '@components/common/Button';
+import { Button } from '@components/common';
 import { CartItem } from '@shared-types/cart';
 
 interface LocationState {
