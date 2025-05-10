@@ -45,11 +45,9 @@ export const ProductHeader: React.FC<ProductHeaderProps> = ({
           Back
         </a>
       </div>
-      
+
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-secondary-900 mb-2">
-          {name}
-        </h1>
+        <h1 className="text-3xl font-bold text-secondary-900 mb-2">{name}</h1>
 
         <div className="flex flex-wrap gap-2 mt-3">
           {tags?.map((tag) => (

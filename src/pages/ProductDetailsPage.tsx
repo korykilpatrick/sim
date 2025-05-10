@@ -101,7 +101,7 @@ const ProductDetailsPage: React.FC = () => {
 
   return (
     <div>
-      <ProductHeader 
+      <ProductHeader
         name={product.name}
         tags={product.tags}
         onBack={() => navigate(-1)}

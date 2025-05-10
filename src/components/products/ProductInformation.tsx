@@ -16,9 +16,7 @@ export const ProductInformation: React.FC<ProductInformationProps> = ({
 }) => {
   return (
     <div className="border-t border-secondary-200 pt-6">
-      <h2 className="text-xl font-semibold mb-4">
-        Product Description
-      </h2>
+      <h2 className="text-xl font-semibold mb-4">Product Description</h2>
       <p className="text-secondary-700 whitespace-pre-line mb-6">
         {description}
       </p>
