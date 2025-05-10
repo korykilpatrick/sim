@@ -14,20 +14,27 @@ import { addItem } from '@store/slices/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { MaritimeAlertProduct } from '@shared-types/product';
 import { MaritimeAlertProductConfiguration } from '@shared-types/productConfiguration';
-import { mapErrorToKnownType, KnownError } from '@utils/errorUtils';
+import { getErrorMessage, logError } from '@utils/errorUtils';
 import { useFormContext } from 'react-hook-form';
 
+/**
+ * Props for MaritimeAlertConfig component
+ */
 interface MaritimeAlertConfigProps {
+  /** The maritime alert product being configured */
   product: MaritimeAlertProduct;
 }
 
-export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({
+/**
+ * Component for configuring Maritime Alert products
+ */
+export const MaritimeAlertConfig = ({
   product,
-}) => {
+}: MaritimeAlertConfigProps): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<KnownError | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Available alert types (from product)
   const alertTypes = product.alertTypesAvailable;
@@ -87,12 +94,16 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({
       // Ensure product.type is correctly 'MARITIME_ALERT' for this configuration
       if (product.type !== 'MARITIME_ALERT') {
         console.error('Invalid product type for MaritimeAlertConfig:', product.type);
-        setError(mapErrorToKnownType(new Error('Misconfigured product type for MARITIME_ALERT.')));
+        const productTypeError = new Error('Misconfigured product type for MARITIME_ALERT.');
+        logError(productTypeError, 'Product configuration error');
+        setError(getErrorMessage(productTypeError));
         setIsSubmitting(false);
         return;
       }
       if (!data.alertType) { // Ensure alertType is selected
-        setError(mapErrorToKnownType(new Error('Alert type is required.')));
+        const alertTypeError = new Error('Alert type is required.');
+        logError(alertTypeError, 'Validation error');
+        setError(getErrorMessage(alertTypeError));
         setIsSubmitting(false);
         return;
       }
@@ -141,10 +152,11 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({
       );
 
       navigate('/protected/cart');
-    } catch (err) {
-      const knownError = mapErrorToKnownType(err);
-      console.error('Error adding to cart:', knownError.message);
-      setError(knownError);
+    } catch (err: unknown) {
+      const errorMessage = getErrorMessage(err);
+      logError(err, 'Error adding maritime alert to cart');
+      console.error('Error adding to cart:', errorMessage);
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -230,7 +242,7 @@ export const MaritimeAlertConfig: React.FC<MaritimeAlertConfigProps> = ({
       defaultValues={defaultValues}
       onSubmit={handleSubmit}
       isSubmitting={isSubmitting}
-      error={error?.message}
+      error={error}
     >
       <div className="space-y-6">
         <RadioGroup

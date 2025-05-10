@@ -7,9 +7,11 @@ import { Input } from '@components/common/Input';
 import { Button } from '@components/common/Button';
 import { Alert } from '@components/common/Alert';
 import { useRegisterMutation } from '@services/authApi';
-import { mapErrorToKnownType } from '@utils/errorUtils';
+import { getErrorMessage, logError } from '@utils/errorUtils';
 
-// Form validation schema using zod
+/**
+ * Form validation schema using zod for registration form
+ */
 const registerSchema = z
   .object({
     email: z
@@ -25,9 +27,15 @@ const registerSchema = z
     path: ['confirmPassword'],
   });
 
+/**
+ * Type for registration form values derived from the validation schema
+ */
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
-const RegisterPage: React.FC = () => {
+/**
+ * Registration page component
+ */
+const RegisterPage = (): JSX.Element => {
   const navigate = useNavigate();
   const [register, { isLoading, error }] = useRegisterMutation();
 
@@ -39,16 +47,20 @@ const RegisterPage: React.FC = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = async (data: RegisterFormValues) => {
+  /**
+   * Handles form submission for user registration
+   */
+  const onSubmit = async (data: RegisterFormValues): Promise<void> => {
     try {
       const { confirmPassword: _confirmPassword, ...registerData } = data;
       await register(registerData).unwrap();
       // If registration is successful, redirect to marketplace
       navigate('/marketplace', { replace: true });
-    } catch (err) {
-      // Error is handled by RTK Query and available in the error variable
-      const knownError = mapErrorToKnownType(err);
-      console.error('Registration error:', knownError.message);
+    } catch (err: unknown) {
+      // Use the new error handling approach
+      const errorMessage = getErrorMessage(err);
+      logError(err, 'Registration attempt failed');
+      console.error('Registration error:', errorMessage);
     }
   };
 

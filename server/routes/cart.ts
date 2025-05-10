@@ -1,42 +1,100 @@
-import express, { Request, Response } from 'express';
-import { products } from '../data'; // Assuming products in data.ts are compatible with BaseProduct
+import express from 'express';
+import type { Request, Response } from 'express';
+import { products } from '../data';
 import type { CartItem } from '@shared-types/cart';
-import type { ProductConfigurationDetailsU } from '@shared-types/productConfiguration';
+import type {
+  ProductConfigurationDetailsU,
+  VTSProductConfiguration
+} from '@shared-types/productConfiguration';
 import type { ProductType, BaseProduct } from '@shared-types/product';
 import type { User } from '@shared-types/user';
+import type { Result } from '@shared-types/utility';
 
 const router = express.Router();
 
 // Mock cart storage (in-memory)
 const userCarts: Record<string, CartItem[]> = {};
 
+/**
+ * Response structure for cart endpoints
+ */
 interface CartResponse {
+  /** Array of items in the cart */
   items: CartItem[];
+  /** Total price and credits for all items */
   total: { price: number; credits: number };
 }
 
-// Get user's cart
-router.get('/', (req: Request, res: Response<CartResponse>) => {
+/**
+ * Error response type for cart routes
+ */
+interface CartErrorResponse {
+  /** Error message */
+  message: string;
+  /** Optional error code */
+  code?: string;
+}
+
+/**
+ * Unified result type for cart operations
+ */
+type CartResult = Result<CartResponse, CartErrorResponse>;
+
+/**
+ * Type for the GET / route params
+ */
+interface GetCartParams {}
+
+/**
+ * Get user's cart
+ * Returns the current user's cart or creates an empty one if none exists
+ *
+ * @route GET /api/cart
+ * @returns CartResponse with items and totals or error
+ */
+router.get('/', (
+  req: Request<GetCartParams, CartResponse | CartErrorResponse>,
+  res: Response<CartResponse | CartErrorResponse>
+): Response<CartResponse | CartErrorResponse> => {
   const userId = (req.user as User)?.id; // Safely access id after casting
-  if (!userId) return res.status(401).json({ message: 'Unauthorized' } as any); // Type assertion for error response
+  if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
   if (!userCarts[userId]) {
     userCarts[userId] = [];
   }
+
   return res.json({
     items: userCarts[userId],
     total: calculateTotal(userCarts[userId]),
   });
 });
 
+/**
+ * Request body for adding an item to cart
+ */
 interface AddToCartRequestBody {
+  /** ID of the product to add */
   productId: string;
+  /** Quantity of the product (defaults to 1) */
   quantity?: number;
+  /** Optional product configuration details */
   configurationDetails?: ProductConfigurationDetailsU;
 }
 
-// Add item to cart
-router.post('/items', (req: Request<{}, CartResponse | { message: string }, AddToCartRequestBody>, res: Response<CartResponse | { message: string }>) => {
+/**
+ * Add item to cart
+ * Adds a product to the user's cart with optional configuration
+ *
+ * @route POST /api/cart/items
+ * @param productId - ID of the product to add
+ * @param quantity - Quantity to add (defaults to 1)
+ * @param configurationDetails - Optional configuration for the product
+ * @returns Updated cart with new item added
+ */
+router.post('/items', (
+  req: Request<{}, CartResponse | CartErrorResponse, AddToCartRequestBody>,
+  res: Response<CartResponse | CartErrorResponse>
+): Response<CartResponse | CartErrorResponse> => {
   const userId = (req.user as User)?.id;
   if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
@@ -49,7 +107,10 @@ router.post('/items', (req: Request<{}, CartResponse | { message: string }, AddT
   const product = products.find((p) => p.id === productId) as BaseProduct | undefined;
 
   if (!product) {
-    return res.status(404).json({ message: 'Product not found' });
+    return res.status(404).json({
+      message: 'Product not found',
+      code: 'PRODUCT_NOT_FOUND'
+    });
   }
 
   const currentConfigurationDetails =
@@ -79,13 +140,36 @@ router.post('/items', (req: Request<{}, CartResponse | { message: string }, AddT
   });
 });
 
+/**
+ * Request body for updating a cart item
+ */
 interface UpdateCartItemRequestBody {
+  /** Updated quantity (set to 0 to remove) */
   quantity?: number;
+  /** Updated product configuration */
   configurationDetails?: ProductConfigurationDetailsU;
 }
 
-// Update cart item
-router.put('/items/:itemIndex', (req: Request<{ itemIndex: string }, CartResponse | { message: string }, UpdateCartItemRequestBody>, res: Response<CartResponse | { message: string }>) => {
+/**
+ * Parameters for updating a cart item
+ */
+interface UpdateCartItemParams {
+  /** Index of the item in the cart */
+  itemIndex: string;
+}
+
+/**
+ * Update cart item
+ * Updates quantity or configuration of an existing cart item
+ *
+ * @route PUT /api/cart/items/:itemIndex
+ * @param itemIndex - Index of the item to update
+ * @returns Updated cart after modifications
+ */
+router.put('/items/:itemIndex', (
+  req: Request<UpdateCartItemParams, CartResponse | CartErrorResponse, UpdateCartItemRequestBody>,
+  res: Response<CartResponse | CartErrorResponse>
+): Response<CartResponse | CartErrorResponse> => {
   const userId = (req.user as User)?.id;
   if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
@@ -93,7 +177,10 @@ router.put('/items/:itemIndex', (req: Request<{ itemIndex: string }, CartRespons
   const { quantity, configurationDetails } = req.body;
 
   if (!userCarts[userId] || !userCarts[userId][Number(itemIndex)]) {
-    return res.status(404).json({ message: 'Cart item not found' });
+    return res.status(404).json({
+      message: 'Cart item not found',
+      code: 'CART_ITEM_NOT_FOUND'
+    });
   }
 
   if (quantity !== undefined && quantity >= 0) { // Ensure quantity is valid
@@ -114,15 +201,36 @@ router.put('/items/:itemIndex', (req: Request<{ itemIndex: string }, CartRespons
   });
 });
 
-// Remove item from cart
-router.delete('/items/:itemIndex', (req: Request<{ itemIndex: string }>, res: Response<CartResponse | { message: string }>) => {
+/**
+ * Parameters for removing a cart item
+ */
+interface RemoveCartItemParams {
+  /** Index of the item to remove */
+  itemIndex: string;
+}
+
+/**
+ * Remove item from cart
+ * Removes an item completely from the cart
+ *
+ * @route DELETE /api/cart/items/:itemIndex
+ * @param itemIndex - Index of the item to remove
+ * @returns Updated cart after removal
+ */
+router.delete('/items/:itemIndex', (
+  req: Request<RemoveCartItemParams>,
+  res: Response<CartResponse | CartErrorResponse>
+): Response<CartResponse | CartErrorResponse> => {
   const userId = (req.user as User)?.id;
   if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
   const { itemIndex } = req.params;
 
   if (!userCarts[userId] || !userCarts[userId][Number(itemIndex)]) {
-    return res.status(404).json({ message: 'Cart item not found' });
+    return res.status(404).json({
+      message: 'Cart item not found',
+      code: 'CART_ITEM_NOT_FOUND'
+    });
   }
 
   userCarts[userId].splice(Number(itemIndex), 1);
@@ -133,10 +241,19 @@ router.delete('/items/:itemIndex', (req: Request<{ itemIndex: string }>, res: Re
   });
 });
 
-// Clear cart
-router.delete('/', (req: Request, res: Response<CartResponse>) => {
+/**
+ * Clear cart
+ * Removes all items from the user's cart
+ *
+ * @route DELETE /api/cart
+ * @returns Empty cart response
+ */
+router.delete('/', (
+  req: Request,
+  res: Response<CartResponse | CartErrorResponse>
+): Response<CartResponse | CartErrorResponse> => {
   const userId = (req.user as User)?.id;
-  if (!userId) return res.status(401).json({ message: 'Unauthorized' } as any);
+  if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
   userCarts[userId] = [];
   return res.json({
@@ -145,6 +262,12 @@ router.delete('/', (req: Request, res: Response<CartResponse>) => {
   });
 });
 
+/**
+ * Calculate total price and credits for cart items
+ *
+ * @param items - Array of cart items
+ * @returns Object with total price and credits
+ */
 function calculateTotal(items: CartItem[]): { price: number; credits: number } {
   return items.reduce(
     (acc, item) => {
@@ -158,13 +281,17 @@ function calculateTotal(items: CartItem[]): { price: number; credits: number } {
   );
 }
 
+/**
+ * Get default configuration for a product type
+ *
+ * @param _productId - Product ID (not used in mock implementation)
+ * @param productType - Type of product to get default configuration for
+ * @returns Default configuration object for the product type
+ */
 function getDefaultConfigForProduct(
-  _productId: string, // Mark as unused if not needed for basic mock
+  _productId: string,
   productType: ProductType,
 ): ProductConfigurationDetailsU {
-  // console.warn(
-  //   `getDefaultConfigForProduct called for ${_productId} (${productType}), returning basic object. IMPLEMENT DEFAULTS.`,
-  // );
   // Add more sophisticated default configurations based on productType
   switch (productType) {
     case 'VTS':
@@ -173,13 +300,14 @@ function getDefaultConfigForProduct(
         trackingDurationDays: 30,
         selectedCriteria: [],
         vesselIMOs: [],
-      };
+      } as VTSProductConfiguration;
+
     // Add cases for other product types as needed
     // AMS, REPORT_COMPLIANCE, etc.
+
     default:
-      // console.error(`No default config implemented for product type: ${productType}`);
-      // Fallback to a very generic object, or throw error
-      return { type: productType } as unknown as ProductConfigurationDetailsU;
+      // Fallback to a very generic object
+      return { type: productType } as ProductConfigurationDetailsU;
   }
 }
 

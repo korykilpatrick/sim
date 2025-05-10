@@ -1,16 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-// import { BaseProduct } from '../../types/product'; // No longer needed directly if CartItem imports it
-// import { ProductConfigurationDetailsU } from '../../types/productConfiguration'; // No longer needed directly
-import { CartItem } from '@shared-types/cart'; // Import unified CartItem
-
-// export interface CartItem { // Remove local definition
-//   itemId: string; 
-//   product: BaseProduct;
-//   quantity: number;
-//   configuredPrice?: number; 
-//   configuredCreditCost?: number; 
-//   configurationDetails?: ProductConfigurationDetailsU; 
-// }
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { CartItem } from '@shared-types/cart';
 
 export interface CartState {
   items: CartItem[];
@@ -89,8 +79,11 @@ const cartSlice = createSlice({
   },
 });
 
-// Helper function to update cart totals
-function updateTotals(state: CartState) {
+/**
+ * Helper function to recalculate cart totals
+ * @param state Cart state to update
+ */
+function updateTotals(state: CartState): void {
   state.totalAmount = state.items.reduce((total, item) => {
     const price = item.configuredPrice ?? item.product.price;
     return total + price * item.quantity;

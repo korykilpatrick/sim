@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { addItem } from '@store/slices/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { BaseProduct, ProductType as _ProductType } from '@shared-types/product';
-import { mapErrorToKnownType, KnownError } from '@utils/errorUtils';
+import { getErrorMessage, logError } from '@utils/errorUtils';
 import { VTSProductConfiguration } from '@shared-types/productConfiguration';
 
 interface VesselTrackingConfigProps {
@@ -24,7 +24,7 @@ export const VesselTrackingConfig: React.FC<VesselTrackingConfigProps> = ({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<KnownError | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Criteria options
   const trackingCriteriaOptions = [
@@ -62,7 +62,9 @@ export const VesselTrackingConfig: React.FC<VesselTrackingConfigProps> = ({
       // Ensure product.type is correctly 'VTS' for this configuration
       if (product.type !== 'VTS') {
         console.error('Invalid product type for VesselTrackingConfig:', product.type);
-        setError(mapErrorToKnownType(new Error('Misconfigured product type for VTS.')));
+        const productTypeError = new Error('Misconfigured product type for VTS.');
+        logError(productTypeError, 'Product configuration error');
+        setError(getErrorMessage(productTypeError));
         setIsSubmitting(false);
         return;
       }
@@ -100,9 +102,10 @@ export const VesselTrackingConfig: React.FC<VesselTrackingConfigProps> = ({
 
       navigate('/protected/cart');
     } catch (err) {
-      const knownError = mapErrorToKnownType(err);
-      console.error('Error adding to cart:', knownError.message);
-      setError(knownError);
+      const errorMessage = getErrorMessage(err);
+      logError(err, 'Error adding vessel tracking to cart');
+      console.error('Error adding to cart:', errorMessage);
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -115,7 +118,7 @@ export const VesselTrackingConfig: React.FC<VesselTrackingConfigProps> = ({
       defaultValues={defaultValues}
       onSubmit={handleSubmit}
       isSubmitting={isSubmitting}
-      error={error?.message} // Access message property for display
+      error={error} // Access message property for display
     >
       <div className="space-y-6">
         <NumberField

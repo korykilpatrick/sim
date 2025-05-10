@@ -13,7 +13,7 @@ import { addItem } from '@store/slices/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { BaseProduct } from '@shared-types/product';
 import { AMSProductConfiguration } from '@shared-types/productConfiguration';
-import { mapErrorToKnownType, KnownError } from '@utils/errorUtils';
+import { getErrorMessage, logError } from '@utils/errorUtils';
 
 interface AreaMonitoringConfigProps {
   product: BaseProduct;
@@ -25,7 +25,7 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<KnownError | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Criteria options
   const areaCriteriaOptions = [
@@ -59,7 +59,9 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
       // Ensure product.type is correctly 'AMS' for this configuration
       if (product.type !== 'AMS') {
         console.error('Invalid product type for AreaMonitoringConfig:', product.type);
-        setError(mapErrorToKnownType(new Error('Misconfigured product type for AMS.')));
+        const productTypeError = new Error('Misconfigured product type for AMS.');
+        logError(productTypeError, 'Product configuration error');
+        setError(getErrorMessage(productTypeError));
         setIsSubmitting(false);
         return;
       }
@@ -91,9 +93,10 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
 
       navigate('/protected/cart');
     } catch (err) {
-      const knownError = mapErrorToKnownType(err);
-      console.error('Error adding to cart:', knownError.message);
-      setError(knownError);
+      const errorMessage = getErrorMessage(err);
+      logError(err, 'Error adding area monitoring to cart');
+      console.error('Error adding to cart:', errorMessage);
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -106,7 +109,7 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
       defaultValues={defaultValues}
       onSubmit={handleSubmit}
       isSubmitting={isSubmitting}
-      error={error?.message}
+      error={error}
     >
       <div className="space-y-6">
         <TextField

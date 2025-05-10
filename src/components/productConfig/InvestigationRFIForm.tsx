@@ -10,7 +10,7 @@ import {
 import { useSubmitRFIMutation } from '@services/rfiApi';
 import { useNavigate } from 'react-router-dom';
 import { BaseProduct } from '@/types/product';
-import { mapErrorToKnownType, KnownError } from '@utils/errorUtils';
+import { getErrorMessage, logError } from '@utils/errorUtils';
 
 interface InvestigationRFIFormProps {
   product: BaseProduct;
@@ -22,7 +22,7 @@ export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
   const navigate = useNavigate();
   const [submitRFI, { isLoading: isSubmitting, error: rtkQueryError }] =
     useSubmitRFIMutation();
-  const [formError, setFormError] = useState<KnownError | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
 
   // Default form values
   const defaultValues = {
@@ -69,19 +69,19 @@ export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
         },
       });
     } catch (err) {
-      const knownError = mapErrorToKnownType(err);
-      console.error('Error submitting RFI:', knownError.message);
-      setFormError(knownError);
+      const errorMessage = getErrorMessage(err);
+      logError(err, 'Error submitting investigation RFI');
+      console.error('Error submitting RFI:', errorMessage);
+      setFormError(errorMessage);
     }
   };
 
   // Determine the error message to display
   let displayError: string | null = null;
   if (formError) {
-    displayError = formError.message;
+    displayError = formError;
   } else if (rtkQueryError) {
-    const knownRTKError = mapErrorToKnownType(rtkQueryError);
-    displayError = knownRTKError.message || 'Failed to submit request. Please try again later.';
+    displayError = getErrorMessage(rtkQueryError) || 'Failed to submit request. Please try again later.';
   }
 
   return (

@@ -5,16 +5,30 @@
     "moduleResolution": "node",
     "outDir": "../dist/server",
     "rootDirs": [".", "../src"],
+
+    /* Type Checking */
     "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "useUnknownInCatchVariables": true,
+    "exactOptionalPropertyTypes": true,
+
+    /* Module Resolution */
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      // Define any path aliases specific to server code if needed in the future
-      // e.g., "@utils/*": ["./utils/*"]
-      "@shared-types/*": ["../src/types/*"]
+      "@shared-types/*": ["../shared/types/*"]
     }
   },
   "include": ["**/*.ts"],

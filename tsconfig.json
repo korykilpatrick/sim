@@ -11,10 +11,25 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+
+    /* Type Checking */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "useUnknownInCatchVariables": true,
+    "allowUnreachableCode": false,
+    "exactOptionalPropertyTypes": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Module Resolution */
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
@@ -27,6 +42,7 @@
       "@store/*": ["src/store/*"],
       "@frontend-types/*": ["src/types/*"],
       "@utils/*": ["src/utils/*"],
+      "@typeGuards/*": ["src/typeGuards/*"],
       "@shared-types/*": ["shared/types/*"]
     }
   },

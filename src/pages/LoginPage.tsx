@@ -7,20 +7,28 @@ import { Input } from '@components/common/Input';
 import { Button } from '@components/common/Button';
 import { Alert } from '@components/common/Alert';
 import { useLoginMutation } from '@services/authApi';
-import { mapErrorToKnownType } from '@utils/errorUtils';
+import { getErrorMessage, logError } from '@utils/errorUtils';
 
-// Form validation schema using zod
+/**
+ * Form validation schema using zod
+ */
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
+/**
+ * Type for form values derived from the validation schema
+ */
 type LoginFormValues = z.infer<typeof loginSchema>;
 
-const LoginPage: React.FC = () => {
+/**
+ * Login page component that handles user authentication
+ */
+const LoginPage = (): JSX.Element => {
   const navigate = useNavigate();
   const location = useLocation();
-  const from = (location.state as any)?.from?.pathname || '/marketplace';
+  const from = location.state?.from?.pathname || '/marketplace';
 
   const [login, { isLoading, error }] = useLoginMutation();
 
@@ -32,15 +40,19 @@ const LoginPage: React.FC = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (data: LoginFormValues) => {
+  /**
+   * Handles form submission and authentication
+   */
+  const onSubmit = async (data: LoginFormValues): Promise<void> => {
     try {
       await login(data).unwrap();
       // If login is successful, redirect to the previous page or marketplace
       navigate(from, { replace: true });
-    } catch (err) {
-      // Error is handled by RTK Query and available in the error variable
-      const knownError = mapErrorToKnownType(err);
-      console.error('Login error:', knownError.message);
+    } catch (err: unknown) {
+      // Use the new error handling approach
+      const errorMessage = getErrorMessage(err);
+      logError(err, 'Login attempt failed');
+      console.error('Login error:', errorMessage);
     }
   };
 

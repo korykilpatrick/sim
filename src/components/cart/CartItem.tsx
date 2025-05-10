@@ -2,16 +2,20 @@ import React from 'react';
 import { CartItem as CartItemType } from '@/types';
 import { useAppDispatch } from '@hooks/redux';
 import { updateItemQuantity, removeItem } from '@store/slices/cartSlice';
+import { ProductConfigurationType } from '@shared-types/productConfiguration';
 
-// interface CartItemProps {
-//   item: CartItemType;
-// }
-
+/**
+ * Props for the CartItem component
+ */
 type CartItemProps = {
+  /** The cart item to display */
   item: CartItemType;
 };
 
-export const CartItem: React.FC<CartItemProps> = ({ item }) => {
+/**
+ * Displays a cart item with product details, quantity control, and removal option
+ */
+export const CartItem = ({ item }: CartItemProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const { itemId, product, quantity, configuredPrice, configuredCreditCost } =
     item;
@@ -21,41 +25,46 @@ export const CartItem: React.FC<CartItemProps> = ({ item }) => {
   const totalPrice = price * quantity;
   const totalCredits = creditCost * quantity;
 
-  const handleQuantityChange = (newQuantity: number) => {
+  const handleQuantityChange = (newQuantity: number): void => {
     if (newQuantity < 1) return;
     dispatch(updateItemQuantity({ itemId, quantity: newQuantity }));
   };
 
-  const handleRemove = () => {
+  const handleRemove = (): void => {
     dispatch(removeItem(itemId));
   };
 
-  // Get simplified configuration details for display
-  const getConfigSummary = () => {
+  /**
+   * Creates a human-readable summary of the product configuration
+   */
+  const getConfigSummary = (): string | null => {
     if (!item.configurationDetails) return null;
 
-    const config = item.configurationDetails;
-    let duration: number | undefined = undefined;
+    const config = item.configurationDetails as ProductConfigurationType;
+    let duration: number | undefined;
 
     // Type guards for accessing properties on discriminated union
-    if (config.type === 'VTS') {
-      duration = config.trackingDurationDays;
-    } else if (config.type === 'AMS') {
-      duration = config.monitoringDurationDays;
-    } else if (config.type === 'MARITIME_ALERT' && config.monitoringDurationDays !== undefined) {
-      duration = config.monitoringDurationDays;
-    } else if (config.type === 'FTS' && 'monitoringDurationDays' in config) {
-      // Assuming FTSProductConfiguration might also have monitoringDurationDays
-      duration = config.monitoringDurationDays; 
+    switch (config.type) {
+      case 'VTS':
+        duration = config.trackingDurationDays;
+        break;
+      case 'AMS':
+        duration = config.monitoringDurationDays;
+        break;
+      case 'MARITIME_ALERT':
+        duration = config.monitoringDurationDays;
+        break;
+      case 'FTS':
+        duration = config.monitoringDurationDays;
+        break;
     }
 
     if (duration !== undefined) {
       return `${duration} days`;
     }
 
-    // Potentially add summaries for other config types if needed
-    // e.g., for reports:
-    if ((config.type === 'REPORT_COMPLIANCE' || config.type === 'REPORT_CHRONOLOGY') && 'depth' in config) {
+    // Summaries for other config types
+    if ((config.type === 'REPORT_COMPLIANCE' || config.type === 'REPORT_CHRONOLOGY')) {
         return `Depth: ${config.depth}`;
     }
 

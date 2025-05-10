@@ -1,12 +1,10 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { User } from '@shared-types/user';
 
-export interface User {
-  id: string;
-  email: string;
-  name?: string;
-  credits: number;
-}
-
+/**
+ * State shape for the authentication slice
+ */
 export interface AuthState {
   user: User | null;
   token: string | null;

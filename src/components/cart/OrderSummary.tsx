@@ -1,24 +1,33 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import type { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@components/common/Button';
 
+/**
+ * Props for the OrderSummary component
+ */
 type OrderSummaryProps = {
+  /** Subtotal price before tax */
   subtotal: number;
+  /** Total credits cost for the order */
   totalCredits: number;
+  /** Number of items in the cart */
   itemCount: number;
+  /** Whether the user is authenticated */
   isAuthenticated: boolean;
 };
 
-export const OrderSummary: React.FC<OrderSummaryProps> = ({
+export const OrderSummary: FC<OrderSummaryProps> = ({
   subtotal,
   totalCredits,
   itemCount,
   isAuthenticated,
 }) => {
   const navigate = useNavigate();
-  const [paymentMethod, setPaymentMethod] = useState<'money' | 'credits'>(
-    'money',
-  );
+  /** Payment method type */
+  type PaymentMethod = 'money' | 'credits';
+
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('money');
 
   // Calculate tax (mock calculation - in a real app, this would be server-side)
   const taxRate = 0.08; // 8%

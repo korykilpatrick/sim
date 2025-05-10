@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { addItem } from '@store/slices/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { BaseProduct, ProductType as _ProductType } from '@shared-types/product';
-import { mapErrorToKnownType, KnownError } from '@utils/errorUtils';
+import { getErrorMessage, logError } from '@utils/errorUtils';
 import {
   ProductConfigurationDetailsU,
   ReportComplianceProductConfiguration,
@@ -21,7 +21,7 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<KnownError | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Determine if this is a compliance or chronology report
   const isComplianceReport = product.type === 'REPORT_COMPLIANCE';
@@ -71,8 +71,8 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
         console.error('Unexpected product type for report configuration:', product.type);
         // Set a generic error or handle appropriately
         const err = new Error('Invalid product type for report configuration.');
-        const knownError = mapErrorToKnownType(err);
-        setError(knownError);
+        logError(err, 'Product configuration error');
+        setError(getErrorMessage(err));
         setIsSubmitting(false);
         return;
       }
@@ -103,9 +103,10 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
 
       navigate('/protected/cart');
     } catch (err) {
-      const knownError = mapErrorToKnownType(err);
-      console.error('Error adding to cart:', knownError.message);
-      setError(knownError);
+      const errorMessage = getErrorMessage(err);
+      logError(err, 'Error adding report to cart');
+      console.error('Error adding to cart:', errorMessage);
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -122,7 +123,7 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
       defaultValues={defaultValues}
       onSubmit={handleSubmit}
       isSubmitting={isSubmitting}
-      error={error?.message}
+      error={error}
     >
       <div className="space-y-6">
         <TextField

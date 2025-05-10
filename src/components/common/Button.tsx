@@ -1,18 +1,38 @@
 import React from 'react';
 
+/**
+ * Possible button variants for visual styling
+ */
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'danger';
+
+/**
+ * Available button sizes
+ */
 type ButtonSize = 'sm' | 'md' | 'lg';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+/**
+ * Props for the Button component
+ */
+type ButtonProps = {
+  /** Visual style variant of the button */
   variant?: ButtonVariant;
+  /** Size of the button */
   size?: ButtonSize;
+  /** Whether the button is in a loading state */
   isLoading?: boolean;
+  /** Icon to display to the left of the button text */
   leftIcon?: React.ReactNode;
+  /** Icon to display to the right of the button text */
   rightIcon?: React.ReactNode;
+  /** Whether the button should take up the full width of its container */
   fullWidth?: boolean;
-}
+} & React.ComponentPropsWithoutRef<'button'>;
 
-export const Button: React.FC<ButtonProps> = ({
+/**
+ * Button component for user interactions
+ * Provides customizable styling with variants, sizes, loading states and icons
+ */
+export const Button = ({
   variant = 'primary',
   size = 'md',
   isLoading = false,
@@ -23,9 +43,9 @@ export const Button: React.FC<ButtonProps> = ({
   className = '',
   disabled,
   ...rest
-}) => {
+}: ButtonProps): JSX.Element => {
   // Base classes
-  let baseClasses =
+  const baseClasses =
     'inline-flex items-center justify-center font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors';
 
   // Size classes
