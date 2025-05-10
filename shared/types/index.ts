@@ -17,7 +17,13 @@ export type {
 
 // Payment and Order Types
 export type { PaymentGatewayDetails } from './payment';
-export type { OrderItem, OrderStatus, PaymentMethod, Order, CreateOrderRequestBody } from './order';
+export type {
+  OrderItem,
+  OrderStatus,
+  PaymentMethod,
+  Order,
+  CreateOrderRequestBody,
+} from './order';
 export type { UserProductStatus, UserProduct } from './userProduct';
 export type { CartItem } from './cart';
 export type { CreditTransaction } from './credits';
@@ -29,7 +35,7 @@ export type {
   RFITimeRange,
   RFIAdditionalDetails,
   CreateRfiRequestBody,
-  UpdateRfiRequestBody
+  UpdateRfiRequestBody,
 } from './rfi';
 
 // Alert Types
@@ -55,5 +61,5 @@ export type {
   ValidatedRequest,
   TypedRecord,
   ApiStatus,
-  ApiState
+  ApiState,
 } from './utility';

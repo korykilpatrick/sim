@@ -81,7 +81,9 @@ export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
   if (formError) {
     displayError = formError;
   } else if (rtkQueryError) {
-    displayError = getErrorMessage(rtkQueryError) || 'Failed to submit request. Please try again later.';
+    displayError =
+      getErrorMessage(rtkQueryError) ||
+      'Failed to submit request. Please try again later.';
   }
 
   return (

@@ -1,6 +1,6 @@
 export interface PaymentGatewayDetails {
-  paymentMethodId?: string; 
-  paymentType: 'card' | 'paypal' | 'bank_transfer' | 'crypto' | 'other'; 
+  paymentMethodId?: string;
+  paymentType: 'card' | 'paypal' | 'bank_transfer' | 'crypto' | 'other';
   billingAddress?: {
     street: string;
     city: string;
@@ -8,6 +8,6 @@ export interface PaymentGatewayDetails {
     postalCode: string;
     country: string;
   };
-  cardBrand?: string; 
+  cardBrand?: string;
   payPalOrderId?: string;
-} 
+}

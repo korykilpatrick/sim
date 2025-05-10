@@ -16,24 +16,24 @@ export type OrderStatus =
   | 'cancelled'
   | 'refunded';
 
-export type PaymentMethod = 'credits' | 'stripe' | 'paypal'; 
+export type PaymentMethod = 'credits' | 'stripe' | 'paypal';
 
 export interface Order {
   id: string;
   userId: string;
   items: OrderItem[];
-  totalAmount: number; 
+  totalAmount: number;
   totalCredits: number;
   paymentMethod: PaymentMethod;
   paymentDetails?: PaymentGatewayDetails;
   status: OrderStatus;
-  purchaseDate: string; 
-  lastUpdated?: string; 
-  transactionId?: string; 
+  purchaseDate: string;
+  lastUpdated?: string;
+  transactionId?: string;
 }
 
 export interface CreateOrderRequestBody {
   items: OrderItem[];
   paymentMethod: PaymentMethod;
   paymentDetails?: PaymentGatewayDetails;
-} 
+}

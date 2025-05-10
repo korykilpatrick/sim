@@ -46,7 +46,10 @@ export const AlertsCard: React.FC = () => {
         </h2>
         <Alert
           variant="error"
-          message={errorMessage || 'There was an error loading your alerts. Please try again later.'}
+          message={
+            errorMessage ||
+            'There was an error loading your alerts. Please try again later.'
+          }
         />
       </div>
     );

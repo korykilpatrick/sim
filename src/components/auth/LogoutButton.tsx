@@ -1,7 +1,12 @@
 import type { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '@services/authApi';
-import { logError, getErrorMessage, isErrorOfType, ErrorCode } from '@utils/errorUtils';
+import {
+  logError,
+  getErrorMessage,
+  isErrorOfType,
+  ErrorCode,
+} from '@utils/errorUtils';
 import { isDefined } from '../../typeGuards/baseTypeGuards';
 
 /**
@@ -15,9 +20,7 @@ type LogoutButtonProps = {
 /**
  * Button component that handles user logout functionality
  */
-export const LogoutButton: FC<LogoutButtonProps> = ({
-  className = '',
-}) => {
+export const LogoutButton: FC<LogoutButtonProps> = ({ className = '' }) => {
   const navigate = useNavigate();
   const [logout, { isLoading }] = useLogoutMutation();
 
@@ -38,7 +41,9 @@ export const LogoutButton: FC<LogoutButtonProps> = ({
 
       // Example of using error type checking for specific error handling
       if (isErrorOfType(error, ErrorCode.NETWORK_ERROR)) {
-        console.error('Network error during logout. Please check your connection.');
+        console.error(
+          'Network error during logout. Please check your connection.',
+        );
       } else {
         console.error('Logout failed:', getErrorMessage(error));
       }

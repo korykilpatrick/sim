@@ -9,16 +9,16 @@ export type UserProductStatus =
   | 'suspended';
 
 export interface UserProduct {
-  id: string; 
-  orderId?: string; 
-  productId: string; 
-  name: string; 
-  type: ProductType; 
-  userId: string; 
-  purchaseDate: string; 
-  activationDate?: string; 
-  expiryDate?: string; 
+  id: string;
+  orderId?: string;
+  productId: string;
+  name: string;
+  type: ProductType;
+  userId: string;
+  purchaseDate: string;
+  activationDate?: string;
+  expiryDate?: string;
   status: UserProductStatus;
-  configuration: ProductConfigurationDetailsU; 
-  lastUpdated?: string; 
-} 
+  configuration: ProductConfigurationDetailsU;
+  lastUpdated?: string;
+}

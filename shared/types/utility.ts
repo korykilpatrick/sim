@@ -113,7 +113,9 @@ export type WithId<T, ID = string> = T & { id: ID };
  * // Circle is { color: string; type: 'circle'; radius: number; }
  * // Square is { color: string; type: 'square'; sideLength: number; }
  */
-export type Discriminate<T, K extends keyof T, V extends T[K]> = T & { [key in K]: V };
+export type Discriminate<T, K extends keyof T, V extends T[K]> = T & {
+  [key in K]: V;
+};
 
 /**
  * Picks only the specified keys from a type

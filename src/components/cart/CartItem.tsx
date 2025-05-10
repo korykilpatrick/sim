@@ -64,8 +64,11 @@ export const CartItem = ({ item }: CartItemProps): JSX.Element => {
     }
 
     // Summaries for other config types
-    if ((config.type === 'REPORT_COMPLIANCE' || config.type === 'REPORT_CHRONOLOGY')) {
-        return `Depth: ${config.depth}`;
+    if (
+      config.type === 'REPORT_COMPLIANCE' ||
+      config.type === 'REPORT_CHRONOLOGY'
+    ) {
+      return `Depth: ${config.depth}`;
     }
 
     return null;

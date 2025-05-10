@@ -5,7 +5,7 @@ import {
   ErrorCode,
   isAppError,
   isApiError,
-  isRtkQueryError
+  isRtkQueryError,
 } from '../types/errors';
 
 // Re-export error types and enums for easier imports
@@ -62,8 +62,12 @@ export function logError(error: unknown, context?: string): void {
     context ? `Context: ${context}` : '',
     `Timestamp: ${appError.timestamp}`,
     appError.stack ? `Stack: ${appError.stack}` : '',
-    appError.details ? `Details: ${JSON.stringify(appError.details, null, 2)}` : ''
-  ].filter(Boolean).join('\n');
+    appError.details
+      ? `Details: ${JSON.stringify(appError.details, null, 2)}`
+      : '',
+  ]
+    .filter(Boolean)
+    .join('\n');
 
   console.error(logMessage);
 }

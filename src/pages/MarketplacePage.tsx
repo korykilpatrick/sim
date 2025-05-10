@@ -6,7 +6,10 @@ import { Spinner } from '@components/common/Spinner';
 import { Alert } from '@components/common/Alert';
 import { useGetProductsQuery } from '@services/productsApi';
 import { ProductType } from '@/types/product';
-import { RtkQueryError, ApiErrorPayload as _ApiErrorPayload } from '@/types/apiError';
+import {
+  RtkQueryError,
+  ApiErrorPayload as _ApiErrorPayload,
+} from '@/types/apiError';
 import { SerializedError } from '@reduxjs/toolkit';
 
 // Helper to check if it's an RTK Query API error with our expected payload

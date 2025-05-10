@@ -1,6 +1,6 @@
 /**
  * Alert Type Guards
- * 
+ *
  * Type guards specific to alert types and configurations in the application.
  * These help ensure type safety when working with the various alert types and their configurations.
  */
@@ -13,20 +13,22 @@ import type {
   ReportComplianceAlertConfiguration,
   ReportChronologyAlertConfiguration,
   InvestigationAlertConfiguration,
-  MaritimeAlertConfiguration
+  MaritimeAlertConfiguration,
 } from '@shared-types/alertConfiguration';
 
 import { isObject, hasProperty, isOfDiscriminatedType } from './baseTypeGuards';
 
 /**
  * Type guard for checking if a value is a VTS alert configuration.
- * 
+ *
  * @param value - Value to check
  * @returns True if the value is a valid VTS alert configuration
  */
-export function isVTSAlertConfig(value: unknown): value is VTSAlertConfiguration {
+export function isVTSAlertConfig(
+  value: unknown,
+): value is VTSAlertConfiguration {
   if (!isObject(value)) return false;
-  
+
   return (
     isOfDiscriminatedType(value, 'alertType', 'VTS') &&
     hasProperty(value, 'trackingDurationDays') &&
@@ -39,13 +41,15 @@ export function isVTSAlertConfig(value: unknown): value is VTSAlertConfiguration
 
 /**
  * Type guard for checking if a value is an AMS alert configuration.
- * 
+ *
  * @param value - Value to check
  * @returns True if the value is a valid AMS alert configuration
  */
-export function isAMSAlertConfig(value: unknown): value is AMSAlertConfiguration {
+export function isAMSAlertConfig(
+  value: unknown,
+): value is AMSAlertConfiguration {
   if (!isObject(value)) return false;
-  
+
   return (
     isOfDiscriminatedType(value, 'alertType', 'AMS') &&
     hasProperty(value, 'monitoringDurationDays') &&
@@ -58,13 +62,15 @@ export function isAMSAlertConfig(value: unknown): value is AMSAlertConfiguration
 
 /**
  * Type guard for checking if a value is an FTS alert configuration.
- * 
+ *
  * @param value - Value to check
  * @returns True if the value is a valid FTS alert configuration
  */
-export function isFTSAlertConfig(value: unknown): value is FTSAlertConfiguration {
+export function isFTSAlertConfig(
+  value: unknown,
+): value is FTSAlertConfiguration {
   if (!isObject(value)) return false;
-  
+
   return (
     isOfDiscriminatedType(value, 'alertType', 'FTS') &&
     hasProperty(value, 'fleetName') &&
@@ -78,13 +84,15 @@ export function isFTSAlertConfig(value: unknown): value is FTSAlertConfiguration
 
 /**
  * Type guard for checking if a value is a Report Compliance alert configuration.
- * 
+ *
  * @param value - Value to check
  * @returns True if the value is a valid Report Compliance alert configuration
  */
-export function isReportComplianceAlertConfig(value: unknown): value is ReportComplianceAlertConfiguration {
+export function isReportComplianceAlertConfig(
+  value: unknown,
+): value is ReportComplianceAlertConfiguration {
   if (!isObject(value)) return false;
-  
+
   return (
     isOfDiscriminatedType(value, 'alertType', 'REPORT_COMPLIANCE') &&
     hasProperty(value, 'vesselIMO') &&
@@ -96,13 +104,15 @@ export function isReportComplianceAlertConfig(value: unknown): value is ReportCo
 
 /**
  * Type guard for checking if a value is a Report Chronology alert configuration.
- * 
+ *
  * @param value - Value to check
  * @returns True if the value is a valid Report Chronology alert configuration
  */
-export function isReportChronologyAlertConfig(value: unknown): value is ReportChronologyAlertConfiguration {
+export function isReportChronologyAlertConfig(
+  value: unknown,
+): value is ReportChronologyAlertConfiguration {
   if (!isObject(value)) return false;
-  
+
   return (
     isOfDiscriminatedType(value, 'alertType', 'REPORT_CHRONOLOGY') &&
     hasProperty(value, 'vesselIMO') &&
@@ -114,13 +124,15 @@ export function isReportChronologyAlertConfig(value: unknown): value is ReportCh
 
 /**
  * Type guard for checking if a value is an Investigation alert configuration.
- * 
+ *
  * @param value - Value to check
  * @returns True if the value is a valid Investigation alert configuration
  */
-export function isInvestigationAlertConfig(value: unknown): value is InvestigationAlertConfiguration {
+export function isInvestigationAlertConfig(
+  value: unknown,
+): value is InvestigationAlertConfiguration {
   if (!isObject(value)) return false;
-  
+
   return (
     isOfDiscriminatedType(value, 'alertType', 'INVESTIGATION') &&
     hasProperty(value, 'investigationType')
@@ -129,13 +141,15 @@ export function isInvestigationAlertConfig(value: unknown): value is Investigati
 
 /**
  * Type guard for checking if a value is a Maritime alert configuration.
- * 
+ *
  * @param value - Value to check
  * @returns True if the value is a valid Maritime alert configuration
  */
-export function isMaritimeAlertConfig(value: unknown): value is MaritimeAlertConfiguration {
+export function isMaritimeAlertConfig(
+  value: unknown,
+): value is MaritimeAlertConfiguration {
   if (!isObject(value)) return false;
-  
+
   return (
     isOfDiscriminatedType(value, 'alertType', 'MARITIME_ALERT') &&
     hasProperty(value, 'maritimeAlertType') &&
@@ -150,7 +164,9 @@ export function isMaritimeAlertConfig(value: unknown): value is MaritimeAlertCon
  * @param value - Value to check
  * @returns True if the value is a valid alert configuration
  */
-export function isAlertConfiguration(value: unknown): value is AlertConfigurationType {
+export function isAlertConfiguration(
+  value: unknown,
+): value is AlertConfigurationType {
   if (!isObject(value) || !hasProperty(value, 'alertType')) return false;
 
   const alertType = value.alertType;

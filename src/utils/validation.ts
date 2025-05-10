@@ -84,8 +84,8 @@ export function validateCartItem(data: unknown): CartItem {
  * @returns Validation result object with data and validation status
  */
 export function safeValidate<T>(
-  schema: z.ZodSchema<T>, 
-  data: unknown
+  schema: z.ZodSchema<T>,
+  data: unknown,
 ): ValidatedRequest<T> {
   try {
     const validData = schema.parse(data);
@@ -97,7 +97,7 @@ export function safeValidate<T>(
     if (error instanceof z.ZodError) {
       // Convert Zod error format to a more usable structure
       const validationErrors: Record<string, string[]> = {};
-      
+
       error.errors.forEach((err) => {
         const path = err.path.join('.') || 'root';
         if (!validationErrors[path]) {
@@ -105,7 +105,7 @@ export function safeValidate<T>(
         }
         validationErrors[path].push(err.message);
       });
-      
+
       return {
         // Cast to T is safe here since we know validation failed
         data: (isObject(data) ? data : {}) as unknown as T,
@@ -113,7 +113,7 @@ export function safeValidate<T>(
         validationErrors,
       };
     }
-    
+
     // Handle unexpected errors
     return {
       data: (isObject(data) ? data : {}) as unknown as T,
@@ -137,19 +137,22 @@ export const LoginFormSchema = z.object({
 /**
  * Registration form data schema
  */
-export const RegisterFormSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email address'),
-  password: z.string()
-    .min(8, 'Password must be at least 8 characters')
-    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .regex(/[0-9]/, 'Password must contain at least one number'),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: 'Passwords do not match',
-  path: ['confirmPassword'],
-});
+export const RegisterFormSchema = z
+  .object({
+    name: z.string().min(2, 'Name must be at least 2 characters'),
+    email: z.string().email('Please enter a valid email address'),
+    password: z
+      .string()
+      .min(8, 'Password must be at least 8 characters')
+      .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+      .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+      .regex(/[0-9]/, 'Password must contain at least one number'),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  });
 
 // Type inference from schemas
 export type LoginFormData = z.infer<typeof LoginFormSchema>;

@@ -4,13 +4,13 @@ import { format, isValid } from 'date-fns';
 import { Button } from '@components/common/Button';
 import { Badge } from '@components/common/Badge';
 import type { UserProduct } from '@shared-types/userProduct';
-import type { 
-  VTSProductConfiguration, 
-  AMSProductConfiguration, 
+import type {
+  VTSProductConfiguration,
+  AMSProductConfiguration,
   FTSProductConfiguration,
   MaritimeAlertProductConfiguration,
   ReportComplianceProductConfiguration,
-  ReportChronologyProductConfiguration
+  ReportChronologyProductConfiguration,
 } from '@shared-types/productConfiguration';
 
 // interface UserProduct {
@@ -33,30 +33,36 @@ type ProductCardProps = {
 };
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { 
+  const {
     id: _id,
-    name, 
-    type, 
-    purchaseDate, 
-    expiryDate, 
-    status, 
-    configuration 
+    name,
+    type,
+    purchaseDate,
+    expiryDate,
+    status,
+    configuration,
   } = product;
 
   const purchaseDateObj = purchaseDate ? new Date(purchaseDate) : null;
   const expiryDateObj = expiryDate ? new Date(expiryDate) : null;
 
-  const formattedPurchaseDate = purchaseDateObj && isValid(purchaseDateObj) ? format(purchaseDateObj, 'MMM d, yyyy') : 'N/A';
-  const formattedExpiryDate = expiryDateObj && isValid(expiryDateObj) ? format(expiryDateObj, 'MMM d, yyyy') : 'N/A';
+  const formattedPurchaseDate =
+    purchaseDateObj && isValid(purchaseDateObj)
+      ? format(purchaseDateObj, 'MMM d, yyyy')
+      : 'N/A';
+  const formattedExpiryDate =
+    expiryDateObj && isValid(expiryDateObj)
+      ? format(expiryDateObj, 'MMM d, yyyy')
+      : 'N/A';
 
   const today = new Date();
-  let daysRemaining = -1; 
+  let daysRemaining = -1;
   if (expiryDateObj && isValid(expiryDateObj)) {
     daysRemaining = Math.ceil(
-        (expiryDateObj.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+      (expiryDateObj.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
     );
   }
-  
+
   const canLaunch = status === 'active' && daysRemaining > 0;
 
   const statusDisplay = () => {
@@ -108,30 +114,44 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const getConfigSummary = () => {
     if (!configuration) return null;
     const summaryItems = [];
-    
+
     if (configuration.type === 'VTS') {
       const config = configuration as VTSProductConfiguration;
-      if (config.trackingDurationDays) summaryItems.push(`Duration: ${config.trackingDurationDays} days`);
-      if (config.vesselIMOs && config.vesselIMOs.length) summaryItems.push(`Tracking ${config.vesselIMOs.length} vessel(s)`);
-      if (config.selectedCriteria && config.selectedCriteria.length) summaryItems.push(`${config.selectedCriteria.length} criteria`);
+      if (config.trackingDurationDays)
+        summaryItems.push(`Duration: ${config.trackingDurationDays} days`);
+      if (config.vesselIMOs && config.vesselIMOs.length)
+        summaryItems.push(`Tracking ${config.vesselIMOs.length} vessel(s)`);
+      if (config.selectedCriteria && config.selectedCriteria.length)
+        summaryItems.push(`${config.selectedCriteria.length} criteria`);
     } else if (configuration.type === 'AMS') {
       const config = configuration as AMSProductConfiguration;
-      if (config.monitoringDurationDays) summaryItems.push(`Duration: ${config.monitoringDurationDays} days`);
+      if (config.monitoringDurationDays)
+        summaryItems.push(`Duration: ${config.monitoringDurationDays} days`);
       if (config.areaName) summaryItems.push(`Area: ${config.areaName}`);
-      if (config.selectedCriteria && config.selectedCriteria.length) summaryItems.push(`${config.selectedCriteria.length} criteria`);
+      if (config.selectedCriteria && config.selectedCriteria.length)
+        summaryItems.push(`${config.selectedCriteria.length} criteria`);
     } else if (configuration.type === 'FTS') {
-        const config = configuration as FTSProductConfiguration;
-        if (config.fleetName) summaryItems.push(`Fleet: ${config.fleetName}`);
-        if (config.monitoringDurationDays) summaryItems.push(`Duration: ${config.monitoringDurationDays} days`); 
+      const config = configuration as FTSProductConfiguration;
+      if (config.fleetName) summaryItems.push(`Fleet: ${config.fleetName}`);
+      if (config.monitoringDurationDays)
+        summaryItems.push(`Duration: ${config.monitoringDurationDays} days`);
     } else if (configuration.type === 'MARITIME_ALERT') {
-        const config = configuration as MaritimeAlertProductConfiguration;
-        if (config.customRuleName) summaryItems.push(`Rule: ${config.customRuleName}`);
-        if (config.monitoringDurationDays) summaryItems.push(`Duration: ${config.monitoringDurationDays} days`);
-        if (config.selectedCriteria && config.selectedCriteria.length) summaryItems.push(`${config.selectedCriteria.length} criteria`);
-    } else if (configuration.type === 'REPORT_COMPLIANCE' || configuration.type === 'REPORT_CHRONOLOGY') {
-        const config = configuration as ReportComplianceProductConfiguration | ReportChronologyProductConfiguration;
-        summaryItems.push(`Vessel: ${config.vesselIMO}`);
-        summaryItems.push(`Depth: ${config.depth}`);
+      const config = configuration as MaritimeAlertProductConfiguration;
+      if (config.customRuleName)
+        summaryItems.push(`Rule: ${config.customRuleName}`);
+      if (config.monitoringDurationDays)
+        summaryItems.push(`Duration: ${config.monitoringDurationDays} days`);
+      if (config.selectedCriteria && config.selectedCriteria.length)
+        summaryItems.push(`${config.selectedCriteria.length} criteria`);
+    } else if (
+      configuration.type === 'REPORT_COMPLIANCE' ||
+      configuration.type === 'REPORT_CHRONOLOGY'
+    ) {
+      const config = configuration as
+        | ReportComplianceProductConfiguration
+        | ReportChronologyProductConfiguration;
+      summaryItems.push(`Vessel: ${config.vesselIMO}`);
+      summaryItems.push(`Depth: ${config.depth}`);
     } // Add Investigation if needed
 
     return summaryItems.length > 0 ? summaryItems.join(' • ') : null;
@@ -150,8 +170,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </p>
           </div>
 
-          <Link 
-            to={getProductLink()} 
+          <Link
+            to={getProductLink()}
             onClick={(e) => {
               if (!canLaunch) {
                 e.preventDefault();
@@ -161,11 +181,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             tabIndex={!canLaunch ? -1 : undefined}
             className={!canLaunch ? 'pointer-events-none opacity-50' : ''}
           >
-            <Button
-              variant="primary"
-              size="sm"
-              disabled={!canLaunch}
-            >
+            <Button variant="primary" size="sm" disabled={!canLaunch}>
               Launch
             </Button>
           </Link>
@@ -190,7 +206,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             >
               {formattedExpiryDate}
               {daysRemaining > 0 && ` (${daysRemaining} days left)`}
-              {status === 'active' && daysRemaining <= 0 && formattedExpiryDate !== 'N/A' && ' (Expired)'}
+              {status === 'active' &&
+                daysRemaining <= 0 &&
+                formattedExpiryDate !== 'N/A' &&
+                ' (Expired)'}
             </p>
           </div>
         </div>

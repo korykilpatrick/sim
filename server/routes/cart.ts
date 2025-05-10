@@ -4,7 +4,7 @@ import { products } from '../data';
 import type { CartItem } from '@shared-types/cart';
 import type {
   ProductConfigurationDetailsU,
-  VTSProductConfiguration
+  VTSProductConfiguration,
 } from '@shared-types/productConfiguration';
 import type { ProductType, BaseProduct } from '@shared-types/product';
 import type { User } from '@shared-types/user';
@@ -52,22 +52,25 @@ interface GetCartParams {}
  * @route GET /api/cart
  * @returns CartResponse with items and totals or error
  */
-router.get('/', (
-  req: Request<GetCartParams, CartResponse | CartErrorResponse>,
-  res: Response<CartResponse | CartErrorResponse>
-): Response<CartResponse | CartErrorResponse> => {
-  const userId = (req.user as User)?.id; // Safely access id after casting
-  if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+router.get(
+  '/',
+  (
+    req: Request<GetCartParams, CartResponse | CartErrorResponse>,
+    res: Response<CartResponse | CartErrorResponse>,
+  ): Response<CartResponse | CartErrorResponse> => {
+    const userId = (req.user as User)?.id; // Safely access id after casting
+    if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
-  if (!userCarts[userId]) {
-    userCarts[userId] = [];
-  }
+    if (!userCarts[userId]) {
+      userCarts[userId] = [];
+    }
 
-  return res.json({
-    items: userCarts[userId],
-    total: calculateTotal(userCarts[userId]),
-  });
-});
+    return res.json({
+      items: userCarts[userId],
+      total: calculateTotal(userCarts[userId]),
+    });
+  },
+);
 
 /**
  * Request body for adding an item to cart
@@ -91,54 +94,61 @@ interface AddToCartRequestBody {
  * @param configurationDetails - Optional configuration for the product
  * @returns Updated cart with new item added
  */
-router.post('/items', (
-  req: Request<{}, CartResponse | CartErrorResponse, AddToCartRequestBody>,
-  res: Response<CartResponse | CartErrorResponse>
-): Response<CartResponse | CartErrorResponse> => {
-  const userId = (req.user as User)?.id;
-  if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+router.post(
+  '/items',
+  (
+    req: Request<{}, CartResponse | CartErrorResponse, AddToCartRequestBody>,
+    res: Response<CartResponse | CartErrorResponse>,
+  ): Response<CartResponse | CartErrorResponse> => {
+    const userId = (req.user as User)?.id;
+    if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
-  const { productId, quantity = 1, configurationDetails } = req.body;
+    const { productId, quantity = 1, configurationDetails } = req.body;
 
-  if (!userCarts[userId]) {
-    userCarts[userId] = [];
-  }
+    if (!userCarts[userId]) {
+      userCarts[userId] = [];
+    }
 
-  const product = products.find((p) => p.id === productId) as BaseProduct | undefined;
+    const product = products.find((p) => p.id === productId) as
+      | BaseProduct
+      | undefined;
 
-  if (!product) {
-    return res.status(404).json({
-      message: 'Product not found',
-      code: 'PRODUCT_NOT_FOUND'
+    if (!product) {
+      return res.status(404).json({
+        message: 'Product not found',
+        code: 'PRODUCT_NOT_FOUND',
+      });
+    }
+
+    const currentConfigurationDetails =
+      configurationDetails ||
+      getDefaultConfigForProduct(product.id, product.type as ProductType);
+
+    const existingItemIndex = userCarts[userId].findIndex(
+      (item) =>
+        item.product.id === productId &&
+        JSON.stringify(item.configurationDetails) ===
+          JSON.stringify(currentConfigurationDetails),
+    );
+
+    if (existingItemIndex > -1) {
+      userCarts[userId][existingItemIndex].quantity += quantity;
+    } else {
+      const newCartItem: CartItem = {
+        itemId: Math.random().toString(36).substring(2, 15), // mock ID
+        product,
+        quantity,
+        configurationDetails: currentConfigurationDetails,
+      };
+      userCarts[userId].push(newCartItem);
+    }
+
+    return res.status(201).json({
+      items: userCarts[userId],
+      total: calculateTotal(userCarts[userId]),
     });
-  }
-
-  const currentConfigurationDetails =
-    configurationDetails || getDefaultConfigForProduct(product.id, product.type as ProductType);
-
-  const existingItemIndex = userCarts[userId].findIndex(
-    (item) =>
-      item.product.id === productId &&
-      JSON.stringify(item.configurationDetails) === JSON.stringify(currentConfigurationDetails)
-  );
-
-  if (existingItemIndex > -1) {
-    userCarts[userId][existingItemIndex].quantity += quantity;
-  } else {
-    const newCartItem: CartItem = {
-      itemId: Math.random().toString(36).substring(2, 15), // mock ID
-      product,
-      quantity,
-      configurationDetails: currentConfigurationDetails,
-    };
-    userCarts[userId].push(newCartItem);
-  }
-
-  return res.status(201).json({
-    items: userCarts[userId],
-    total: calculateTotal(userCarts[userId]),
-  });
-});
+  },
+);
 
 /**
  * Request body for updating a cart item
@@ -166,40 +176,49 @@ interface UpdateCartItemParams {
  * @param itemIndex - Index of the item to update
  * @returns Updated cart after modifications
  */
-router.put('/items/:itemIndex', (
-  req: Request<UpdateCartItemParams, CartResponse | CartErrorResponse, UpdateCartItemRequestBody>,
-  res: Response<CartResponse | CartErrorResponse>
-): Response<CartResponse | CartErrorResponse> => {
-  const userId = (req.user as User)?.id;
-  if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+router.put(
+  '/items/:itemIndex',
+  (
+    req: Request<
+      UpdateCartItemParams,
+      CartResponse | CartErrorResponse,
+      UpdateCartItemRequestBody
+    >,
+    res: Response<CartResponse | CartErrorResponse>,
+  ): Response<CartResponse | CartErrorResponse> => {
+    const userId = (req.user as User)?.id;
+    if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
-  const { itemIndex } = req.params;
-  const { quantity, configurationDetails } = req.body;
+    const { itemIndex } = req.params;
+    const { quantity, configurationDetails } = req.body;
 
-  if (!userCarts[userId] || !userCarts[userId][Number(itemIndex)]) {
-    return res.status(404).json({
-      message: 'Cart item not found',
-      code: 'CART_ITEM_NOT_FOUND'
-    });
-  }
-
-  if (quantity !== undefined && quantity >= 0) { // Ensure quantity is valid
-    if (quantity === 0) {
-      userCarts[userId].splice(Number(itemIndex), 1); // Remove if quantity is 0
-    } else {
-      userCarts[userId][Number(itemIndex)].quantity = quantity;
+    if (!userCarts[userId] || !userCarts[userId][Number(itemIndex)]) {
+      return res.status(404).json({
+        message: 'Cart item not found',
+        code: 'CART_ITEM_NOT_FOUND',
+      });
     }
-  }
 
-  if (configurationDetails) {
-    userCarts[userId][Number(itemIndex)].configurationDetails = configurationDetails;
-  }
+    if (quantity !== undefined && quantity >= 0) {
+      // Ensure quantity is valid
+      if (quantity === 0) {
+        userCarts[userId].splice(Number(itemIndex), 1); // Remove if quantity is 0
+      } else {
+        userCarts[userId][Number(itemIndex)].quantity = quantity;
+      }
+    }
 
-  return res.json({
-    items: userCarts[userId],
-    total: calculateTotal(userCarts[userId]),
-  });
-});
+    if (configurationDetails) {
+      userCarts[userId][Number(itemIndex)].configurationDetails =
+        configurationDetails;
+    }
+
+    return res.json({
+      items: userCarts[userId],
+      total: calculateTotal(userCarts[userId]),
+    });
+  },
+);
 
 /**
  * Parameters for removing a cart item
@@ -217,29 +236,32 @@ interface RemoveCartItemParams {
  * @param itemIndex - Index of the item to remove
  * @returns Updated cart after removal
  */
-router.delete('/items/:itemIndex', (
-  req: Request<RemoveCartItemParams>,
-  res: Response<CartResponse | CartErrorResponse>
-): Response<CartResponse | CartErrorResponse> => {
-  const userId = (req.user as User)?.id;
-  if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+router.delete(
+  '/items/:itemIndex',
+  (
+    req: Request<RemoveCartItemParams>,
+    res: Response<CartResponse | CartErrorResponse>,
+  ): Response<CartResponse | CartErrorResponse> => {
+    const userId = (req.user as User)?.id;
+    if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
-  const { itemIndex } = req.params;
+    const { itemIndex } = req.params;
 
-  if (!userCarts[userId] || !userCarts[userId][Number(itemIndex)]) {
-    return res.status(404).json({
-      message: 'Cart item not found',
-      code: 'CART_ITEM_NOT_FOUND'
+    if (!userCarts[userId] || !userCarts[userId][Number(itemIndex)]) {
+      return res.status(404).json({
+        message: 'Cart item not found',
+        code: 'CART_ITEM_NOT_FOUND',
+      });
+    }
+
+    userCarts[userId].splice(Number(itemIndex), 1);
+
+    return res.json({
+      items: userCarts[userId],
+      total: calculateTotal(userCarts[userId]),
     });
-  }
-
-  userCarts[userId].splice(Number(itemIndex), 1);
-
-  return res.json({
-    items: userCarts[userId],
-    total: calculateTotal(userCarts[userId]),
-  });
-});
+  },
+);
 
 /**
  * Clear cart
@@ -248,19 +270,22 @@ router.delete('/items/:itemIndex', (
  * @route DELETE /api/cart
  * @returns Empty cart response
  */
-router.delete('/', (
-  req: Request,
-  res: Response<CartResponse | CartErrorResponse>
-): Response<CartResponse | CartErrorResponse> => {
-  const userId = (req.user as User)?.id;
-  if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+router.delete(
+  '/',
+  (
+    req: Request,
+    res: Response<CartResponse | CartErrorResponse>,
+  ): Response<CartResponse | CartErrorResponse> => {
+    const userId = (req.user as User)?.id;
+    if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
-  userCarts[userId] = [];
-  return res.json({
-    items: [],
-    total: { price: 0, credits: 0 },
-  });
-});
+    userCarts[userId] = [];
+    return res.json({
+      items: [],
+      total: { price: 0, credits: 0 },
+    });
+  },
+);
 
 /**
  * Calculate total price and credits for cart items

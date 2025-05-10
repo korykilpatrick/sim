@@ -13,9 +13,9 @@ import { Geometry as _Geometry } from 'geojson';
  * };
  */
 export type ProductType =
-  | 'VTS'        // Vessel Tracking Service
-  | 'AMS'        // Area Monitoring Service
-  | 'FTS'        // Fleet Tracking Service
+  | 'VTS' // Vessel Tracking Service
+  | 'AMS' // Area Monitoring Service
+  | 'FTS' // Fleet Tracking Service
   | 'REPORT_COMPLIANCE'
   | 'REPORT_CHRONOLOGY'
   | 'INVESTIGATION'
@@ -67,4 +67,4 @@ export interface BaseProduct {
 export interface MaritimeAlertProduct extends BaseProduct {
   type: 'MARITIME_ALERT';
   alertTypesAvailable: Array<'SHIP' | 'AREA' | 'SHIP_AND_AREA'>;
-} 
+}

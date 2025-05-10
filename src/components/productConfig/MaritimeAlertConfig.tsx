@@ -93,14 +93,20 @@ export const MaritimeAlertConfig = ({
     try {
       // Ensure product.type is correctly 'MARITIME_ALERT' for this configuration
       if (product.type !== 'MARITIME_ALERT') {
-        console.error('Invalid product type for MaritimeAlertConfig:', product.type);
-        const productTypeError = new Error('Misconfigured product type for MARITIME_ALERT.');
+        console.error(
+          'Invalid product type for MaritimeAlertConfig:',
+          product.type,
+        );
+        const productTypeError = new Error(
+          'Misconfigured product type for MARITIME_ALERT.',
+        );
         logError(productTypeError, 'Product configuration error');
         setError(getErrorMessage(productTypeError));
         setIsSubmitting(false);
         return;
       }
-      if (!data.alertType) { // Ensure alertType is selected
+      if (!data.alertType) {
+        // Ensure alertType is selected
         const alertTypeError = new Error('Alert type is required.');
         logError(alertTypeError, 'Validation error');
         setError(getErrorMessage(alertTypeError));
@@ -115,10 +121,16 @@ export const MaritimeAlertConfig = ({
 
       let compiledSelectedCriteria: string[] = [];
       if (data.alertType === 'SHIP' || data.alertType === 'SHIP_AND_AREA') {
-        compiledSelectedCriteria = [...compiledSelectedCriteria, ...(data.shipCriteria || [])];
+        compiledSelectedCriteria = [
+          ...compiledSelectedCriteria,
+          ...(data.shipCriteria || []),
+        ];
       }
       if (data.alertType === 'AREA' || data.alertType === 'SHIP_AND_AREA') {
-        compiledSelectedCriteria = [...compiledSelectedCriteria, ...(data.areaCriteria || [])];
+        compiledSelectedCriteria = [
+          ...compiledSelectedCriteria,
+          ...(data.areaCriteria || []),
+        ];
       }
 
       const configuration: MaritimeAlertProductConfiguration = {
@@ -126,11 +138,24 @@ export const MaritimeAlertConfig = ({
         maritimeAlertType: data.alertType as 'SHIP' | 'AREA' | 'SHIP_AND_AREA',
         selectedCriteria: compiledSelectedCriteria,
         monitoringDurationDays: data.monitoringDurationDays,
-        updateFrequencyHours: parseInt(data.updateFrequencyHours, 10) as (6 | 12 | 24),
+        updateFrequencyHours: parseInt(data.updateFrequencyHours, 10) as
+          | 6
+          | 12
+          | 24,
         notes: data.notes || undefined,
-        customRuleName: (data.alertType === 'AREA' || data.alertType === 'SHIP_AND_AREA') ? data.areaName || undefined : undefined,
-        vesselIMOs: (data.alertType === 'SHIP' || data.alertType === 'SHIP_AND_AREA') && formVesselIMOs.length > 0 ? formVesselIMOs : undefined,
-        aoiDefinition: (data.alertType === 'AREA' || data.alertType === 'SHIP_AND_AREA') ? { type: 'Polygon', coordinates: [] } : undefined,
+        customRuleName:
+          data.alertType === 'AREA' || data.alertType === 'SHIP_AND_AREA'
+            ? data.areaName || undefined
+            : undefined,
+        vesselIMOs:
+          (data.alertType === 'SHIP' || data.alertType === 'SHIP_AND_AREA') &&
+          formVesselIMOs.length > 0
+            ? formVesselIMOs
+            : undefined,
+        aoiDefinition:
+          data.alertType === 'AREA' || data.alertType === 'SHIP_AND_AREA'
+            ? { type: 'Polygon', coordinates: [] }
+            : undefined,
       };
 
       const basePriceMultiplier = data.monitoringDurationDays / 30;

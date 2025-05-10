@@ -31,7 +31,7 @@ Our TypeScript implementation follows these key principles:
 Our types are organized as follows:
 
 - `/shared/types/` - Types shared between frontend and backend
-- `/src/types/` - Frontend-specific types 
+- `/src/types/` - Frontend-specific types
 - `/server/types/` - Backend-specific types
 - Local component/slice types - Defined in the files where they're used
 
@@ -84,6 +84,7 @@ type FetchCallback = (data: unknown) => void;
 - Use descriptive names that indicate purpose
 
 Prefix conventions:
+
 - `I` prefix for interfaces is **not** used (e.g., use `User` not `IUser`)
 - `T` prefix for generic type parameters (e.g., `TData`)
 - `Props` suffix for React component props (e.g., `ButtonProps`)
@@ -153,9 +154,7 @@ try {
 // Good: Using custom type guard
 function isUser(value: unknown): value is User {
   return (
-    isObject(value) &&
-    hasProperty(value, 'id') &&
-    hasProperty(value, 'email')
+    isObject(value) && hasProperty(value, 'id') && hasProperty(value, 'email')
   );
 }
 
@@ -179,8 +178,9 @@ function getProductTypeName(productType: ProductType): string {
 Our shared types system enables type safety between frontend and backend code. Types that are used by both server and client code reside in the `/shared/types` directory.
 
 Core shared types include:
+
 - User and authentication types
-- Product and order types 
+- Product and order types
 - Cart and payment types
 - Configuration types
 
@@ -268,7 +268,7 @@ function MyForm() {
   const [state, setState] = useState<FormState>({
     values: {},
     errors: {},
-    isSubmitting: false
+    isSubmitting: false,
   });
 }
 ```
@@ -392,13 +392,11 @@ Use generics to create reusable type patterns:
 
 ```typescript
 // Example of generic pattern
-function createApiEndpoint<TData, TParams = void>(
-  path: string
-) {
+function createApiEndpoint<TData, TParams = void>(path: string) {
   return {
     fetch: (params: TParams): Promise<TData> => {
       // Implementation...
-    }
+    },
   };
 }
 
@@ -466,7 +464,7 @@ async function fetchProducts(): Promise<Product[]> {
 
 ```typescript
 // Good: Using discriminated unions
-type NotificationType = 
+type NotificationType =
   | { type: 'success'; message: string }
   | { type: 'error'; message: string; errors?: string[] }
   | { type: 'warning'; message: string; action?: () => void };

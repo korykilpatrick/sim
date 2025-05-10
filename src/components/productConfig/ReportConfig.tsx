@@ -5,7 +5,10 @@ import { useAppDispatch } from '@hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { addItem } from '@store/slices/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
-import { BaseProduct, ProductType as _ProductType } from '@shared-types/product';
+import {
+  BaseProduct,
+  ProductType as _ProductType,
+} from '@shared-types/product';
 import { getErrorMessage, logError } from '@utils/errorUtils';
 import {
   ProductConfigurationDetailsU,
@@ -68,7 +71,10 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
       } else {
         // Fallback or error for unexpected product type if necessary
         // For now, assume product.type will be one of the two handled
-        console.error('Unexpected product type for report configuration:', product.type);
+        console.error(
+          'Unexpected product type for report configuration:',
+          product.type,
+        );
         // Set a generic error or handle appropriately
         const err = new Error('Invalid product type for report configuration.');
         logError(err, 'Product configuration error');

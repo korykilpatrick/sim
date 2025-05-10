@@ -5,4 +5,4 @@ export interface CreditTransaction {
   timestamp: string; // ISO date string
   orderId?: string; // If associated with an order
   productId?: string; // If associated with a product
-} 
+}

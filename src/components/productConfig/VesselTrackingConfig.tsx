@@ -10,7 +10,10 @@ import { useAppDispatch } from '@hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { addItem } from '@store/slices/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
-import { BaseProduct, ProductType as _ProductType } from '@shared-types/product';
+import {
+  BaseProduct,
+  ProductType as _ProductType,
+} from '@shared-types/product';
 import { getErrorMessage, logError } from '@utils/errorUtils';
 import { VTSProductConfiguration } from '@shared-types/productConfiguration';
 
@@ -43,10 +46,10 @@ export const VesselTrackingConfig: React.FC<VesselTrackingConfigProps> = ({
     vesselIMOs: '',
     selectedCriteria: [] as string[],
     // Fields like additionalVessels and notes are used for price calculation or UI but not part of VTSProductConfiguration
-    additionalVessels: 0, 
+    additionalVessels: 0,
     notes: '',
   };
-  
+
   // Type for the full form data
   type VesselTrackingFormData = typeof defaultValues;
 
@@ -61,8 +64,13 @@ export const VesselTrackingConfig: React.FC<VesselTrackingConfigProps> = ({
 
       // Ensure product.type is correctly 'VTS' for this configuration
       if (product.type !== 'VTS') {
-        console.error('Invalid product type for VesselTrackingConfig:', product.type);
-        const productTypeError = new Error('Misconfigured product type for VTS.');
+        console.error(
+          'Invalid product type for VesselTrackingConfig:',
+          product.type,
+        );
+        const productTypeError = new Error(
+          'Misconfigured product type for VTS.',
+        );
         logError(productTypeError, 'Product configuration error');
         setError(getErrorMessage(productTypeError));
         setIsSubmitting(false);

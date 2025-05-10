@@ -30,37 +30,46 @@ const DashboardPage: React.FC = () => {
     if (!ordersData || !ordersData.orders) return [];
 
     return ordersData.orders.reduce((acc: UserProduct[], order: Order) => {
-      const productsFromOrder: UserProduct[] = order.items.map((item: OrderItem) => {
-        // Determine UserProductStatus based on OrderStatus
-        let currentStatus: UserProductStatus = 'pending_activation'; // Default
-        if (order.status === 'completed') {
-          currentStatus = 'active';
-        } else if (order.status === 'cancelled' || order.status === 'failed' || order.status === 'refunded') {
-          currentStatus = 'cancelled'; // Or map to a more specific UserProductStatus if available
-        }
-        // Other order statuses like 'pending', 'processing' might map to 'pending_activation' or a custom UserProductStatus
+      const productsFromOrder: UserProduct[] = order.items.map(
+        (item: OrderItem) => {
+          // Determine UserProductStatus based on OrderStatus
+          let currentStatus: UserProductStatus = 'pending_activation'; // Default
+          if (order.status === 'completed') {
+            currentStatus = 'active';
+          } else if (
+            order.status === 'cancelled' ||
+            order.status === 'failed' ||
+            order.status === 'refunded'
+          ) {
+            currentStatus = 'cancelled'; // Or map to a more specific UserProductStatus if available
+          }
+          // Other order statuses like 'pending', 'processing' might map to 'pending_activation' or a custom UserProductStatus
 
-        // Mock expiry for now - ideally, this comes from order data or business logic
-        const anHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-        const thirtyDaysFromPurchase = order.purchaseDate 
-          ? new Date(new Date(order.purchaseDate).getTime() + 30 * 24 * 60 * 60 * 1000) 
-          : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // Fallback if purchaseDate is missing
+          // Mock expiry for now - ideally, this comes from order data or business logic
+          const anHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+          const thirtyDaysFromPurchase = order.purchaseDate
+            ? new Date(
+                new Date(order.purchaseDate).getTime() +
+                  30 * 24 * 60 * 60 * 1000,
+              )
+            : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // Fallback if purchaseDate is missing
 
-        return {
-          id: `${order.id}-${item.product.id}`, // Composite ID for display
-          orderId: order.id,
-          productId: item.product.id,
-          name: item.product.name, 
-          type: item.product.type, 
-          userId: order.userId,
-          purchaseDate: order.purchaseDate || anHourAgo.toISOString(), // Ensure purchaseDate is a string
-          // activationDate: undefined, // Set if available from order
-          expiryDate: thirtyDaysFromPurchase.toISOString(), 
-          status: currentStatus, 
-          configuration: item.configurationDetails,
-          // lastUpdated: order.lastUpdated, // Set if available
-        };
-      });
+          return {
+            id: `${order.id}-${item.product.id}`, // Composite ID for display
+            orderId: order.id,
+            productId: item.product.id,
+            name: item.product.name,
+            type: item.product.type,
+            userId: order.userId,
+            purchaseDate: order.purchaseDate || anHourAgo.toISOString(), // Ensure purchaseDate is a string
+            // activationDate: undefined, // Set if available from order
+            expiryDate: thirtyDaysFromPurchase.toISOString(),
+            status: currentStatus,
+            configuration: item.configurationDetails,
+            // lastUpdated: order.lastUpdated, // Set if available
+          };
+        },
+      );
       return [...acc, ...productsFromOrder];
     }, []);
   }, [ordersData]);
@@ -68,18 +77,24 @@ const DashboardPage: React.FC = () => {
   // Filter products based on active filter
   const filteredProducts = React.useMemo(() => {
     if (!activeFilter) return userProducts;
-    return userProducts.filter((product: UserProduct) => product.type === activeFilter);
+    return userProducts.filter(
+      (product: UserProduct) => product.type === activeFilter,
+    );
   }, [userProducts, activeFilter]);
 
   // Get unique product types for filtering
   const productTypes = React.useMemo(() => {
     if (!userProducts.length) return [];
-    const types = [...new Set(userProducts.map((product: UserProduct) => product.type))] as ProductType[];
+    const types = [
+      ...new Set(userProducts.map((product: UserProduct) => product.type)),
+    ] as ProductType[];
     return types.map((typeValue: ProductType) => {
       const label = typeValue
         .replace('_', ' ')
         .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+        )
         .join(' ');
       return { value: typeValue, label };
     });

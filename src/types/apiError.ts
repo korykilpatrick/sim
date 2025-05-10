@@ -9,4 +9,4 @@ export interface RtkQueryError {
 }
 
 // You might also want to export SerializedError from @reduxjs/toolkit if used directly
-// import { SerializedError } from '@reduxjs/toolkit'; 
+// import { SerializedError } from '@reduxjs/toolkit';

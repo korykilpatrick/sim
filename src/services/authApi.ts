@@ -1,6 +1,10 @@
 import { apiSlice } from './api';
 import type { User } from '@shared-types/user';
-import type { LoginRequest, RegisterRequest, AuthResponse } from '@shared-types/auth';
+import type {
+  LoginRequest,
+  RegisterRequest,
+  AuthResponse,
+} from '@shared-types/auth';
 import { setCredentials, logout } from '@store/slices/authSlice';
 
 export const authApiSlice = apiSlice.injectEndpoints({

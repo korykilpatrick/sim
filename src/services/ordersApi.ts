@@ -1,6 +1,9 @@
 import { apiSlice } from './api';
 // import { CartItem } from '@/types/cart'; // No longer directly used in request type
-import { CreateOrderRequestBody, Order as OrderType } from '@shared-types/order'; // Import shared request and response parts
+import {
+  CreateOrderRequestBody,
+  Order as OrderType,
+} from '@shared-types/order'; // Import shared request and response parts
 import { clearCart } from '@store/slices/cartSlice';
 
 // interface CreateOrderRequest { // Removed old frontend-specific request type

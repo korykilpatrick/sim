@@ -12,39 +12,39 @@ export enum ErrorCode {
   UNKNOWN_ERROR = 'UNKNOWN_ERROR',
   NETWORK_ERROR = 'NETWORK_ERROR',
   TIMEOUT_ERROR = 'TIMEOUT_ERROR',
-  
+
   // Authentication errors
   AUTHENTICATION_FAILED = 'AUTHENTICATION_FAILED',
   UNAUTHORIZED = 'UNAUTHORIZED',
   TOKEN_EXPIRED = 'TOKEN_EXPIRED',
   INVALID_CREDENTIALS = 'INVALID_CREDENTIALS',
-  
+
   // Authorization errors
   FORBIDDEN = 'FORBIDDEN',
   INSUFFICIENT_PERMISSIONS = 'INSUFFICIENT_PERMISSIONS',
-  
+
   // Resource errors
   NOT_FOUND = 'NOT_FOUND',
   RESOURCE_EXISTS = 'RESOURCE_EXISTS',
   RESOURCE_LIMIT_REACHED = 'RESOURCE_LIMIT_REACHED',
-  
+
   // Validation errors
   VALIDATION_ERROR = 'VALIDATION_ERROR',
   INVALID_INPUT = 'INVALID_INPUT',
   MISSING_REQUIRED_FIELD = 'MISSING_REQUIRED_FIELD',
-  
+
   // Business logic errors
   INSUFFICIENT_CREDITS = 'INSUFFICIENT_CREDITS',
   PAYMENT_FAILED = 'PAYMENT_FAILED',
   OPERATION_FAILED = 'OPERATION_FAILED',
-  
+
   // Server errors
   INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR',
   SERVICE_UNAVAILABLE = 'SERVICE_UNAVAILABLE',
-  
+
   // API errors
   API_ERROR = 'API_ERROR',
-  RATE_LIMITED = 'RATE_LIMITED'
+  RATE_LIMITED = 'RATE_LIMITED',
 }
 
 /**
@@ -106,40 +106,39 @@ export function toAppError(error: unknown): AppError {
   if (isAppError(error)) {
     return error;
   }
-  
+
   if (isApiError(error)) {
     return {
       code: mapApiErrorCodeToErrorCode(error.code),
       message: error.message,
       status: error.status,
       details: error.details,
-      timestamp: error.timestamp || new Date().toISOString()
+      timestamp: error.timestamp || new Date().toISOString(),
     };
   }
-  
+
   if (isRtkQueryError(error)) {
     return toAppError(error.data);
   }
-  
+
   if (error instanceof Error) {
     return {
       code: ErrorCode.UNKNOWN_ERROR,
       message: error.message,
       stack: error.stack,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
-  
+
   // Handle primitive error values or other unusual errors
   return {
     code: ErrorCode.UNKNOWN_ERROR,
-    message: typeof error === 'string' 
-      ? error 
-      : 'An unknown error occurred',
-    details: typeof error === 'object' && error !== null 
-      ? { originalError: error } 
-      : undefined,
-    timestamp: new Date().toISOString()
+    message: typeof error === 'string' ? error : 'An unknown error occurred',
+    details:
+      typeof error === 'object' && error !== null
+        ? { originalError: error }
+        : undefined,
+    timestamp: new Date().toISOString(),
   };
 }
 
@@ -190,7 +189,7 @@ function mapApiErrorCodeToErrorCode(apiCode: string): ErrorCode {
   if (Object.values(ErrorCode).includes(apiCode as ErrorCode)) {
     return apiCode as ErrorCode;
   }
-  
+
   // Handle specific mapping cases
   switch (apiCode) {
     case 'UNAUTHENTICATED':
@@ -226,38 +225,40 @@ export function getUserFriendlyErrorMessage(error: AppError): string {
     case ErrorCode.UNAUTHORIZED:
     case ErrorCode.TOKEN_EXPIRED:
       return 'Authentication error. Please sign in again.';
-    
+
     case ErrorCode.FORBIDDEN:
     case ErrorCode.INSUFFICIENT_PERMISSIONS:
       return 'You do not have permission to perform this action.';
-    
+
     case ErrorCode.NOT_FOUND:
       return 'The requested resource was not found.';
-    
+
     case ErrorCode.VALIDATION_ERROR:
     case ErrorCode.INVALID_INPUT:
     case ErrorCode.MISSING_REQUIRED_FIELD:
       return 'Please check your input and try again.';
-    
+
     case ErrorCode.INSUFFICIENT_CREDITS:
       return 'Insufficient credits to perform this action.';
-    
+
     case ErrorCode.PAYMENT_FAILED:
       return 'Payment processing failed. Please try again or use a different payment method.';
-    
+
     case ErrorCode.NETWORK_ERROR:
       return 'Network error. Please check your connection and try again.';
-    
+
     case ErrorCode.TIMEOUT_ERROR:
       return 'Request timed out. Please try again.';
-    
+
     case ErrorCode.RATE_LIMITED:
       return 'Too many requests. Please try again later.';
-    
+
     case ErrorCode.SERVICE_UNAVAILABLE:
       return 'Service is currently unavailable. Please try again later.';
-    
+
     default:
-      return error.message || 'An unexpected error occurred. Please try again later.';
+      return (
+        error.message || 'An unexpected error occurred. Please try again later.'
+      );
   }
 }

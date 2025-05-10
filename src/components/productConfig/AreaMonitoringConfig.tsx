@@ -58,8 +58,13 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
     try {
       // Ensure product.type is correctly 'AMS' for this configuration
       if (product.type !== 'AMS') {
-        console.error('Invalid product type for AreaMonitoringConfig:', product.type);
-        const productTypeError = new Error('Misconfigured product type for AMS.');
+        console.error(
+          'Invalid product type for AreaMonitoringConfig:',
+          product.type,
+        );
+        const productTypeError = new Error(
+          'Misconfigured product type for AMS.',
+        );
         logError(productTypeError, 'Product configuration error');
         setError(getErrorMessage(productTypeError));
         setIsSubmitting(false);
@@ -74,9 +79,15 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
         type: 'AMS',
         areaName: data.areaName || undefined,
         monitoringDurationDays: data.monitoringDurationDays,
-        updateFrequencyHours: parseInt(data.updateFrequencyHours, 10) as (6 | 12 | 24),
+        updateFrequencyHours: parseInt(data.updateFrequencyHours, 10) as
+          | 6
+          | 12
+          | 24,
         selectedCriteria: data.selectedCriteria || [],
-        specificVesselIMOs: specificVesselIMOsArray.length > 0 ? specificVesselIMOsArray : undefined,
+        specificVesselIMOs:
+          specificVesselIMOsArray.length > 0
+            ? specificVesselIMOsArray
+            : undefined,
         notes: data.notes || undefined,
         aoiDefinition: { type: 'Polygon', coordinates: [] },
       };

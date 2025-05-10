@@ -43,7 +43,8 @@ export interface FTSAlertConfiguration extends BaseAlertConfiguration {
 /**
  * Configuration for Report Compliance Alerts
  */
-export interface ReportComplianceAlertConfiguration extends BaseAlertConfiguration {
+export interface ReportComplianceAlertConfiguration
+  extends BaseAlertConfiguration {
   alertType: 'REPORT_COMPLIANCE';
   vesselIMO: string;
   timeframeStart: string; // ISO date string
@@ -54,7 +55,8 @@ export interface ReportComplianceAlertConfiguration extends BaseAlertConfigurati
 /**
  * Configuration for Report Chronology Alerts
  */
-export interface ReportChronologyAlertConfiguration extends BaseAlertConfiguration {
+export interface ReportChronologyAlertConfiguration
+  extends BaseAlertConfiguration {
   alertType: 'REPORT_CHRONOLOGY';
   vesselIMO: string;
   timeframeStart: string; // ISO date string
@@ -65,7 +67,8 @@ export interface ReportChronologyAlertConfiguration extends BaseAlertConfigurati
 /**
  * Configuration for Investigation Alerts
  */
-export interface InvestigationAlertConfiguration extends BaseAlertConfiguration {
+export interface InvestigationAlertConfiguration
+  extends BaseAlertConfiguration {
   alertType: 'INVESTIGATION';
   investigationType: string; // e.g., 'Vessel Anomaly', 'Port Activity'
   vesselIMO?: string;
