@@ -27,7 +27,10 @@ export type {
 export type { UserProductStatus, UserProduct } from './userProduct';
 export type { CartItem } from './cart';
 export type { CreditTransaction } from './credits';
-export type { CheckoutFormValues, PaymentMethod as CheckoutPaymentMethod } from './checkout';
+export type {
+  CheckoutFormValues,
+  PaymentMethod as CheckoutPaymentMethod,
+} from './checkout';
 
 // RFI Types
 export type {

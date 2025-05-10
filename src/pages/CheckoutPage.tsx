@@ -12,7 +12,11 @@ import {
   PaymentDetailsForm,
   OrderSummary,
 } from '@components/checkout';
-import { checkoutSchema, type CheckoutFormValues, type PaymentMethod } from '@shared-types/checkout';
+import {
+  checkoutSchema,
+  type CheckoutFormValues,
+  type PaymentMethod,
+} from '@shared-types/checkout';
 
 /**
  * Checkout page component for completing purchases
@@ -36,7 +40,6 @@ const CheckoutPage: React.FC = () => {
   } = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
   });
-
 
   const hasSufficientCredits = credits >= totalCredits;
 
