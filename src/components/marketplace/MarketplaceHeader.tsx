@@ -23,9 +23,7 @@ export const MarketplaceHeader: React.FC<MarketplaceHeaderProps> = ({
   return (
     <div className="flex justify-between items-center mb-4">
       <h2 className="text-xl font-bold">
-        {hasTypeFilter
-          ? `${productCount} products found`
-          : 'All Products'}
+        {hasTypeFilter ? `${productCount} products found` : 'All Products'}
       </h2>
 
       <div className="text-sm text-secondary-600">

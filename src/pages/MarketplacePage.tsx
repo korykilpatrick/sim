@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  FilterSidebar,
-  PromotionalSlider,
-} from '@components/products';
+import { FilterSidebar, PromotionalSlider } from '@components/products';
 import { Spinner, Alert } from '@components/common';
 import { useGetProductsQuery } from '@services/productsApi';
 import type { ProductType } from '@shared-types/product';
@@ -11,10 +8,10 @@ import {
   ApiErrorPayload as _ApiErrorPayload,
 } from '@/types/apiError';
 import { SerializedError } from '@reduxjs/toolkit';
-import { 
-  MarketplaceHeader, 
-  SearchResults, 
-  EmptySearchState 
+import {
+  MarketplaceHeader,
+  SearchResults,
+  EmptySearchState,
 } from '../components/marketplace';
 
 // Helper to check if it's an RTK Query API error with our expected payload
@@ -95,7 +92,7 @@ const MarketplacePage: React.FC = () => {
             />
           ) : data && data.products.length > 0 ? (
             <div>
-              <MarketplaceHeader 
+              <MarketplaceHeader
                 hasTypeFilter={selectedType !== null}
                 productCount={data.products.length}
                 totalProducts={data.total}
