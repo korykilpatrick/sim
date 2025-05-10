@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '@hooks/redux';
 import { clearCart } from '@store/slices/cartSlice';
-import { CartItem } from '@components/cart/CartItem';
-import { OrderSummary } from '@components/cart/OrderSummary';
+import { CartItem, OrderSummary } from '@components/cart';
 import { Button } from '@components/common';
 
 const CartPage: React.FC = () => {

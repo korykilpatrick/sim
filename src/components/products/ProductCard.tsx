@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BaseProduct } from '@shared-types/product';
-import { Badge } from '@components/common/Badge';
-import { Button } from '@components/common/Button';
+import { Badge, Button } from '@components/common';
 
 type ProductCardProps = {
   product: BaseProduct;

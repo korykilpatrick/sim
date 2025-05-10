@@ -7,7 +7,7 @@ import { PlaceholderImage } from './PlaceholderImage';
  */
 export interface ProductImageGalleryProps {
   /** URL of the product image */
-  mainImage?: string;
+  mainImage?: string | undefined;
   /** Alt text for the image */
   alt: string;
 }

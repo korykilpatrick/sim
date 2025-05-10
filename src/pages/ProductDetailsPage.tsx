@@ -5,8 +5,7 @@ import { useAppDispatch, useAppSelector } from '@hooks/redux';
 import { addItem } from '@store/slices/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { Badge, Spinner, Alert } from '@components/common';
-import { ProductImageGallery } from '@components/products/ProductImageGallery';
-import { ProductPricing } from '@components/products/ProductPricing';
+import { ProductImageGallery, ProductPricing } from '@components/products';
 import { MaritimeAlertProduct } from '@shared-types/product';
 
 const ProductDetailsPage: React.FC = () => {
@@ -126,7 +125,7 @@ const ProductDetailsPage: React.FC = () => {
         {/* Product Image */}
         <div className="lg:col-span-2">
           <ProductImageGallery
-            mainImage={product.imageUrl}
+            mainImage={product.imageUrl || undefined}
             alt={product.name}
           />
         </div>

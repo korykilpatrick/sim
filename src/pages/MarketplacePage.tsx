@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ProductCard } from '@components/products/ProductCard';
-import { FilterSidebar } from '@components/products/FilterSidebar';
-import { PromotionalSlider } from '@components/products/PromotionalSlider';
+import { ProductCard, FilterSidebar, PromotionalSlider } from '@components/products';
 import { Spinner, Alert } from '@components/common';
 import { useGetProductsQuery } from '@services/productsApi';
-import { ProductType } from '@/types/product';
+import type { ProductType } from '@shared-types/product';
 import {
   RtkQueryError,
   ApiErrorPayload as _ApiErrorPayload,
@@ -41,10 +39,12 @@ const MarketplacePage: React.FC = () => {
   }, [searchQuery]);
 
   // Fetch products with filtering
-  const { data, error, isLoading } = useGetProductsQuery({
-    type: selectedType || undefined,
+  // Fetch products with filtering
+  const queryParams = {
+    type: selectedType === null ? undefined : selectedType,
     search: debouncedSearch || undefined,
-  });
+  };
+  const { data, error, isLoading } = useGetProductsQuery(queryParams);
 
   const handleTypeChange = (type: ProductType | null) => {
     setSelectedType(type);
