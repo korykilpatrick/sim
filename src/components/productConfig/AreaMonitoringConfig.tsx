@@ -1,12 +1,4 @@
 import React, { useState } from 'react';
-import { ConfigFormBase } from './ConfigFormBase';
-import {
-  NumberField,
-  TextField,
-  SelectField,
-  CheckboxGroup,
-  TextareaField,
-} from './FormFields';
 import { useAppDispatch } from '@hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { addItem } from '@store/slices/cartSlice';
@@ -14,11 +6,28 @@ import { v4 as uuidv4 } from 'uuid';
 import { BaseProduct } from '@shared-types/product';
 import { AMSProductConfiguration } from '@shared-types/productConfiguration';
 import { getErrorMessage, logError } from '@utils/errorUtils';
+import {
+  ConfigFormBase,
+  AreaNameSection,
+  MapSelectionSection,
+  MonitoringDurationSection,
+  UpdateFrequencySection,
+  MonitoringCriteriaSection,
+  SpecificVesselsSection,
+  NotesSection,
+} from '@components/productConfig';
 
-interface AreaMonitoringConfigProps {
+/**
+ * Props for the AreaMonitoringConfig component
+ */
+export interface AreaMonitoringConfigProps {
+  /** Product data */
   product: BaseProduct;
 }
 
+/**
+ * Component for configuring Area Monitoring Service products
+ */
 export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
   product,
 }) => {
@@ -75,8 +84,8 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
         ? data.specificVesselIMOs.split(',').map((imo: string) => imo.trim())
         : [];
 
-      const configuration: AMSProductConfiguration = {
-        type: 'AMS',
+      const configuration = {
+        type: 'AMS' as const,
         areaName: data.areaName || undefined,
         monitoringDurationDays: data.monitoringDurationDays,
         updateFrequencyHours: parseInt(data.updateFrequencyHours, 10) as
@@ -89,8 +98,8 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
             ? specificVesselIMOsArray
             : undefined,
         notes: data.notes || undefined,
-        aoiDefinition: { type: 'Polygon', coordinates: [] },
-      };
+        aoiDefinition: { type: 'Polygon' as const, coordinates: [] },
+      } as AMSProductConfiguration;
 
       // Add to cart
       dispatch(
@@ -123,72 +132,13 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
       error={error}
     >
       <div className="space-y-6">
-        <TextField
-          name="areaName"
-          label="Area Name"
-          placeholder="Gulf of Mexico Monitoring Zone"
-          required
-          helperText="Give your monitoring area a descriptive name"
-        />
-
-        <div className="bg-secondary-50 p-4 rounded-md border border-secondary-200">
-          <p className="text-sm text-secondary-600 mb-2">Area Selection Map</p>
-          <div className="h-64 bg-white border border-secondary-300 rounded-md flex items-center justify-center">
-            <p className="text-secondary-500">
-              Map interface would be here in a complete implementation
-            </p>
-          </div>
-          <p className="text-xs text-secondary-500 mt-2">
-            Use the map to define your area of interest
-          </p>
-        </div>
-
-        <NumberField
-          name="monitoringDurationDays"
-          label="Monitoring Duration (Days)"
-          min={7}
-          max={365}
-          required
-          helperText="How long would you like to monitor this area? (7-365 days)"
-        />
-
-        <SelectField
-          name="updateFrequencyHours"
-          label="Update Frequency"
-          options={[
-            { value: '6', label: 'Every 6 hours (Premium)' },
-            { value: '12', label: 'Every 12 hours (Standard)' },
-            { value: '24', label: 'Daily (Basic)' },
-          ]}
-          required
-          helperText="How often should the system update with new data?"
-        />
-
-        <div className="border-t border-secondary-200 pt-6">
-          <CheckboxGroup
-            name="selectedCriteria"
-            label="Monitoring Criteria"
-            options={areaCriteriaOptions}
-            required
-            helperText="Select at least one monitoring criterion"
-          />
-        </div>
-
-        <TextField
-          name="specificVesselIMOs"
-          label="Specific Vessels of Interest (Optional)"
-          placeholder="9876543, 1234567"
-          helperText="Enter comma-separated IMO numbers if you're interested in specific vessels within this area"
-        />
-
-        <div className="border-t border-secondary-200 pt-6">
-          <TextareaField
-            name="notes"
-            label="Notes"
-            placeholder="Add any additional information or requirements"
-            helperText="Optional: Add any special instructions or notes for this monitoring service"
-          />
-        </div>
+        <AreaNameSection />
+        <MapSelectionSection />
+        <MonitoringDurationSection />
+        <UpdateFrequencySection />
+        <MonitoringCriteriaSection options={areaCriteriaOptions} />
+        <SpecificVesselsSection />
+        <NotesSection />
       </div>
     </ConfigFormBase>
   );
