@@ -1,4 +1,7 @@
 export { Alert } from './Alert';
+export { AlertIcon } from './AlertIcon';
+export { AlertContent } from './AlertContent';
+export { AlertActions } from './AlertActions';
 export { Badge } from './Badge';
 export { Button } from './Button';
 export { Card } from './Card';
