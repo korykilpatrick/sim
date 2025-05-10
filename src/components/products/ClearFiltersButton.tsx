@@ -18,7 +18,7 @@ export const ClearFiltersButton: React.FC<ClearFiltersButtonProps> = ({
   onClearFilters,
 }) => {
   if (!hasActiveFilters) return null;
-  
+
   return (
     <button
       onClick={onClearFilters}

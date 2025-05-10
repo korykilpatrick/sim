@@ -23,9 +23,7 @@ export const TypeFilter: React.FC<TypeFilterProps> = ({
 }) => {
   return (
     <div className="mb-6">
-      <h3 className="text-lg font-medium text-ocean-300 mb-3">
-        Product Type
-      </h3>
+      <h3 className="text-lg font-medium text-ocean-300 mb-3">Product Type</h3>
       <div className="space-y-2">
         {productTypes.map((type) => (
           <div key={type.value} className="flex items-center">

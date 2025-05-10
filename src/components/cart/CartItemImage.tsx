@@ -13,15 +13,14 @@ export interface CartItemImageProps {
 /**
  * Component for displaying a product image or placeholder in cart
  */
-export const CartItemImage: React.FC<CartItemImageProps> = ({ imageUrl, alt }) => {
+export const CartItemImage: React.FC<CartItemImageProps> = ({
+  imageUrl,
+  alt,
+}) => {
   return (
     <div className="w-full md:w-24 h-24 flex-shrink-0 bg-secondary-100 rounded-md overflow-hidden">
       {imageUrl ? (
-        <img
-          src={imageUrl}
-          alt={alt}
-          className="w-full h-full object-cover"
-        />
+        <img src={imageUrl} alt={alt} className="w-full h-full object-cover" />
       ) : (
         <div className="w-full h-full flex items-center justify-center">
           <svg

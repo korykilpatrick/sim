@@ -47,20 +47,17 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 
   return (
     <div className="bg-navy-800 border border-navy-700 rounded-lg shadow-lg p-4">
-      <SearchBox 
-        searchQuery={searchQuery} 
-        onSearchChange={onSearchChange} 
+      <SearchBox searchQuery={searchQuery} onSearchChange={onSearchChange} />
+
+      <TypeFilter
+        selectedType={selectedType}
+        onTypeChange={onTypeChange}
+        productTypes={productTypes}
       />
 
-      <TypeFilter 
-        selectedType={selectedType} 
-        onTypeChange={onTypeChange} 
-        productTypes={productTypes} 
-      />
-
-      <ClearFiltersButton 
-        hasActiveFilters={hasActiveFilters} 
-        onClearFilters={handleClearFilters} 
+      <ClearFiltersButton
+        hasActiveFilters={hasActiveFilters}
+        onClearFilters={handleClearFilters}
       />
     </div>
   );

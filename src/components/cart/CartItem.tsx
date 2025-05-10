@@ -20,8 +20,14 @@ type CartItemProps = {
  */
 export const CartItem = ({ item }: CartItemProps) => {
   const dispatch = useAppDispatch();
-  const { itemId, product, quantity, configuredPrice, configuredCreditCost, configurationDetails } =
-    item;
+  const {
+    itemId,
+    product,
+    quantity,
+    configuredPrice,
+    configuredCreditCost,
+    configurationDetails,
+  } = item;
 
   const price = configuredPrice ?? product.price;
   const creditCost = configuredCreditCost ?? product.creditCost;
@@ -40,14 +46,11 @@ export const CartItem = ({ item }: CartItemProps) => {
   return (
     <div className="flex flex-col md:flex-row border-b border-secondary-200 py-6 last:border-b-0">
       {/* Product Image */}
-      <CartItemImage 
-        imageUrl={product.imageUrl} 
-        alt={product.name} 
-      />
+      <CartItemImage imageUrl={product.imageUrl} alt={product.name} />
 
       <div className="flex-1 md:ml-6 mt-4 md:mt-0">
         {/* Product Info */}
-        <CartItemDetails 
+        <CartItemDetails
           productName={product.name}
           configurationDetails={configurationDetails}
           totalPrice={totalPrice}
@@ -56,7 +59,7 @@ export const CartItem = ({ item }: CartItemProps) => {
 
         <div className="flex items-center justify-between mt-4">
           {/* Quantity Control */}
-          <QuantityControl 
+          <QuantityControl
             itemId={itemId}
             quantity={quantity}
             onQuantityChange={handleQuantityChange}

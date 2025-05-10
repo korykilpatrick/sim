@@ -14,11 +14,5 @@ export interface ProductImageProps {
  * Component for displaying a product image
  */
 export const ProductImage: React.FC<ProductImageProps> = ({ src, alt }) => {
-  return (
-    <img
-      src={src}
-      alt={alt}
-      className="w-full h-full object-contain"
-    />
-  );
+  return <img src={src} alt={alt} className="w-full h-full object-contain" />;
 };

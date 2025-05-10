@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { ProductCard, FilterSidebar, PromotionalSlider } from '@components/products';
+import {
+  ProductCard,
+  FilterSidebar,
+  PromotionalSlider,
+} from '@components/products';
 import { Spinner, Alert } from '@components/common';
 import { useGetProductsQuery } from '@services/productsApi';
 import type { ProductType } from '@shared-types/product';
