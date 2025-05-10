@@ -8,77 +8,101 @@ import { AlertsCard } from '@components/dashboard/AlertsCard';
 import { Button } from '@components/common/Button';
 import { Spinner } from '@components/common/Spinner';
 import { Alert } from '@components/common/Alert';
+import type { UserProduct, UserProductStatus } from '@shared-types/userProduct';
+import type { Order, OrderItem } from '@shared-types/order';
+import type { ProductType } from '@shared-types/product';
 
 const DashboardPage: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState<string | null>(null);
-  
+  const [activeFilter, setActiveFilter] = useState<ProductType | null>(null);
+
   // Fetch user orders and purchased products
-  const { data: ordersData, isLoading: isOrdersLoading, error: ordersError } = useGetUserOrdersQuery();
-  
+  const {
+    data: ordersData,
+    isLoading: isOrdersLoading,
+    error: ordersError,
+  } = useGetUserOrdersQuery();
+
   // Fetch credit balance
   const { isLoading: isCreditsLoading } = useGetCreditsBalanceQuery();
-  
+
   // Process orders into purchased products
   const userProducts = React.useMemo(() => {
     if (!ordersData || !ordersData.orders) return [];
-    
-    // Flatten products from all orders
-    return ordersData.orders.reduce((acc: any[], order: any) => {
-      // Add products from this order to the list
-      const products = order.items.map((item: any) => ({
-        id: `${order.id}-${item.product.id}`,
-        productId: item.product.id,
-        name: item.product.name,
-        type: item.product.type,
-        purchaseDate: order.purchaseDate,
-        expiryDate: new Date(new Date(order.purchaseDate).getTime() + 30 * 24 * 60 * 60 * 1000).toISOString(), // Mock 30 days expiry
-        status: 'active',
-        configuration: item.configurationDetails,
-      }));
-      
-      return [...acc, ...products];
+
+    return ordersData.orders.reduce((acc: UserProduct[], order: Order) => {
+      const productsFromOrder: UserProduct[] = order.items.map((item: OrderItem) => {
+        // Determine UserProductStatus based on OrderStatus
+        let currentStatus: UserProductStatus = 'pending_activation'; // Default
+        if (order.status === 'completed') {
+          currentStatus = 'active';
+        } else if (order.status === 'cancelled' || order.status === 'failed' || order.status === 'refunded') {
+          currentStatus = 'cancelled'; // Or map to a more specific UserProductStatus if available
+        }
+        // Other order statuses like 'pending', 'processing' might map to 'pending_activation' or a custom UserProductStatus
+
+        // Mock expiry for now - ideally, this comes from order data or business logic
+        const anHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+        const thirtyDaysFromPurchase = order.purchaseDate 
+          ? new Date(new Date(order.purchaseDate).getTime() + 30 * 24 * 60 * 60 * 1000) 
+          : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // Fallback if purchaseDate is missing
+
+        return {
+          id: `${order.id}-${item.product.id}`, // Composite ID for display
+          orderId: order.id,
+          productId: item.product.id,
+          name: item.product.name, 
+          type: item.product.type, 
+          userId: order.userId,
+          purchaseDate: order.purchaseDate || anHourAgo.toISOString(), // Ensure purchaseDate is a string
+          // activationDate: undefined, // Set if available from order
+          expiryDate: thirtyDaysFromPurchase.toISOString(), 
+          status: currentStatus, 
+          configuration: item.configurationDetails,
+          // lastUpdated: order.lastUpdated, // Set if available
+        };
+      });
+      return [...acc, ...productsFromOrder];
     }, []);
   }, [ordersData]);
-  
+
   // Filter products based on active filter
   const filteredProducts = React.useMemo(() => {
     if (!activeFilter) return userProducts;
-    return userProducts.filter(product => product.type === activeFilter);
+    return userProducts.filter((product: UserProduct) => product.type === activeFilter);
   }, [userProducts, activeFilter]);
-  
+
   // Get unique product types for filtering
   const productTypes = React.useMemo(() => {
     if (!userProducts.length) return [];
-    const types = [...new Set(userProducts.map(product => product.type))];
-    return types.map(type => {
-      const label = type
+    const types = [...new Set(userProducts.map((product: UserProduct) => product.type))] as ProductType[];
+    return types.map((typeValue: ProductType) => {
+      const label = typeValue
         .replace('_', ' ')
         .split(' ')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
         .join(' ');
-      
-      return { value: type, label };
+      return { value: typeValue, label };
     });
   }, [userProducts]);
-  
+
   return (
     <div className="flex flex-col lg:flex-row gap-8">
       {/* Sidebar */}
       <div className="lg:w-64 w-full flex-shrink-0">
         <DashboardSidebar />
       </div>
-      
+
       {/* Main Content */}
       <div className="flex-1">
         <h1 className="text-2xl font-bold mb-6">My Products</h1>
-        
+
         {/* Loading state */}
         {(isOrdersLoading || isCreditsLoading) && (
           <div className="flex justify-center py-12">
             <Spinner size="lg" />
           </div>
         )}
-        
+
         {/* Error state */}
         {ordersError && (
           <Alert
@@ -88,7 +112,7 @@ const DashboardPage: React.FC = () => {
             className="mb-6"
           />
         )}
-        
+
         {/* Content */}
         {!isOrdersLoading && !ordersError && (
           <>
@@ -105,27 +129,27 @@ const DashboardPage: React.FC = () => {
                 >
                   All Products
                 </button>
-                
-                {productTypes.map(type => (
+
+                {productTypes.map((typeOpt) => (
                   <button
-                    key={type.value}
+                    key={typeOpt.value}
                     className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                      activeFilter === type.value
+                      activeFilter === typeOpt.value
                         ? 'bg-primary-100 text-primary-800'
                         : 'bg-secondary-100 text-secondary-700 hover:bg-secondary-200'
                     }`}
-                    onClick={() => setActiveFilter(type.value)}
+                    onClick={() => setActiveFilter(typeOpt.value)}
                   >
-                    {type.label}
+                    {typeOpt.label}
                   </button>
                 ))}
               </div>
             )}
-            
+
             {/* Products grid */}
             {filteredProducts.length > 0 ? (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                {filteredProducts.map(product => (
+                {filteredProducts.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
@@ -145,23 +169,25 @@ const DashboardPage: React.FC = () => {
                     d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
                   />
                 </svg>
-                
+
                 <h2 className="text-xl font-medium text-secondary-900 mb-2">
-                  {activeFilter ? 'No products of this type' : 'No products yet'}
+                  {activeFilter
+                    ? 'No products of this type'
+                    : 'No products yet'}
                 </h2>
-                
+
                 <p className="text-secondary-600 mb-6">
                   {activeFilter
-                    ? 'You don\'t have any products of this type. Try selecting a different filter or browse the marketplace.'
-                    : 'You haven\'t purchased any products yet. Browse our marketplace to get started.'}
+                    ? "You don't have any products of this type. Try selecting a different filter or browse the marketplace."
+                    : "You haven't purchased any products yet. Browse our marketplace to get started."}
                 </p>
-                
+
                 <Link to="/marketplace">
                   <Button variant="primary">Browse Marketplace</Button>
                 </Link>
               </div>
             )}
-            
+
             {/* Alerts section */}
             <div className="mb-8">
               <AlertsCard />

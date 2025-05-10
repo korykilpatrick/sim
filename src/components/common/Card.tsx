@@ -23,15 +23,17 @@ export const Card: React.FC<CardProps> = ({
     >
       {(title || subtitle) && (
         <div className="px-6 py-4 border-b border-navy-700">
-          {title && <h3 className="text-lg font-medium text-ocean-300">{title}</h3>}
-          {subtitle && <p className="mt-1 text-sm text-ocean-100">{subtitle}</p>}
+          {title && (
+            <h3 className="text-lg font-medium text-ocean-300">{title}</h3>
+          )}
+          {subtitle && (
+            <p className="mt-1 text-sm text-ocean-100">{subtitle}</p>
+          )}
         </div>
       )}
-      
-      <div className={noPadding ? '' : 'p-6'}>
-        {children}
-      </div>
-      
+
+      <div className={noPadding ? '' : 'p-6'}>{children}</div>
+
       {footer && (
         <div className="px-6 py-4 border-t border-navy-700 bg-navy-900">
           {footer}

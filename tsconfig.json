@@ -11,10 +11,25 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+
+    /* Type Checking */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "useUnknownInCatchVariables": true,
+    "allowUnreachableCode": false,
+    "exactOptionalPropertyTypes": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Module Resolution */
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
@@ -25,10 +40,12 @@
       "@pages/*": ["src/pages/*"],
       "@services/*": ["src/services/*"],
       "@store/*": ["src/store/*"],
-      "@types/*": ["src/types/*"],
-      "@utils/*": ["src/utils/*"]
+      "@frontend-types/*": ["src/types/*"],
+      "@utils/*": ["src/utils/*"],
+      "@typeGuards/*": ["src/typeGuards/*"],
+      "@shared-types/*": ["shared/types/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "shared"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

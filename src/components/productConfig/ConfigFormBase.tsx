@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 import { Button } from '@components/common/Button';
 
-interface ConfigFormBaseProps {
+type ConfigFormBaseProps = {
   title: string;
   description: string;
   defaultValues: any;
@@ -11,7 +11,7 @@ interface ConfigFormBaseProps {
   isSubmitting: boolean;
   error: any;
   children: React.ReactNode;
-}
+};
 
 export const ConfigFormBase: React.FC<ConfigFormBaseProps> = ({
   title,
@@ -26,7 +26,11 @@ export const ConfigFormBase: React.FC<ConfigFormBaseProps> = ({
   const methods = useForm({ defaultValues });
 
   const handleCancel = () => {
-    if (window.confirm('Are you sure you want to cancel? Your configuration will not be saved.')) {
+    if (
+      window.confirm(
+        'Are you sure you want to cancel? Your configuration will not be saved.',
+      )
+    ) {
       navigate(-1);
     }
   };
@@ -43,7 +47,9 @@ export const ConfigFormBase: React.FC<ConfigFormBaseProps> = ({
           <div className="p-6 space-y-6">
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-md mb-4">
-                {typeof error === 'string' ? error : 'An error occurred while saving your configuration. Please try again.'}
+                {typeof error === 'string'
+                  ? error
+                  : 'An error occurred while saving your configuration. Please try again.'}
               </div>
             )}
 
@@ -51,17 +57,10 @@ export const ConfigFormBase: React.FC<ConfigFormBaseProps> = ({
           </div>
 
           <div className="px-6 py-4 bg-secondary-50 border-t border-secondary-200 flex justify-end space-x-3">
-            <Button 
-              variant="outline" 
-              onClick={handleCancel}
-            >
+            <Button variant="outline" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button 
-              type="submit" 
-              variant="primary" 
-              isLoading={isSubmitting}
-            >
+            <Button type="submit" variant="primary" isLoading={isSubmitting}>
               Add to Cart
             </Button>
           </div>

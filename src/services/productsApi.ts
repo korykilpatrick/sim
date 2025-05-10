@@ -1,5 +1,5 @@
 import { apiSlice } from './api';
-import { BaseProduct, ProductType } from '@types/product';
+import { BaseProduct, ProductType } from '@shared-types/product';
 
 interface ProductsResponse {
   products: BaseProduct[];
@@ -12,31 +12,37 @@ interface ProductResponse {
 
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query<ProductsResponse, { type?: ProductType; search?: string }>({
+    getProducts: builder.query<
+      ProductsResponse,
+      { type?: ProductType; search?: string }
+    >({
       query: ({ type, search }) => {
         let url = '/products';
         const params = new URLSearchParams();
-        
+
         if (type) {
           params.append('type', type);
         }
-        
+
         if (search) {
           params.append('search', search);
         }
-        
+
         const queryString = params.toString();
         return url + (queryString ? `?${queryString}` : '');
       },
       providesTags: (result) =>
         result
           ? [
-              ...result.products.map(({ id }) => ({ type: 'Products' as const, id })),
+              ...result.products.map(({ id }) => ({
+                type: 'Products' as const,
+                id,
+              })),
               { type: 'Products', id: 'LIST' },
             ]
           : [{ type: 'Products', id: 'LIST' }],
     }),
-    
+
     getProduct: builder.query<ProductResponse, string>({
       query: (id) => `/products/${id}`,
       providesTags: (result, error, id) => [{ type: 'Products', id }],

@@ -1,6 +1,7 @@
 import { apiSlice } from './api';
-import { CreditTransaction } from '@types/credits';
-import { setCreditsBalance } from '@store/slices/creditsSlice';
+import { CreditTransaction } from '@shared-types/credits';
+import { setCreditsBalance } from '../store/slices/creditsSlice';
+import { PaymentGatewayDetails } from '@shared-types/payment';
 
 interface CreditsBalanceResponse {
   credits: number;
@@ -12,7 +13,7 @@ interface TransactionsResponse {
 
 interface PurchaseCreditsRequest {
   amount: number;
-  paymentDetails: any;
+  paymentDetails: PaymentGatewayDetails;
 }
 
 interface PurchaseCreditsResponse {
@@ -31,18 +32,21 @@ export const creditsApiSlice = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(setCreditsBalance(data.credits));
-        } catch (err) {
+        } catch (_err) {
           // Handle error if needed
         }
       },
     }),
-    
+
     getCreditTransactions: builder.query<TransactionsResponse, void>({
       query: () => '/credits/transactions',
       providesTags: ['Credits'],
     }),
-    
-    purchaseCredits: builder.mutation<PurchaseCreditsResponse, PurchaseCreditsRequest>({
+
+    purchaseCredits: builder.mutation<
+      PurchaseCreditsResponse,
+      PurchaseCreditsRequest
+    >({
       query: (data) => ({
         url: '/credits/purchase',
         method: 'POST',

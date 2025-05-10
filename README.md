@@ -114,6 +114,7 @@ This will create a production-ready build in the `dist` directory.
 The application includes a lightweight Express backend that serves mock data through realistic API endpoints. This backend replaces the previous Mock Service Worker (MSW) implementation for production use, while still maintaining the same data and behavior.
 
 The backend API includes endpoints for:
+
 - Authentication (login, register)
 - Products (listing, details)
 - Cart operations

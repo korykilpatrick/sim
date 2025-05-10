@@ -1,22 +1,7 @@
 import { apiSlice } from './api';
-import { User } from '@types/user';
+import type { User } from '@shared-types/user';
+import type { LoginRequest, RegisterRequest, AuthResponse } from '@shared-types/auth';
 import { setCredentials, logout } from '@store/slices/authSlice';
-
-interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-interface RegisterRequest {
-  email: string;
-  password: string;
-  name?: string;
-}
-
-interface AuthResponse {
-  user: User;
-  token: string;
-}
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -31,12 +16,12 @@ export const authApiSlice = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(setCredentials(data));
-        } catch (err) {
+        } catch (_err) {
           // Handle error if needed
         }
       },
     }),
-    
+
     register: builder.mutation<AuthResponse, RegisterRequest>({
       query: (userData) => ({
         url: '/auth/register',
@@ -47,17 +32,17 @@ export const authApiSlice = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(setCredentials(data));
-        } catch (err) {
+        } catch (_err) {
           // Handle error if needed
         }
       },
     }),
-    
+
     getProfile: builder.query<{ user: User }, void>({
       query: () => '/auth/me',
       providesTags: ['User'],
     }),
-    
+
     logout: builder.mutation<void, void>({
       query: () => ({
         url: '/auth/logout',

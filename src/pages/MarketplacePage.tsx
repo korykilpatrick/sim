@@ -5,7 +5,24 @@ import { PromotionalSlider } from '@components/products/PromotionalSlider';
 import { Spinner } from '@components/common/Spinner';
 import { Alert } from '@components/common/Alert';
 import { useGetProductsQuery } from '@services/productsApi';
-import { ProductType } from '@types/product';
+import { ProductType } from '@/types/product';
+import { RtkQueryError, ApiErrorPayload as _ApiErrorPayload } from '@/types/apiError';
+import { SerializedError } from '@reduxjs/toolkit';
+
+// Helper to check if it's an RTK Query API error with our expected payload
+function isApiError(error: any): error is RtkQueryError {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'status' in error &&
+    typeof error.status === 'number' &&
+    'data' in error &&
+    typeof error.data === 'object' &&
+    error.data !== null &&
+    'message' in error.data &&
+    typeof error.data.message === 'string'
+  );
+}
 
 const MarketplacePage: React.FC = () => {
   const [selectedType, setSelectedType] = useState<ProductType | null>(null);
@@ -38,7 +55,7 @@ const MarketplacePage: React.FC = () => {
   return (
     <div>
       <PromotionalSlider />
-      
+
       <div className="flex flex-col md:flex-row gap-8 md:items-start">
         {/* Filter Sidebar */}
         <div className="w-full md:w-64 flex-shrink-0">
@@ -49,7 +66,7 @@ const MarketplacePage: React.FC = () => {
             onSearchChange={handleSearchChange}
           />
         </div>
-        
+
         {/* Product Grid */}
         <div className="flex-1">
           {isLoading ? (
@@ -60,20 +77,27 @@ const MarketplacePage: React.FC = () => {
             <Alert
               variant="error"
               title="Error loading products"
-              message="There was an error loading the product catalog. Please try again later."
+              message={
+                isApiError(error)
+                  ? error.data.message
+                  : (error as SerializedError)?.message ||
+                    'There was an error loading the product catalog. Please try again later.'
+              }
             />
           ) : data && data.products.length > 0 ? (
             <div>
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">
-                  {selectedType ? `${data.products.length} products found` : 'All Products'}
+                  {selectedType
+                    ? `${data.products.length} products found`
+                    : 'All Products'}
                 </h2>
-                
+
                 <div className="text-sm text-secondary-600">
                   {data.products.length} of {data.total} products
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {data.products.map((product) => (
                   <ProductCard key={product.id} product={product} />
@@ -96,9 +120,12 @@ const MarketplacePage: React.FC = () => {
                   d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <h3 className="text-lg font-medium text-secondary-900 mb-2">No products found</h3>
+              <h3 className="text-lg font-medium text-secondary-900 mb-2">
+                No products found
+              </h3>
               <p className="text-secondary-600">
-                Try adjusting your filters or search query to find what you're looking for.
+                Try adjusting your filters or search query to find what
+                you&apos;re looking for.
               </p>
             </div>
           )}

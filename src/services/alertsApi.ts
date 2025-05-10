@@ -1,38 +1,37 @@
 import { apiSlice } from './api';
-import { AlertNotification } from '@types/alert';
+import { AlertNotification } from '@shared-types/alert';
+import { AlertConfigurationU } from '@shared-types/alertConfiguration';
+import { ProductType } from '@shared-types/product';
 
 interface AlertsResponse {
   alerts: AlertNotification[];
 }
 
+interface Alert {
+  id: string;
+  productId: string;
+  name: string;
+  alertType: ProductType;
+  configuration: AlertConfigurationU;
+  createdAt: string;
+  expiryDate?: string;
+  status: string;
+}
+
 interface AlertResponse {
-  alert: {
-    id: string;
-    productId: string;
-    name: string;
-    configuration: any;
-    createdAt: string;
-    expiryDate: string;
-    status: string;
-  };
+  alert: Alert;
 }
 
 interface CreateAlertRequest {
   productId: string;
-  alertType: string;
-  configuration: any;
+  name: string;
+  alertType: ProductType;
+  configuration: AlertConfigurationU;
 }
 
 interface CreateAlertResponse {
   success: boolean;
-  alert: {
-    id: string;
-    productId: string;
-    alertType: string;
-    configuration: any;
-    createdAt: string;
-    status: string;
-  };
+  alert: Alert;
 }
 
 interface MarkAlertReadResponse {
@@ -46,7 +45,7 @@ export const alertsApiSlice = apiSlice.injectEndpoints({
       query: () => '/alerts',
       providesTags: ['Alerts'],
     }),
-    
+
     createAlert: builder.mutation<CreateAlertResponse, CreateAlertRequest>({
       query: (alertData) => ({
         url: '/alerts',
@@ -55,12 +54,12 @@ export const alertsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Alerts'],
     }),
-    
+
     getAlert: builder.query<AlertResponse, string>({
       query: (alertId) => `/alerts/${alertId}`,
       providesTags: (result, error, id) => [{ type: 'Alerts', id }],
     }),
-    
+
     markAlertRead: builder.mutation<MarkAlertReadResponse, string>({
       query: (notificationId) => ({
         url: `/alerts/${notificationId}/read`,

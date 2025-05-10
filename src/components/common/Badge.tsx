@@ -1,6 +1,12 @@
 import React from 'react';
 
-type BadgeVariant = 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info';
+type BadgeVariant =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'info';
 type BadgeSize = 'sm' | 'md' | 'lg';
 
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {

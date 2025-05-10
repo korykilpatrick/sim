@@ -27,7 +27,10 @@ const uiSlice = createSlice({
     setSidebarOpen: (state, action: PayloadAction<boolean>) => {
       state.sidebarOpen = action.payload;
     },
-    addNotification: (state, action: PayloadAction<Omit<Notification, 'id'>>) => {
+    addNotification: (
+      state,
+      action: PayloadAction<Omit<Notification, 'id'>>,
+    ) => {
       const id = Date.now().toString();
       state.notifications.push({
         ...action.payload,
@@ -37,7 +40,7 @@ const uiSlice = createSlice({
     removeNotification: (state, action: PayloadAction<string>) => {
       const id = action.payload;
       state.notifications = state.notifications.filter(
-        (notification) => notification.id !== id
+        (notification) => notification.id !== id,
       );
     },
     clearNotifications: (state) => {

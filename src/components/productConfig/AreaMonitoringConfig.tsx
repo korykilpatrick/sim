@@ -1,22 +1,32 @@
 import React, { useState } from 'react';
 import { ConfigFormBase } from './ConfigFormBase';
-import { NumberField, TextField, SelectField, CheckboxGroup, TextareaField } from './FormFields';
+import {
+  NumberField,
+  TextField,
+  SelectField,
+  CheckboxGroup,
+  TextareaField,
+} from './FormFields';
 import { useAppDispatch } from '@hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { addItem } from '@store/slices/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
-import { BaseProduct } from '@types/product';
+import { BaseProduct } from '@shared-types/product';
+import { AMSProductConfiguration } from '@shared-types/productConfiguration';
+import { getErrorMessage, logError } from '@utils/errorUtils';
 
 interface AreaMonitoringConfigProps {
   product: BaseProduct;
 }
 
-export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({ product }) => {
+export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
+  product,
+}) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Criteria options
   const areaCriteriaOptions = [
     { value: 'VESSEL_ENTRY', label: 'Vessel Entry into Area' },
@@ -27,70 +37,71 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({ prod
     { value: 'VESSEL_PROXIMITY', label: 'Vessel Proximity Alerts' },
     { value: 'VESSEL_DENSITY', label: 'Vessel Density Monitoring' },
   ];
-  
+
   // Default form values
   const defaultValues = {
     areaName: '',
     monitoringDurationDays: 30,
-    updateFrequencyHours: '24',
-    selectedCriteria: [],
+    updateFrequencyHours: '24' as '6' | '12' | '24',
+    selectedCriteria: [] as string[],
     specificVesselIMOs: '',
     notes: '',
   };
-  
-  const handleSubmit = (data: any) => {
+
+  // Type for the full form data
+  type AreaMonitoringFormData = typeof defaultValues;
+
+  const handleSubmit = (data: AreaMonitoringFormData) => {
     setIsSubmitting(true);
     setError(null);
-    
+
     try {
-      // Process specific vessel IMOs into an array (if any)
-      const specificVesselIMOs = data.specificVesselIMOs
+      // Ensure product.type is correctly 'AMS' for this configuration
+      if (product.type !== 'AMS') {
+        console.error('Invalid product type for AreaMonitoringConfig:', product.type);
+        const productTypeError = new Error('Misconfigured product type for AMS.');
+        logError(productTypeError, 'Product configuration error');
+        setError(getErrorMessage(productTypeError));
+        setIsSubmitting(false);
+        return;
+      }
+
+      const specificVesselIMOsArray = data.specificVesselIMOs
         ? data.specificVesselIMOs.split(',').map((imo: string) => imo.trim())
         : [];
-      
-      // Create configuration object
-      const configuration = {
-        areaName: data.areaName,
+
+      const configuration: AMSProductConfiguration = {
+        type: 'AMS',
+        areaName: data.areaName || undefined,
         monitoringDurationDays: data.monitoringDurationDays,
-        updateFrequencyHours: parseInt(data.updateFrequencyHours),
+        updateFrequencyHours: parseInt(data.updateFrequencyHours, 10) as (6 | 12 | 24),
         selectedCriteria: data.selectedCriteria || [],
-        specificVesselIMOs,
-        notes: data.notes,
-        // In a real app, we'd include the GeoJSON for the area
-        aoiDefinition: { type: 'Placeholder for GeoJSON' },
+        specificVesselIMOs: specificVesselIMOsArray.length > 0 ? specificVesselIMOsArray : undefined,
+        notes: data.notes || undefined,
+        aoiDefinition: { type: 'Polygon', coordinates: [] },
       };
-      
-      // Calculate the price based on configuration
-      const durationMultiplier = data.monitoringDurationDays / 30; // Default is 30 days
-      
-      // Update frequency affects price - more frequent updates cost more
-      const frequencyMultiplier = 
-        data.updateFrequencyHours === '6' ? 1.5 :
-        data.updateFrequencyHours === '12' ? 1.25 : 1;
-      
-      const configuredPrice = Math.round(product.price * durationMultiplier * frequencyMultiplier * 100) / 100;
-      const configuredCreditCost = Math.round(product.creditCost * durationMultiplier * frequencyMultiplier);
-      
+
       // Add to cart
-      dispatch(addItem({
-        itemId: uuidv4(),
-        product,
-        quantity: 1,
-        configuredPrice,
-        configuredCreditCost,
-        configurationDetails: configuration,
-      }));
-      
-      // Navigate to cart
+      dispatch(
+        addItem({
+          itemId: uuidv4(),
+          product,
+          quantity: 1,
+          configurationDetails: configuration,
+        }),
+      );
+
       navigate('/protected/cart');
     } catch (err) {
-      console.error('Error adding to cart:', err);
-      setError('Failed to add the configured area monitoring service to your cart. Please try again.');
+      const errorMessage = getErrorMessage(err);
+      logError(err, 'Error adding area monitoring to cart');
+      console.error('Error adding to cart:', errorMessage);
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
   };
-  
+
   return (
     <ConfigFormBase
       title="Configure Area Monitoring Service"
@@ -108,11 +119,9 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({ prod
           required
           helperText="Give your monitoring area a descriptive name"
         />
-        
+
         <div className="bg-secondary-50 p-4 rounded-md border border-secondary-200">
-          <p className="text-sm text-secondary-600 mb-2">
-            Area Selection Map
-          </p>
+          <p className="text-sm text-secondary-600 mb-2">Area Selection Map</p>
           <div className="h-64 bg-white border border-secondary-300 rounded-md flex items-center justify-center">
             <p className="text-secondary-500">
               Map interface would be here in a complete implementation
@@ -122,7 +131,7 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({ prod
             Use the map to define your area of interest
           </p>
         </div>
-        
+
         <NumberField
           name="monitoringDurationDays"
           label="Monitoring Duration (Days)"
@@ -131,7 +140,7 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({ prod
           required
           helperText="How long would you like to monitor this area? (7-365 days)"
         />
-        
+
         <SelectField
           name="updateFrequencyHours"
           label="Update Frequency"
@@ -143,7 +152,7 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({ prod
           required
           helperText="How often should the system update with new data?"
         />
-        
+
         <div className="border-t border-secondary-200 pt-6">
           <CheckboxGroup
             name="selectedCriteria"
@@ -153,14 +162,14 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({ prod
             helperText="Select at least one monitoring criterion"
           />
         </div>
-        
+
         <TextField
           name="specificVesselIMOs"
           label="Specific Vessels of Interest (Optional)"
           placeholder="9876543, 1234567"
           helperText="Enter comma-separated IMO numbers if you're interested in specific vessels within this area"
         />
-        
+
         <div className="border-t border-secondary-200 pt-6">
           <TextareaField
             name="notes"

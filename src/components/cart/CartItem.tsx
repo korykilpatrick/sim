@@ -1,66 +1,115 @@
 import React from 'react';
-import { CartItem as CartItemType } from '@types/cart';
+import { CartItem as CartItemType } from '@/types';
 import { useAppDispatch } from '@hooks/redux';
 import { updateItemQuantity, removeItem } from '@store/slices/cartSlice';
+import { ProductConfigurationType } from '@shared-types/productConfiguration';
 
-interface CartItemProps {
+/**
+ * Props for the CartItem component
+ */
+type CartItemProps = {
+  /** The cart item to display */
   item: CartItemType;
-}
+};
 
-export const CartItem: React.FC<CartItemProps> = ({ item }) => {
+/**
+ * Displays a cart item with product details, quantity control, and removal option
+ */
+export const CartItem = ({ item }: CartItemProps): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { itemId, product, quantity, configuredPrice, configuredCreditCost } = item;
-  
+  const { itemId, product, quantity, configuredPrice, configuredCreditCost } =
+    item;
+
   const price = configuredPrice ?? product.price;
   const creditCost = configuredCreditCost ?? product.creditCost;
   const totalPrice = price * quantity;
   const totalCredits = creditCost * quantity;
-  
-  const handleQuantityChange = (newQuantity: number) => {
+
+  const handleQuantityChange = (newQuantity: number): void => {
     if (newQuantity < 1) return;
     dispatch(updateItemQuantity({ itemId, quantity: newQuantity }));
   };
-  
-  const handleRemove = () => {
+
+  const handleRemove = (): void => {
     dispatch(removeItem(itemId));
   };
-  
-  // Get simplified configuration details for display
-  const getConfigSummary = () => {
+
+  /**
+   * Creates a human-readable summary of the product configuration
+   */
+  const getConfigSummary = (): string | null => {
     if (!item.configurationDetails) return null;
-    
-    const { trackingDurationDays, monitoringDurationDays } = item.configurationDetails;
-    const duration = trackingDurationDays || monitoringDurationDays;
-    
-    if (duration) {
+
+    const config = item.configurationDetails as ProductConfigurationType;
+    let duration: number | undefined;
+
+    // Type guards for accessing properties on discriminated union
+    switch (config.type) {
+      case 'VTS':
+        duration = config.trackingDurationDays;
+        break;
+      case 'AMS':
+        duration = config.monitoringDurationDays;
+        break;
+      case 'MARITIME_ALERT':
+        duration = config.monitoringDurationDays;
+        break;
+      case 'FTS':
+        duration = config.monitoringDurationDays;
+        break;
+    }
+
+    if (duration !== undefined) {
       return `${duration} days`;
     }
-    
+
+    // Summaries for other config types
+    if ((config.type === 'REPORT_COMPLIANCE' || config.type === 'REPORT_CHRONOLOGY')) {
+        return `Depth: ${config.depth}`;
+    }
+
     return null;
   };
-  
+
   const configSummary = getConfigSummary();
-  
+
   return (
     <div className="flex flex-col md:flex-row border-b border-secondary-200 py-6 last:border-b-0">
       {/* Product Image */}
       <div className="w-full md:w-24 h-24 flex-shrink-0 bg-secondary-100 rounded-md overflow-hidden">
         {product.imageUrl ? (
-          <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            className="w-full h-full object-cover"
+          />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-12 w-12 text-secondary-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
             </svg>
           </div>
         )}
       </div>
-      
+
       {/* Product Info */}
       <div className="flex-1 md:ml-6 mt-4 md:mt-0">
         <div className="flex flex-col md:flex-row md:justify-between">
           <div>
-            <h3 className="text-lg font-medium text-secondary-900">{product.name}</h3>
+            <h3 className="text-lg font-medium text-secondary-900">
+              {product.name}
+            </h3>
             <p className="mt-1 text-sm text-secondary-500">
               {configSummary ? (
                 <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
@@ -69,16 +118,21 @@ export const CartItem: React.FC<CartItemProps> = ({ item }) => {
               ) : null}
             </p>
           </div>
-          
+
           <div className="mt-4 md:mt-0 text-right">
-            <p className="text-lg font-medium text-secondary-900">${totalPrice.toFixed(2)}</p>
+            <p className="text-lg font-medium text-secondary-900">
+              ${totalPrice.toFixed(2)}
+            </p>
             <p className="text-sm text-secondary-500">{totalCredits} credits</p>
           </div>
         </div>
-        
+
         <div className="flex items-center justify-between mt-4">
           <div className="flex items-center">
-            <label htmlFor={`quantity-${itemId}`} className="mr-2 text-sm text-ocean-100">
+            <label
+              htmlFor={`quantity-${itemId}`}
+              className="mr-2 text-sm text-ocean-100"
+            >
               Qty
             </label>
             <div className="flex border border-navy-600 rounded-md">
@@ -109,7 +163,7 @@ export const CartItem: React.FC<CartItemProps> = ({ item }) => {
               </button>
             </div>
           </div>
-          
+
           <button
             type="button"
             className="text-sm text-red-600 hover:text-red-800"
