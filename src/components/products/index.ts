@@ -13,3 +13,7 @@ export { ProductCardInfo } from './ProductCardInfo';
 export { ProductCardTags } from './ProductCardTags';
 export { ProductCardPricing } from './ProductCardPricing';
 export { ProductCardActions } from './ProductCardActions';
+
+export { ProductHeader } from './ProductHeader';
+export { ProductInformation } from './ProductInformation';
+export { ProductSpecialFeatures } from './ProductSpecialFeatures';
