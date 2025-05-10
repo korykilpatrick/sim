@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAppSelector } from '@hooks/redux';
-import { DashboardSidebar } from '@components/dashboard/DashboardSidebar';
+import { DashboardSidebar } from '@components/dashboard';
 import { Input, Button, Alert } from '@components/common';
 
 // Form validation schema

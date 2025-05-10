@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useGetUserOrdersQuery } from '@services/ordersApi';
-import { DashboardSidebar } from '@components/dashboard/DashboardSidebar';
+import { DashboardSidebar } from '@components/dashboard';
 import { Button, Spinner, Alert } from '@components/common';
 
 const ReportsPage: React.FC = () => {

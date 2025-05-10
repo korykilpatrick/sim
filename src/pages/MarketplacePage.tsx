@@ -40,11 +40,10 @@ const MarketplacePage: React.FC = () => {
 
   // Fetch products with filtering
   // Fetch products with filtering
-  const queryParams = {
-    type: selectedType === null ? undefined : selectedType,
-    search: debouncedSearch || undefined,
-  };
-  const { data, error, isLoading } = useGetProductsQuery(queryParams);
+  const { data, error, isLoading } = useGetProductsQuery({
+    ...(selectedType !== null && { type: selectedType }),
+    ...(debouncedSearch && { search: debouncedSearch }),
+  });
 
   const handleTypeChange = (type: ProductType | null) => {
     setSelectedType(type);
