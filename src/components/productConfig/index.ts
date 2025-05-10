@@ -10,6 +10,8 @@ export {
   SelectField,
   CheckboxGroup,
   TextareaField,
+  DateField,
+  RadioGroup,
 } from './FormFields';
 
 export { AreaNameSection } from './AreaNameSection';
@@ -19,3 +21,10 @@ export { UpdateFrequencySection } from './UpdateFrequencySection';
 export { MonitoringCriteriaSection } from './MonitoringCriteriaSection';
 export { SpecificVesselsSection } from './SpecificVesselsSection';
 export { NotesSection } from './NotesSection';
+export { VesselIdentificationSection } from './VesselIdentificationSection';
+export { TrackingCriteriaSection } from './TrackingCriteriaSection';
+export { TimeframeSection } from './TimeframeSection';
+export { ReportDepthSection } from './ReportDepthSection';
+export { AlertTypeSection } from './AlertTypeSection';
+export { PrioritySection } from './PrioritySection';
+export { InfoBoxSection } from './InfoBoxSection';

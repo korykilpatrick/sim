@@ -1,13 +1,4 @@
 import React, { useState } from 'react';
-import { ConfigFormBase } from './ConfigFormBase';
-import {
-  RadioGroup,
-  NumberField,
-  TextField,
-  SelectField,
-  CheckboxGroup,
-  TextareaField,
-} from './FormFields';
 import { useAppDispatch } from '@hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { addItem } from '@store/slices/cartSlice';
@@ -16,6 +7,17 @@ import { MaritimeAlertProduct } from '@shared-types/product';
 import { MaritimeAlertProductConfiguration } from '@shared-types/productConfiguration';
 import { getErrorMessage, logError } from '@utils/errorUtils';
 import { useFormContext } from 'react-hook-form';
+import {
+  ConfigFormBase,
+  AlertTypeSection,
+  MonitoringDurationSection,
+  UpdateFrequencySection,
+  AreaNameSection,
+  MapSelectionSection,
+  NotesSection,
+  TextField,
+  CheckboxGroup,
+} from '@components/productConfig';
 
 /**
  * Props for MaritimeAlertConfig component
@@ -133,30 +135,38 @@ export const MaritimeAlertConfig = ({
         ];
       }
 
-      const configuration: MaritimeAlertProductConfiguration = {
-        type: 'MARITIME_ALERT',
+      const baseConfig = {
+        type: 'MARITIME_ALERT' as const,
         maritimeAlertType: data.alertType as 'SHIP' | 'AREA' | 'SHIP_AND_AREA',
         selectedCriteria: compiledSelectedCriteria,
-        monitoringDurationDays: data.monitoringDurationDays,
-        updateFrequencyHours: parseInt(data.updateFrequencyHours, 10) as
-          | 6
-          | 12
-          | 24,
-        notes: data.notes || undefined,
-        customRuleName:
-          data.alertType === 'AREA' || data.alertType === 'SHIP_AND_AREA'
-            ? data.areaName || undefined
-            : undefined,
-        vesselIMOs:
-          (data.alertType === 'SHIP' || data.alertType === 'SHIP_AND_AREA') &&
-          formVesselIMOs.length > 0
-            ? formVesselIMOs
-            : undefined,
-        aoiDefinition:
-          data.alertType === 'AREA' || data.alertType === 'SHIP_AND_AREA'
-            ? { type: 'Polygon', coordinates: [] }
-            : undefined,
       };
+
+      const configuration = {
+        ...baseConfig,
+        ...(data.monitoringDurationDays
+          ? { monitoringDurationDays: data.monitoringDurationDays }
+          : {}),
+        ...(data.updateFrequencyHours
+          ? {
+              updateFrequencyHours: parseInt(data.updateFrequencyHours, 10) as
+                | 6
+                | 12
+                | 24,
+            }
+          : {}),
+        ...(data.notes ? { notes: data.notes } : {}),
+        ...((data.alertType === 'AREA' || data.alertType === 'SHIP_AND_AREA') &&
+        data.areaName
+          ? { customRuleName: data.areaName }
+          : {}),
+        ...((data.alertType === 'SHIP' || data.alertType === 'SHIP_AND_AREA') &&
+        formVesselIMOs.length > 0
+          ? { vesselIMOs: formVesselIMOs }
+          : {}),
+        ...(data.alertType === 'AREA' || data.alertType === 'SHIP_AND_AREA'
+          ? { aoiDefinition: { type: 'Polygon', coordinates: [] } }
+          : {}),
+      } as MaritimeAlertProductConfiguration;
 
       const basePriceMultiplier = data.monitoringDurationDays / 30;
       const configuredPrice =
@@ -220,25 +230,8 @@ export const MaritimeAlertConfig = ({
             <h3 className="text-lg font-medium text-secondary-900">
               Area-based Alert Configuration
             </h3>
-            <TextField
-              name="areaName"
-              label="Area Name"
-              placeholder="Gulf of Mexico Monitoring Zone"
-              required
-            />
-            <div className="bg-secondary-50 p-4 rounded-md border border-secondary-200">
-              <p className="text-sm text-secondary-600 mb-2">
-                Area Selection Map
-              </p>
-              <div className="h-64 bg-white border border-secondary-300 rounded-md flex items-center justify-center">
-                <p className="text-secondary-500">
-                  Map interface would be here in a complete implementation
-                </p>
-              </div>
-              <p className="text-xs text-secondary-500 mt-2">
-                Use the map to define your area of interest
-              </p>
-            </div>
+            <AreaNameSection />
+            <MapSelectionSection />
             <CheckboxGroup
               name="areaCriteria"
               label="Alert Criteria"
@@ -248,14 +241,7 @@ export const MaritimeAlertConfig = ({
             />
           </div>
         )}
-        <div className="space-y-6 border-t border-secondary-200 pt-6">
-          <TextareaField
-            name="notes"
-            label="Notes"
-            placeholder="Add any additional information or requirements"
-            helperText="Optional: Add any special instructions or notes for this alert"
-          />
-        </div>
+        <NotesSection />
       </>
     );
   };
@@ -270,33 +256,11 @@ export const MaritimeAlertConfig = ({
       error={error}
     >
       <div className="space-y-6">
-        <RadioGroup
-          name="alertType"
-          label="Alert Type"
-          options={alertTypeOptions}
-          required
-        />
+        <AlertTypeSection options={alertTypeOptions} />
 
-        <NumberField
-          name="monitoringDurationDays"
-          label="Monitoring Duration (Days)"
-          min={1}
-          max={365}
-          required
-          helperText="How long should this alert be active? (1-365 days)"
-        />
+        <MonitoringDurationSection />
 
-        <SelectField
-          name="updateFrequencyHours"
-          label="Update Frequency"
-          options={[
-            { value: '6', label: 'Every 6 hours' },
-            { value: '12', label: 'Every 12 hours' },
-            { value: '24', label: 'Daily' },
-          ]}
-          required
-          helperText="How often should the system check for alert conditions?"
-        />
+        <UpdateFrequencySection />
 
         <ConditionalFields />
       </div>

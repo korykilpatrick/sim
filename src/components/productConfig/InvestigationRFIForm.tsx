@@ -1,21 +1,30 @@
 import React, { useState } from 'react';
-import { ConfigFormBase } from './ConfigFormBase';
-import {
-  TextField,
-  SelectField,
-  DateField,
-  TextareaField,
-  RadioGroup,
-} from './FormFields';
 import { useSubmitRFIMutation } from '@services/rfiApi';
 import { useNavigate } from 'react-router-dom';
-import { BaseProduct } from '@/types/product';
+import { BaseProduct } from '@shared-types/product';
 import { getErrorMessage, logError } from '@utils/errorUtils';
+import {
+  ConfigFormBase,
+  VesselIdentificationSection,
+  TimeframeSection,
+  PrioritySection,
+  InfoBoxSection,
+  TextField,
+  SelectField,
+  TextareaField,
+} from '@components/productConfig';
 
+/**
+ * Props for the InvestigationRFIForm component
+ */
 interface InvestigationRFIFormProps {
+  /** Product data */
   product: BaseProduct;
 }
 
+/**
+ * Component for submitting investigation requests
+ */
 export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
   product,
 }) => {
@@ -121,36 +130,21 @@ export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
           helperText="Select the type of investigation you need"
         />
 
-        <RadioGroup
-          name="priority"
-          label="Priority Level"
-          options={[
-            { value: 'standard', label: 'Standard (48-72 hours)' },
-            { value: 'urgent', label: 'Urgent (24-48 hours, +50% fee)' },
-          ]}
-          required
-        />
+        <PrioritySection />
 
         <div className="border-t border-secondary-200 pt-6">
           <h3 className="text-lg font-medium text-secondary-900 mb-4">
             Subject Information
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-            <TextField
-              name="vesselIMO"
-              label="Vessel IMO Number"
-              placeholder="1234567"
-              helperText="If applicable"
-            />
-
-            <TextField
-              name="vesselName"
-              label="Vessel Name"
-              placeholder="EXAMPLE VESSEL"
-              helperText="If applicable"
-            />
-          </div>
+          <VesselIdentificationSection
+            showIMO={true}
+            showName={true}
+            imoRequired={false}
+            nameRequired={false}
+            imoHelperText="If applicable"
+            nameHelperText="If applicable"
+          />
 
           <TextField
             name="region"
@@ -159,17 +153,12 @@ export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
             helperText="Geographical scope of the investigation"
           />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
-            <DateField
-              name="timeframeStart"
-              label="Timeframe Start Date"
-              helperText="Start date for the investigation period"
-            />
-
-            <DateField
-              name="timeframeEnd"
-              label="Timeframe End Date"
-              helperText="End date for the investigation period"
+          <div className="mt-6">
+            <TimeframeSection
+              startRequired={false}
+              endRequired={false}
+              startHelperText="Start date for the investigation period"
+              endHelperText="End date for the investigation period"
             />
           </div>
         </div>
@@ -185,18 +174,15 @@ export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
           />
         </div>
 
-        <div className="bg-blue-50 p-4 rounded-md border border-blue-200">
-          <h3 className="text-sm font-medium text-blue-800 mb-2">
-            RFI Process
-          </h3>
-          <p className="text-sm text-blue-700">
+        <InfoBoxSection type="info" title="RFI Process">
+          <p>
             After submission, our team will review your request and may contact
             you for additional information. Standard investigations are
             typically completed within 2-3 business days, while urgent requests
             receive priority handling. You&apos;ll receive a notification when
             your report is ready.
           </p>
-        </div>
+        </InfoBoxSection>
       </div>
     </ConfigFormBase>
   );

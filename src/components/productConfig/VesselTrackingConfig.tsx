@@ -1,11 +1,4 @@
 import React, { useState } from 'react';
-import { ConfigFormBase } from './ConfigFormBase';
-import {
-  NumberField,
-  TextField,
-  CheckboxGroup,
-  TextareaField,
-} from './FormFields';
 import { useAppDispatch } from '@hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { addItem } from '@store/slices/cartSlice';
@@ -16,11 +9,26 @@ import {
 } from '@shared-types/product';
 import { getErrorMessage, logError } from '@utils/errorUtils';
 import { VTSProductConfiguration } from '@shared-types/productConfiguration';
+import {
+  ConfigFormBase,
+  MonitoringDurationSection,
+  TrackingCriteriaSection,
+  NotesSection,
+  SpecificVesselsSection,
+  NumberField,
+} from '@components/productConfig';
 
+/**
+ * Props for the VesselTrackingConfig component
+ */
 interface VesselTrackingConfigProps {
+  /** Product data */
   product: BaseProduct;
 }
 
+/**
+ * Component for configuring Vessel Tracking Service products
+ */
 export const VesselTrackingConfig: React.FC<VesselTrackingConfigProps> = ({
   product,
 }) => {
@@ -129,22 +137,9 @@ export const VesselTrackingConfig: React.FC<VesselTrackingConfigProps> = ({
       error={error} // Access message property for display
     >
       <div className="space-y-6">
-        <NumberField
-          name="trackingDurationDays"
-          label="Tracking Duration (Days)"
-          min={7}
-          max={365}
-          required
-          helperText="How long would you like to track the vessels? (7-365 days)"
-        />
+        <MonitoringDurationSection />
 
-        <TextField
-          name="vesselIMOs"
-          label="Primary Vessel IMO Numbers"
-          placeholder="9876543, 1234567"
-          required
-          helperText="Enter comma-separated IMO numbers for vessels to track"
-        />
+        <SpecificVesselsSection />
 
         <NumberField
           name="additionalVessels"
@@ -154,24 +149,9 @@ export const VesselTrackingConfig: React.FC<VesselTrackingConfigProps> = ({
           helperText="Optionally add capacity for additional vessels you'll specify later"
         />
 
-        <div className="border-t border-secondary-200 pt-6">
-          <CheckboxGroup
-            name="selectedCriteria"
-            label="Tracking Criteria"
-            options={trackingCriteriaOptions}
-            required
-            helperText="Select at least one tracking criterion"
-          />
-        </div>
+        <TrackingCriteriaSection options={trackingCriteriaOptions} />
 
-        <div className="border-t border-secondary-200 pt-6">
-          <TextareaField
-            name="notes"
-            label="Notes"
-            placeholder="Add any additional information or requirements"
-            helperText="Optional: Add any special instructions or notes for this tracking service"
-          />
-        </div>
+        <NotesSection />
       </div>
     </ConfigFormBase>
   );

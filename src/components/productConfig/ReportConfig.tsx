@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { ConfigFormBase } from './ConfigFormBase';
-import { TextField, SelectField, DateField, TextareaField } from './FormFields';
 import { useAppDispatch } from '@hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { addItem } from '@store/slices/cartSlice';
@@ -15,11 +13,26 @@ import {
   ReportComplianceProductConfiguration,
   ReportChronologyProductConfiguration,
 } from '@shared-types/productConfiguration';
+import {
+  ConfigFormBase,
+  VesselIdentificationSection,
+  TimeframeSection,
+  ReportDepthSection,
+  InfoBoxSection,
+  NotesSection,
+} from '@components/productConfig';
 
+/**
+ * Props for the ReportConfig component
+ */
 type ReportConfigProps = {
+  /** Product data */
   product: BaseProduct;
 };
 
+/**
+ * Component for configuring Report products
+ */
 export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -132,86 +145,48 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
       error={error}
     >
       <div className="space-y-6">
-        <TextField
-          name="vesselIMO"
-          label="Vessel IMO Number"
-          placeholder="1234567"
-          required
-          helperText="Enter the 7-digit IMO number of the vessel"
+        <VesselIdentificationSection
+          showIMO={true}
+          showName={true}
+          imoRequired={true}
+          nameRequired={true}
         />
 
-        <TextField
-          name="vesselName"
-          label="Vessel Name"
-          placeholder="EXAMPLE VESSEL"
-          required
-          helperText="Enter the name of the vessel"
+        <TimeframeSection
+          startHelperText="Start date for the report period"
+          endHelperText="End date for the report period"
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <DateField
-            name="timeframeStart"
-            label="Timeframe Start Date"
-            required
-            helperText="Start date for the report period"
-          />
-
-          <DateField
-            name="timeframeEnd"
-            label="Timeframe End Date"
-            required
-            helperText="End date for the report period"
-          />
-        </div>
-
-        <SelectField
-          name="reportDepth"
-          label="Report Depth"
-          options={[
-            { value: 'basic', label: 'Basic (Less detail, faster delivery)' },
-            { value: 'standard', label: 'Standard (Recommended)' },
-            { value: 'comprehensive', label: 'Comprehensive (Maximum detail)' },
-          ]}
-          required
-          helperText="Select the level of detail for your report"
-        />
+        <ReportDepthSection />
 
         {isComplianceReport && (
-          <div className="bg-yellow-50 p-4 rounded-md border border-yellow-200">
-            <h3 className="text-sm font-medium text-yellow-800 mb-2">
-              Compliance Report Note
-            </h3>
-            <p className="text-sm text-yellow-700">
+          <InfoBoxSection type="warning" title="Compliance Report Note">
+            <p>
               Compliance reports include sanctions checks, port call history,
               and compliance risk assessment. The comprehensive option includes
               additional ownership structure analysis and historical compliance
               records.
             </p>
-          </div>
+          </InfoBoxSection>
         )}
 
         {!isComplianceReport && (
-          <div className="bg-blue-50 p-4 rounded-md border border-blue-200">
-            <h3 className="text-sm font-medium text-blue-800 mb-2">
-              Chronology Report Note
-            </h3>
-            <p className="text-sm text-blue-700">
+          <InfoBoxSection type="info" title="Chronology Report Note">
+            <p>
               Chronology reports include detailed vessel movements, port calls,
               and activity patterns. The comprehensive option includes weather
               overlays, cargo information (when available), and anomaly
               detection.
             </p>
-          </div>
+          </InfoBoxSection>
         )}
 
-        <div className="border-t border-secondary-200 pt-6">
-          <TextareaField
-            name="additionalInfo"
-            label="Additional Information"
-            placeholder="Add any specific aspects you want included in the report..."
-            helperText="Optional: Add any special requests or areas of focus for this report"
-          />
-        </div>
+        <NotesSection
+          name="additionalInfo"
+          label="Additional Information"
+          placeholder="Add any specific aspects you want included in the report..."
+          helperText="Optional: Add any special requests or areas of focus for this report"
+        />
       </div>
     </ConfigFormBase>
   );
