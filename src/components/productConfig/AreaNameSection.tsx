@@ -3,6 +3,8 @@ import { TextField } from './FormFields';
 
 /**
  * Component for the area name input section
+ * 
+ * @returns The rendered area name input field with label and helper text
  */
 export const AreaNameSection: React.FC = () => {
   return (
