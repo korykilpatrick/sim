@@ -3,16 +3,39 @@ import { useNavigate } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 import { Button } from '@components/common';
 
+/**
+ * Props for the ConfigFormBase component
+ */
 type ConfigFormBaseProps = {
+  /** Form title */
   title: string;
+  /** Form description */
   description: string;
+  /** Default form values */
   defaultValues: any;
+  /** Form submission handler */
   onSubmit: (data: any) => void;
+  /** Whether the form is currently submitting */
   isSubmitting: boolean;
+  /** Error message to display */
   error: any;
+  /** Form content */
   children: React.ReactNode;
 };
 
+/**
+ * Base component for product configuration forms
+ * 
+ * @param props - The component props
+ * @param props.title - Form title
+ * @param props.description - Form description
+ * @param props.defaultValues - Default form values
+ * @param props.onSubmit - Form submission handler
+ * @param props.isSubmitting - Whether the form is currently submitting
+ * @param props.error - Error message to display
+ * @param props.children - Form content
+ * @returns The rendered configuration form with header, content, and action buttons
+ */
 export const ConfigFormBase: React.FC<ConfigFormBaseProps> = ({
   title,
   description,
