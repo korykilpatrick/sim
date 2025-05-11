@@ -101,6 +101,9 @@ export interface FormValidationErrorResponse {
 /**
  * Converts any error type to a strongly-typed AppError.
  * This ensures consistent error handling throughout the application.
+ * 
+ * @param error - The error to convert to an AppError
+ * @returns A strongly-typed AppError object
  */
 export function toAppError(error: unknown): AppError {
   if (isAppError(error)) {
@@ -144,6 +147,9 @@ export function toAppError(error: unknown): AppError {
 
 /**
  * Type guard for AppError.
+ * 
+ * @param error - The error to check
+ * @returns True if the error is an AppError, false otherwise
  */
 export function isAppError(error: unknown): error is AppError {
   return (
@@ -157,6 +163,9 @@ export function isAppError(error: unknown): error is AppError {
 
 /**
  * Type guard for ApiError.
+ * 
+ * @param error - The error to check
+ * @returns True if the error is an ApiError, false otherwise
  */
 export function isApiError(error: unknown): error is ApiError {
   return (
@@ -170,6 +179,9 @@ export function isApiError(error: unknown): error is ApiError {
 
 /**
  * Type guard for RTK Query errors.
+ * 
+ * @param error - The error to check
+ * @returns True if the error is an RTK Query error, false otherwise
  */
 export function isRtkQueryError(error: unknown): error is RtkQueryError {
   return (
@@ -183,6 +195,9 @@ export function isRtkQueryError(error: unknown): error is RtkQueryError {
 
 /**
  * Maps API error codes to our internal error codes.
+ * 
+ * @param apiCode - The API error code to map
+ * @returns The corresponding internal ErrorCode
  */
 function mapApiErrorCodeToErrorCode(apiCode: string): ErrorCode {
   // Try to match the API code directly to our ErrorCode enum
@@ -217,6 +232,9 @@ function mapApiErrorCodeToErrorCode(apiCode: string): ErrorCode {
 
 /**
  * Creates a user-friendly error message from an AppError.
+ * 
+ * @param error - The AppError to create a user-friendly message from
+ * @returns A user-friendly error message string
  */
 export function getUserFriendlyErrorMessage(error: AppError): string {
   // Customize error messages based on error code
