@@ -21,6 +21,15 @@ export interface NotesSectionProps {
 
 /**
  * Component for the notes input section
+ * 
+ * @param props - The component props
+ * @param props.name - Field name, defaults to 'notes'
+ * @param props.label - Field label, defaults to 'Notes'
+ * @param props.placeholder - Placeholder text
+ * @param props.helperText - Helper text displayed below the field
+ * @param props.required - Whether the field is required
+ * @param props.rows - Number of rows for the textarea
+ * @returns The rendered notes section with textarea field
  */
 export const NotesSection: React.FC<NotesSectionProps> = ({
   name = 'notes',
