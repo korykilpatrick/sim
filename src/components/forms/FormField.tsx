@@ -22,7 +22,9 @@ export function FormField({
   className = '',
   children,
   error,
-}: FormFieldProps): React.ReactElement {
+}: FormFieldProps & {
+  error?: string;
+}): React.ReactElement {
   return (
     <div className={`space-y-1 ${className}`}>
       {label && (

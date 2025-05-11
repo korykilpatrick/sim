@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import {
   useForm as useHookForm,
@@ -46,7 +47,7 @@ export function useForm<TFormValues extends FieldValues>(
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const methods = useHookForm<TFormValues>({
-    ...rest,
+    ...(rest as UseFormProps<TFormValues>),
     resolver: schema ? zodResolver(schema) : undefined,
   });
 
@@ -64,7 +65,7 @@ export function useForm<TFormValues extends FieldValues>(
       return methods.handleSubmit(
         async (data) => {
           try {
-            await onValid(data);
+            await onValid(data as TFormValues);
           } finally {
             setIsSubmitting(false);
           }
@@ -83,5 +84,5 @@ export function useForm<TFormValues extends FieldValues>(
     ...methods,
     isSubmitting,
     handleSubmitWithState,
-  };
+  } as UseFormExtendedReturn<TFormValues>;
 }

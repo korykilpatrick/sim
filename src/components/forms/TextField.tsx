@@ -42,18 +42,13 @@ export function TextField<TFormValues extends FieldValues = any>({
 }: TextFieldProps & {
   formMethods?: UseFormReturn<TFormValues>;
 }): React.ReactElement {
-  let contextMethods;
-  try {
-    contextMethods = useFormContext<TFormValues>();
-  } catch (error) {
-    contextMethods = null;
-  }
+  const contextMethods = useFormContext<TFormValues>();
 
   const methods = formMethods || contextMethods;
   
   const register = methods?.register || (() => ({}));
   const errors = methods?.formState?.errors || {};
-  const errorMessage = errors[name as any]?.message?.toString();
+  const errorMessage = name && errors[name as keyof typeof errors]?.message?.toString();
 
   return (
     <FormField
