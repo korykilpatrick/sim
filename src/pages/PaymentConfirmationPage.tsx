@@ -17,6 +17,8 @@ interface LocationState {
 
 /**
  * Component for displaying payment confirmation page
+ * 
+ * @returns The rendered payment confirmation page with order details
  */
 const PaymentConfirmationPage: React.FC = () => {
   const location = useLocation();
