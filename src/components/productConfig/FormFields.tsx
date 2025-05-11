@@ -3,15 +3,36 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { Input } from '@components/common';
 
 // Text Input Field
+/**
+ * Props for the TextField component
+ */
 type TextFieldProps = {
+  /** Field name */
   name: string;
+  /** Field label */
   label: string;
+  /** Placeholder text */
   placeholder?: string;
+  /** Helper text */
   helperText?: string;
+  /** Input type */
   type?: string;
+  /** Whether the field is required */
   required?: boolean;
 };
 
+/**
+ * Component for rendering a text input field with label and validation
+ * 
+ * @param props - The component props
+ * @param props.name - Field name
+ * @param props.label - Field label
+ * @param props.placeholder - Placeholder text
+ * @param props.helperText - Helper text displayed below the field
+ * @param props.type - Input type, defaults to 'text'
+ * @param props.required - Whether the field is required
+ * @returns The rendered text input field with label and validation
+ */
 export const TextField: React.FC<TextFieldProps> = ({
   name,
   label,
@@ -42,16 +63,39 @@ export const TextField: React.FC<TextFieldProps> = ({
 };
 
 // Number Input Field
+/**
+ * Props for the NumberField component
+ */
 type NumberFieldProps = {
+  /** Field name */
   name: string;
+  /** Field label */
   label: string;
+  /** Placeholder text */
   placeholder?: string;
+  /** Helper text */
   helperText?: string;
+  /** Minimum allowed value */
   min?: number;
+  /** Maximum allowed value */
   max?: number;
+  /** Whether the field is required */
   required?: boolean;
 };
 
+/**
+ * Component for rendering a number input field with label and validation
+ * 
+ * @param props - The component props
+ * @param props.name - Field name
+ * @param props.label - Field label
+ * @param props.placeholder - Placeholder text
+ * @param props.helperText - Helper text displayed below the field
+ * @param props.min - Minimum allowed value
+ * @param props.max - Maximum allowed value
+ * @param props.required - Whether the field is required
+ * @returns The rendered number input field with label and validation
+ */
 export const NumberField: React.FC<NumberFieldProps> = ({
   name,
   label,
