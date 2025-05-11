@@ -42,7 +42,7 @@ export const FormActions: React.FC<FormActionsProps> = ({
           {secondaryText}
         </Button>
       )}
-      
+
       <Button
         type="submit"
         variant="primary"

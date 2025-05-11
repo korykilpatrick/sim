@@ -11,9 +11,7 @@ export const ChangePasswordCard: React.FC = () => {
         <h2 className="text-lg font-medium text-secondary-900">
           Change Password
         </h2>
-        <p className="text-sm text-secondary-500 mt-1">
-          Update your password
-        </p>
+        <p className="text-sm text-secondary-500 mt-1">Update your password</p>
       </div>
 
       <div className="p-6">

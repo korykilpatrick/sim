@@ -22,17 +22,14 @@ export const ReportItem: React.FC<ReportItemProps> = ({ report }) => {
   return (
     <div className="p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center">
       <div>
-        <h3 className="font-medium text-secondary-900">
-          {report.name}
-        </h3>
+        <h3 className="font-medium text-secondary-900">{report.name}</h3>
         <p className="text-sm text-secondary-500 mt-1">
           {report.type === 'REPORT_COMPLIANCE'
             ? 'Vessel Compliance Report'
             : 'Vessel Chronology Report'}
         </p>
         <p className="text-sm text-secondary-500 mt-1">
-          Purchased on{' '}
-          {new Date(report.purchaseDate).toLocaleDateString()}
+          Purchased on {new Date(report.purchaseDate).toLocaleDateString()}
         </p>
       </div>
 

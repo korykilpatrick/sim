@@ -49,11 +49,7 @@ const ReportsPage: React.FC = () => {
         <h1 className="text-2xl font-bold mb-6">Reports</h1>
 
         <div className="space-y-8">
-          <ReportsList
-            reports={reports}
-            isLoading={isLoading}
-            error={error}
-          />
+          <ReportsList reports={reports} isLoading={isLoading} error={error} />
 
           <CustomReportRequestCard />
         </div>

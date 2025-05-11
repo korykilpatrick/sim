@@ -19,16 +19,13 @@ export const RFISubmissionFooter: React.FC = () => {
         />
       </div>
 
-      <InfoBoxSection
-        type="info"
-        title="RFI Process"
-      >
+      <InfoBoxSection type="info" title="RFI Process">
         <p>
           After submission, our team will review your request and may contact
-          you for additional information. Standard investigations are
-          typically completed within 2-3 business days, while urgent requests
-          receive priority handling. You&apos;ll receive a notification when
-          your report is ready.
+          you for additional information. Standard investigations are typically
+          completed within 2-3 business days, while urgent requests receive
+          priority handling. You&apos;ll receive a notification when your report
+          is ready.
         </p>
       </InfoBoxSection>
     </>

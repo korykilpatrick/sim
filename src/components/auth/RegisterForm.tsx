@@ -34,7 +34,9 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
  */
 interface RegisterFormProps {
   /** Callback function called after successful registration */
-  onRegisterSuccess: (data: Omit<RegisterFormValues, 'confirmPassword'>) => void;
+  onRegisterSuccess: (
+    data: Omit<RegisterFormValues, 'confirmPassword'>,
+  ) => void;
 }
 
 /**

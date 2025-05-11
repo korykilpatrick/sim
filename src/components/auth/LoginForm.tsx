@@ -30,9 +30,7 @@ interface LoginFormProps {
 /**
  * Component for the login form
  */
-export const LoginForm: React.FC<LoginFormProps> = ({
-  onLoginSuccess,
-}) => {
+export const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
   const [login, { isLoading, error }] = useLoginMutation();
 
   const {

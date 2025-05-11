@@ -38,8 +38,7 @@ export const OrderSummaryList: React.FC<OrderSummaryListProps> = ({
               <p className="text-secondary-900">
                 $
                 {(
-                  (item.configuredPrice || item.product.price) *
-                  item.quantity
+                  (item.configuredPrice || item.product.price) * item.quantity
                 ).toFixed(2)}
               </p>
             </div>

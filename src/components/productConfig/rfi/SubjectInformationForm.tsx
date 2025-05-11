@@ -12,7 +12,7 @@ export const SubjectInformationForm: React.FC = () => {
         Subject Information
       </h3>
 
-      <VesselIdentificationSection 
+      <VesselIdentificationSection
         showIMO={true}
         showName={true}
         imoRequired={false}

@@ -26,10 +26,9 @@ interface UserProfileSettingsCardProps {
 /**
  * Component for user profile settings form
  */
-export const UserProfileSettingsCard: React.FC<UserProfileSettingsCardProps> = ({
-  userData,
-  isSuccess,
-}) => {
+export const UserProfileSettingsCard: React.FC<
+  UserProfileSettingsCardProps
+> = ({ userData, isSuccess }) => {
   const {
     register,
     handleSubmit,
@@ -120,11 +119,7 @@ export const UserProfileSettingsCard: React.FC<UserProfileSettingsCardProps> = (
             </div>
 
             <div className="pt-5">
-              <Button
-                type="submit"
-                variant="primary"
-                isLoading={isSubmitting}
-              >
+              <Button type="submit" variant="primary" isLoading={isSubmitting}>
                 Save Changes
               </Button>
             </div>

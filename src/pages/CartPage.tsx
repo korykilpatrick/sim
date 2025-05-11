@@ -38,13 +38,14 @@ const CartPage: React.FC = () => {
                   <h2 className="text-lg font-medium text-secondary-900">
                     {items.length} Item{items.length !== 1 ? 's' : ''} in Cart
                   </h2>
-                  <button
+                  <Button
                     type="button"
-                    className="text-sm text-red-600 hover:text-red-800"
+                    variant="danger"
+                    size="sm"
                     onClick={handleClearCart}
                   >
                     Clear Cart
-                  </button>
+                  </Button>
                 </div>
               </div>
 

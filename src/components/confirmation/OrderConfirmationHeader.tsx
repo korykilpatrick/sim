@@ -11,9 +11,9 @@ export interface OrderConfirmationHeaderProps {
 /**
  * Component for displaying the success icon, title, and order ID
  */
-export const OrderConfirmationHeader: React.FC<OrderConfirmationHeaderProps> = ({
-  orderId,
-}) => {
+export const OrderConfirmationHeader: React.FC<
+  OrderConfirmationHeaderProps
+> = ({ orderId }) => {
   return (
     <>
       <div className="mb-6">
@@ -39,8 +39,7 @@ export const OrderConfirmationHeader: React.FC<OrderConfirmationHeaderProps> = (
         Payment Successful!
       </h1>
       <p className="text-secondary-600 mb-6">
-        Thank you for your purchase. Your order has been successfully
-        processed.
+        Thank you for your purchase. Your order has been successfully processed.
       </p>
 
       <div className="border border-secondary-200 rounded-md p-4 mb-6 bg-secondary-50">

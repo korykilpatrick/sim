@@ -19,8 +19,8 @@ export const CustomReportRequestCard: React.FC = () => {
 
       <div className="p-6">
         <p className="text-secondary-600 mb-4">
-          Our team can create custom reports tailored to your specific
-          needs. Contact us to discuss your requirements.
+          Our team can create custom reports tailored to your specific needs.
+          Contact us to discuss your requirements.
         </p>
 
         <Link to="/protected/investigations/rfi">

@@ -76,8 +76,10 @@ const MarketplacePage: React.FC = () => {
     if (isApiError(error)) {
       return error.data.message;
     }
-    return (error as SerializedError)?.message ||
-      'There was an error loading the product catalog. Please try again later.';
+    return (
+      (error as SerializedError)?.message ||
+      'There was an error loading the product catalog. Please try again later.'
+    );
   };
 
   return (
@@ -100,7 +102,7 @@ const MarketplacePage: React.FC = () => {
           {isLoading ? (
             <MarketplaceLoadingState />
           ) : error ? (
-            <MarketplaceErrorState 
+            <MarketplaceErrorState
               message={getErrorMessage()}
               onRetry={refetch}
             />

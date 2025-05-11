@@ -46,9 +46,7 @@ export const ConfirmationActions: React.FC<ConfirmationActionsProps> = ({
       <Link to="/marketplace">
         <Button
           variant={
-            !launchableProducts.length && !hasReports
-              ? 'primary'
-              : 'outline'
+            !launchableProducts.length && !hasReports ? 'primary' : 'outline'
           }
           fullWidth
         >

@@ -7,7 +7,7 @@ import { TimeframeSection } from '../TimeframeSection';
 export const InvestigationTimeframeForm: React.FC = () => {
   return (
     <div className="mt-6">
-      <TimeframeSection 
+      <TimeframeSection
         startRequired={false}
         endRequired={false}
         startHelperText="Start date for the investigation period"

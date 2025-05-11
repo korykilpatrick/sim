@@ -3,10 +3,7 @@ import { useSubmitRFIMutation } from '@services/rfiApi';
 import { useNavigate } from 'react-router-dom';
 import { BaseProduct } from '@shared-types/product';
 import { getErrorMessage, logError } from '@utils/errorUtils';
-import {
-  ConfigFormBase,
-  PrioritySection,
-} from '@components/productConfig';
+import { ConfigFormBase, PrioritySection } from '@components/productConfig';
 import {
   InvestigationTypeSelector,
   SubjectInformationForm,
