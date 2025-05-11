@@ -5,6 +5,7 @@ import tseslint from 'typescript-eslint';
 import pluginReact from 'eslint-plugin-react';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import pluginJSDoc from 'eslint-plugin-jsdoc';
 
 export default [
   // 1. Global Ignores
@@ -66,6 +67,7 @@ export default [
       '@typescript-eslint': tseslint.plugin,
       react: pluginReact,
       'react-hooks': pluginReactHooks,
+      jsdoc: pluginJSDoc,
     },
     settings: {
       react: {
@@ -79,6 +81,21 @@ export default [
       // Add React specific recommended rules
       ...pluginReact.configs.recommended.rules,
       ...pluginReactHooks.configs.recommended.rules,
+      // Add JSDoc rules
+      'jsdoc/require-jsdoc': ['error', {
+        publicOnly: true,
+        require: {
+          FunctionDeclaration: true,
+          MethodDefinition: true,
+          ClassDeclaration: true,
+          ArrowFunctionExpression: true,
+          FunctionExpression: true,
+        }
+      }],
+      'jsdoc/require-param': 'error',
+      'jsdoc/require-param-description': 'error',
+      'jsdoc/require-returns': 'error',
+      'jsdoc/require-returns-description': 'error',
       // Customizations & Overrides
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
@@ -102,11 +119,27 @@ export default [
     },
     plugins: {
       '@typescript-eslint': tseslint.plugin,
+      jsdoc: pluginJSDoc,
     },
     rules: {
       // Start with typescript-eslint recommended rules for type-checked projects
       ...tseslint.configs.recommendedTypeChecked.rules,
       ...tseslint.configs.stylisticTypeChecked.rules,
+      // Add JSDoc rules
+      'jsdoc/require-jsdoc': ['error', {
+        publicOnly: true,
+        require: {
+          FunctionDeclaration: true,
+          MethodDefinition: true,
+          ClassDeclaration: true,
+          ArrowFunctionExpression: true,
+          FunctionExpression: true,
+        }
+      }],
+      'jsdoc/require-param': 'error',
+      'jsdoc/require-param-description': 'error',
+      'jsdoc/require-returns': 'error',
+      'jsdoc/require-returns-description': 'error',
       // Add other server specific rules or overrides here
       // e.g., "@typescript-eslint/no-explicit-any": "warn",
     },
@@ -119,6 +152,7 @@ export default [
   {
     plugins: {
       '@typescript-eslint': tseslint.plugin,
+      jsdoc: pluginJSDoc,
     },
     rules: {
       'no-unused-vars': 'off', // Disable base rule, prefer @typescript-eslint/no-unused-vars
