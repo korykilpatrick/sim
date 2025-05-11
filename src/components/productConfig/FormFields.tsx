@@ -142,14 +142,33 @@ export const NumberField: React.FC<NumberFieldProps> = ({
 };
 
 // Select Field
+/**
+ * Props for the SelectField component
+ */
 type SelectFieldProps = {
+  /** Field name */
   name: string;
+  /** Field label */
   label: string;
+  /** Options for the select dropdown */
   options: { value: string; label: string }[];
+  /** Helper text */
   helperText?: string;
+  /** Whether the field is required */
   required?: boolean;
 };
 
+/**
+ * Component for rendering a select dropdown field with label and validation
+ * 
+ * @param props - The component props
+ * @param props.name - Field name
+ * @param props.label - Field label
+ * @param props.options - Options for the select dropdown
+ * @param props.helperText - Helper text displayed below the field
+ * @param props.required - Whether the field is required
+ * @returns The rendered select dropdown field with label and validation
+ */
 export const SelectField: React.FC<SelectFieldProps> = ({
   name,
   label,
@@ -198,14 +217,33 @@ export const SelectField: React.FC<SelectFieldProps> = ({
 };
 
 // Checkbox Group
+/**
+ * Props for the CheckboxGroup component
+ */
 type CheckboxGroupProps = {
+  /** Field name */
   name: string;
+  /** Field label */
   label: string;
+  /** Options for the checkbox group */
   options: { value: string; label: string }[];
+  /** Helper text */
   helperText?: string;
+  /** Whether the field is required */
   required?: boolean;
 };
 
+/**
+ * Component for rendering a group of checkboxes with label and validation
+ * 
+ * @param props - The component props
+ * @param props.name - Field name
+ * @param props.label - Field label
+ * @param props.options - Options for the checkbox group
+ * @param props.helperText - Helper text displayed below the field
+ * @param props.required - Whether the field is required
+ * @returns The rendered checkbox group with label and validation
+ */
 export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
   name,
   label,
@@ -274,14 +312,33 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
 };
 
 // Radio Group
+/**
+ * Props for the RadioGroup component
+ */
 type RadioGroupProps = {
+  /** Field name */
   name: string;
+  /** Field label */
   label: string;
+  /** Options for the radio group */
   options: { value: string; label: string }[];
+  /** Helper text */
   helperText?: string;
+  /** Whether the field is required */
   required?: boolean;
 };
 
+/**
+ * Component for rendering a group of radio buttons with label and validation
+ * 
+ * @param props - The component props
+ * @param props.name - Field name
+ * @param props.label - Field label
+ * @param props.options - Options for the radio group
+ * @param props.helperText - Helper text displayed below the field
+ * @param props.required - Whether the field is required
+ * @returns The rendered radio group with label and validation
+ */
 export const RadioGroup: React.FC<RadioGroupProps> = ({
   name,
   label,
@@ -334,13 +391,30 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
 };
 
 // Date Field
+/**
+ * Props for the DateField component
+ */
 type DateFieldProps = {
+  /** Field name */
   name: string;
+  /** Field label */
   label: string;
+  /** Helper text */
   helperText?: string;
+  /** Whether the field is required */
   required?: boolean;
 };
 
+/**
+ * Component for rendering a date input field with label and validation
+ * 
+ * @param props - The component props
+ * @param props.name - Field name
+ * @param props.label - Field label
+ * @param props.helperText - Helper text displayed below the field
+ * @param props.required - Whether the field is required
+ * @returns The rendered date input field with label and validation
+ */
 export const DateField: React.FC<DateFieldProps> = ({
   name,
   label,
@@ -368,15 +442,36 @@ export const DateField: React.FC<DateFieldProps> = ({
 };
 
 // Textarea Field
+/**
+ * Props for the TextareaField component
+ */
 type TextareaFieldProps = {
+  /** Field name */
   name: string;
+  /** Field label */
   label: string;
+  /** Placeholder text */
   placeholder?: string;
+  /** Helper text */
   helperText?: string;
+  /** Number of rows */
   rows?: number;
+  /** Whether the field is required */
   required?: boolean;
 };
 
+/**
+ * Component for rendering a textarea field with label and validation
+ * 
+ * @param props - The component props
+ * @param props.name - Field name
+ * @param props.label - Field label
+ * @param props.placeholder - Placeholder text
+ * @param props.helperText - Helper text displayed below the field
+ * @param props.rows - Number of rows, defaults to 4
+ * @param props.required - Whether the field is required
+ * @returns The rendered textarea field with label and validation
+ */
 export const TextareaField: React.FC<TextareaFieldProps> = ({
   name,
   label,
