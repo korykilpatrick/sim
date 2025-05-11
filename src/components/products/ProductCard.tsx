@@ -16,6 +16,10 @@ export interface ProductCardProps {
 
 /**
  * Component for displaying a product card with image, info, tags, pricing, and actions
+ *
+ * @param props - The component props
+ * @param props.product - Product data to display
+ * @returns The rendered product card component
  */
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { id, name, shortDescription, price, creditCost, imageUrl, tags } =

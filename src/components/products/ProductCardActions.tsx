@@ -12,6 +12,10 @@ export interface ProductCardActionsProps {
 
 /**
  * Component for product card action buttons
+ *
+ * @param props - The component props
+ * @param props.productId - Product ID for the link
+ * @returns The rendered product card actions component
  */
 export const ProductCardActions: React.FC<ProductCardActionsProps> = ({
   productId,
