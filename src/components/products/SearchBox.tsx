@@ -12,6 +12,11 @@ export interface SearchBoxProps {
 
 /**
  * Component for product search functionality
+ *
+ * @param props - The component props
+ * @param props.searchQuery - Current search query
+ * @param props.onSearchChange - Function to handle search query changes
+ * @returns The rendered search box component
  */
 export const SearchBox: React.FC<SearchBoxProps> = ({
   searchQuery,

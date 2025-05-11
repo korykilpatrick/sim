@@ -15,6 +15,12 @@ export interface TypeFilterProps {
 
 /**
  * Component for filtering products by type
+ *
+ * @param props - The component props
+ * @param props.selectedType - Currently selected product type
+ * @param props.onTypeChange - Function to handle type selection changes
+ * @param props.productTypes - Available product types for filtering
+ * @returns The rendered type filter component
  */
 export const TypeFilter: React.FC<TypeFilterProps> = ({
   selectedType,
