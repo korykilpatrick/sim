@@ -11,6 +11,10 @@ export interface MonitoringCriteriaSectionProps {
 
 /**
  * Component for the monitoring criteria selection section
+ * 
+ * @param props - The component props
+ * @param props.options - Options for monitoring criteria
+ * @returns The rendered monitoring criteria section with checkbox group
  */
 export const MonitoringCriteriaSection: React.FC<
   MonitoringCriteriaSectionProps
