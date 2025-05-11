@@ -16,6 +16,11 @@ export interface ProductImageGalleryProps {
  * Component for displaying a product image gallery
  * For the MVP, this just displays a single image
  * In a real app, we might have multiple images to show in a gallery
+ *
+ * @param props - The component props
+ * @param props.mainImage - URL of the product image
+ * @param props.alt - Alt text for the image
+ * @returns The rendered product image gallery component
  */
 export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   mainImage,

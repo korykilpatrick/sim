@@ -10,6 +10,10 @@ export interface ProductInformationProps {
 
 /**
  * Component for displaying the product description
+ *
+ * @param props - The component props
+ * @param props.description - Product long description
+ * @returns The rendered product information component
  */
 export const ProductInformation: React.FC<ProductInformationProps> = ({
   description,
