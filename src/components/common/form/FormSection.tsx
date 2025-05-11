@@ -16,6 +16,13 @@ interface FormSectionProps {
 
 /**
  * Component for consistent form section styling
+ * 
+ * @param props - The component props
+ * @param props.title - Section title
+ * @param props.description - Optional description
+ * @param props.showBorder - Whether to show a border at the top
+ * @param props.children - Section content
+ * @returns The rendered form section with title, description, and content
  */
 export const FormSection: React.FC<FormSectionProps> = ({
   title,

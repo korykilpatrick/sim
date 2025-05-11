@@ -14,6 +14,17 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   size?: BadgeSize;
 }
 
+/**
+ * Component for displaying badges with different variants and sizes
+ * 
+ * @param props - The component props
+ * @param props.variant - Visual style variant of the badge
+ * @param props.size - Size of the badge
+ * @param props.children - Content to display inside the badge
+ * @param props.className - Additional CSS classes
+ * @param props.rest - Additional HTML attributes
+ * @returns The rendered badge with appropriate styling
+ */
 export const Badge: React.FC<BadgeProps> = ({
   variant = 'primary',
   size = 'md',

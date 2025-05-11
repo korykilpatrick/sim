@@ -40,6 +40,10 @@ interface RegisterFormProps {
 
 /**
  * Component for the registration form
+ * 
+ * @param props - The component props
+ * @param props.onRegisterSuccess - Callback function called after successful registration
+ * @returns The rendered registration form with email, name, password inputs and submit button
  */
 export const RegisterForm: React.FC<RegisterFormProps> = ({
   onRegisterSuccess,
@@ -48,6 +52,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
 
   /**
    * Handles form submission for user registration
+   * 
+   * @param data - The form data containing user registration information
    */
   const onSubmit = async (data: RegisterFormValues): Promise<void> => {
     try {

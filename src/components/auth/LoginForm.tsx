@@ -35,12 +35,18 @@ interface LoginFormProps {
 
 /**
  * Component for the login form
+ * 
+ * @param props - The component props
+ * @param props.onLoginSuccess - Callback function called after successful login
+ * @returns The rendered login form with email, password inputs and submit button
  */
 export const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
   const [login, { isLoading, error }] = useLoginMutation();
 
   /**
    * Handles form submission and authentication
+   * 
+   * @param data - The form data containing email and password
    */
   const onSubmit = async (data: LoginFormValues): Promise<void> => {
     try {

@@ -11,6 +11,10 @@ export interface OrderSummaryListProps {
 
 /**
  * Component for displaying the itemized list of purchased products
+ * 
+ * @param props - The component props
+ * @param props.items - Array of cart items to display
+ * @returns The rendered order summary with itemized list of purchased products
  */
 export const OrderSummaryList: React.FC<OrderSummaryListProps> = ({
   items,

@@ -23,6 +23,14 @@ type AlertProps = {
 
 /**
  * Component for displaying alert messages with different variants
+ * 
+ * @param props - The component props
+ * @param props.variant - Alert variant (info, success, warning, error)
+ * @param props.title - Optional title for the alert
+ * @param props.message - Alert message content
+ * @param props.onClose - Optional callback for closing the alert
+ * @param props.className - Additional CSS classes
+ * @returns The rendered alert component with appropriate styling based on variant
  */
 export const Alert: React.FC<AlertProps> = ({
   variant = 'info',

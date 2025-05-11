@@ -15,6 +15,15 @@ type SpinnerProps = {
   className?: string;
 };
 
+/**
+ * Spinner component for indicating loading states
+ * 
+ * @param props - The component props
+ * @param props.size - Size of the spinner
+ * @param props.color - Color of the spinner
+ * @param props.className - Additional CSS classes
+ * @returns The rendered spinner component with appropriate styling
+ */
 export const Spinner: React.FC<SpinnerProps> = ({
   size = 'md',
   color = 'primary',

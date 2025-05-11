@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 
 /**
  * Props for the PaymentMethodSelector component
@@ -16,6 +16,13 @@ interface PaymentMethodSelectorProps {
 
 /**
  * Component for selecting payment method during checkout
+ * 
+ * @param props - The component props
+ * @param props.paymentMethod - Currently selected payment method
+ * @param props.onPaymentMethodChange - Function to handle payment method change
+ * @param props.availableCredits - User's available credits
+ * @param props.requiredCredits - Total credits required for the purchase
+ * @returns The rendered payment method selection form with credit card and credits options
  */
 export const PaymentMethodSelector: FC<PaymentMethodSelectorProps> = ({
   paymentMethod,

@@ -12,6 +12,11 @@ interface FormValidationSummaryProps {
 
 /**
  * Component for displaying form validation errors
+ * 
+ * @param props - The component props
+ * @param props.error - Error message to display
+ * @param props.className - Additional CSS classes
+ * @returns The rendered error message or null if no error
  */
 export const FormValidationSummary: React.FC<FormValidationSummaryProps> = ({
   error,

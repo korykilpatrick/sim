@@ -21,6 +21,15 @@ interface FormActionsProps {
 
 /**
  * Component for consistent form action buttons
+ * 
+ * @param props - The component props
+ * @param props.primaryText - Primary button text
+ * @param props.secondaryText - Secondary button text
+ * @param props.isSubmitting - Whether the form is submitting
+ * @param props.onSecondaryClick - Handler for secondary action
+ * @param props.showSecondary - Whether to show the secondary button
+ * @param props.className - Additional CSS classes
+ * @returns The rendered form action buttons with appropriate styling
  */
 export const FormActions: React.FC<FormActionsProps> = ({
   primaryText = 'Submit',

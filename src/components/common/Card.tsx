@@ -7,6 +7,19 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   noPadding?: boolean;
 }
 
+/**
+ * Card component for displaying content in a structured container
+ * 
+ * @param props - The component props
+ * @param props.title - Optional card title
+ * @param props.subtitle - Optional card subtitle
+ * @param props.footer - Optional footer content
+ * @param props.children - Content to display inside the card
+ * @param props.noPadding - Whether to remove padding from the card content
+ * @param props.className - Additional CSS classes
+ * @param props.rest - Additional HTML attributes
+ * @returns The rendered card component with appropriate styling
+ */
 export const Card: React.FC<CardProps> = ({
   title,
   subtitle,
