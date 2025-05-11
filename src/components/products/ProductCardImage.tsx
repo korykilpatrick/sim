@@ -12,6 +12,11 @@ export interface ProductCardImageProps {
 
 /**
  * Component for displaying a product card image or placeholder
+ *
+ * @param props - The component props
+ * @param props.imageUrl - URL of the product image
+ * @param props.name - Alt text for the image
+ * @returns The rendered product card image component
  */
 export const ProductCardImage: React.FC<ProductCardImageProps> = ({
   imageUrl,

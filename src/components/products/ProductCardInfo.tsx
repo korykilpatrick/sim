@@ -12,6 +12,11 @@ export interface ProductCardInfoProps {
 
 /**
  * Component for displaying product name and description
+ *
+ * @param props - The component props
+ * @param props.name - Product name
+ * @param props.shortDescription - Short description of the product
+ * @returns The rendered product card info component
  */
 export const ProductCardInfo: React.FC<ProductCardInfoProps> = ({
   name,
