@@ -17,6 +17,10 @@ interface ReportItemProps {
 
 /**
  * Component for displaying a single report item
+ *
+ * @param props - The component props
+ * @param props.report - Report data to display
+ * @returns The rendered report item component
  */
 export const ReportItem: React.FC<ReportItemProps> = ({ report }) => {
   return (

@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 /**
  * Component for requesting custom reports
+ * 
+ * @returns The rendered custom report request card with description and button
  */
 export const CustomReportRequestCard: React.FC = () => {
   return (
