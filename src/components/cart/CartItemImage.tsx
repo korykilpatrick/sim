@@ -12,6 +12,11 @@ export interface CartItemImageProps {
 
 /**
  * Component for displaying a product image or placeholder in cart
+ *
+ * @param props - The component props
+ * @param props.imageUrl - URL of the product image
+ * @param props.alt - Alt text for the image
+ * @returns The rendered image component or placeholder
  */
 export const CartItemImage: React.FC<CartItemImageProps> = ({
   imageUrl,

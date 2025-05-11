@@ -14,6 +14,12 @@ interface QuantityControlProps {
 
 /**
  * Component for handling quantity selection with increment/decrement buttons
+ *
+ * @param props - The component props
+ * @param props.itemId - Unique ID for the input
+ * @param props.quantity - Current quantity value
+ * @param props.onQuantityChange - Function to handle quantity changes
+ * @returns The rendered quantity control component
  */
 export const QuantityControl: React.FC<QuantityControlProps> = ({
   itemId,

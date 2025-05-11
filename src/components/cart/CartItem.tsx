@@ -17,6 +17,10 @@ type CartItemProps = {
 
 /**
  * Displays a cart item with product details, quantity control, and removal option
+ *
+ * @param props - The component props
+ * @param props.item - The cart item to display
+ * @returns The rendered cart item component
  */
 export const CartItem = ({ item }: CartItemProps) => {
   const dispatch = useAppDispatch();

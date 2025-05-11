@@ -10,6 +10,10 @@ interface RemoveButtonProps {
 
 /**
  * Component for removing an item from the cart
+ *
+ * @param props - The component props
+ * @param props.onRemove - Function to handle item removal
+ * @returns The rendered remove button component
  */
 export const RemoveButton: React.FC<RemoveButtonProps> = ({ onRemove }) => {
   return (

@@ -17,6 +17,13 @@ export interface CartItemDetailsProps {
 
 /**
  * Component for displaying cart item details including name, configuration, and pricing
+ *
+ * @param props - The component props
+ * @param props.productName - Name of the product
+ * @param props.configurationDetails - Optional configuration details for the product
+ * @param props.totalPrice - Total price for the item
+ * @param props.totalCredits - Total credits for the item
+ * @returns The rendered cart item details component
  */
 export const CartItemDetails: React.FC<CartItemDetailsProps> = ({
   productName,
@@ -26,6 +33,8 @@ export const CartItemDetails: React.FC<CartItemDetailsProps> = ({
 }) => {
   /**
    * Creates a human-readable summary of the product configuration
+   * 
+   * @returns A string representation of the configuration or null if no configuration exists
    */
   const getConfigSummary = (): string | null => {
     if (!configurationDetails) return null;
