@@ -17,10 +17,18 @@ import {
 import { getErrorMessage, logError } from '@utils/errorUtils';
 import { VTSProductConfiguration } from '@shared-types/productConfiguration';
 
+/**
+ * Props for the VesselTrackingConfig component
+ */
 interface VesselTrackingConfigProps {
+  /** The product being configured */
   product: BaseProduct;
 }
 
+/**
+ * Component for configuring Vessel Tracking Service (VTS) products
+ * Allows users to specify tracking duration, vessels, and notification criteria
+ */
 export const VesselTrackingConfig: React.FC<VesselTrackingConfigProps> = ({
   product,
 }) => {
@@ -53,6 +61,10 @@ export const VesselTrackingConfig: React.FC<VesselTrackingConfigProps> = ({
   // Type for the full form data
   type VesselTrackingFormData = typeof defaultValues;
 
+  /**
+   * Handles form submission
+   * Validates the form data, creates a configuration object, and adds the item to the cart
+   */
   const handleSubmit = (data: VesselTrackingFormData) => {
     setIsSubmitting(true);
     setError(null);

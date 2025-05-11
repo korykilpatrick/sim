@@ -15,7 +15,7 @@ type CartItemProps = {
 /**
  * Displays a cart item with product details, quantity control, and removal option
  */
-export const CartItem = ({ item }: CartItemProps): JSX.Element => {
+export const CartItem = ({ item }: CartItemProps) => {
   const dispatch = useAppDispatch();
   const { itemId, product, quantity, configuredPrice, configuredCreditCost } =
     item;

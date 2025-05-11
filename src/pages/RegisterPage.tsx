@@ -35,7 +35,7 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 /**
  * Registration page component
  */
-const RegisterPage = (): JSX.Element => {
+const RegisterPage = () => {
   const navigate = useNavigate();
   const [register, { isLoading, error }] = useRegisterMutation();
 

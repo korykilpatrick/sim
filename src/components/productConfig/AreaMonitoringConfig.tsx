@@ -15,10 +15,18 @@ import { BaseProduct } from '@shared-types/product';
 import { AMSProductConfiguration } from '@shared-types/productConfiguration';
 import { getErrorMessage, logError } from '@utils/errorUtils';
 
+/**
+ * Props for the AreaMonitoringConfig component
+ */
 interface AreaMonitoringConfigProps {
+  /** The product being configured */
   product: BaseProduct;
 }
 
+/**
+ * Component for configuring Area Monitoring Service (AMS) products
+ * Allows users to define an area of interest and set monitoring parameters
+ */
 export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
   product,
 }) => {
@@ -51,6 +59,10 @@ export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
   // Type for the full form data
   type AreaMonitoringFormData = typeof defaultValues;
 
+  /**
+   * Handles form submission
+   * Validates the form data, creates a configuration object, and adds the item to the cart
+   */
   const handleSubmit = (data: AreaMonitoringFormData) => {
     setIsSubmitting(true);
     setError(null);

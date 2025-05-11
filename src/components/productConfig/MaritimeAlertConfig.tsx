@@ -30,7 +30,7 @@ interface MaritimeAlertConfigProps {
  */
 export const MaritimeAlertConfig = ({
   product,
-}: MaritimeAlertConfigProps): JSX.Element => {
+}: MaritimeAlertConfigProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);

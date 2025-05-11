@@ -9,13 +9,21 @@ import {
 } from './FormFields';
 import { useSubmitRFIMutation } from '@services/rfiApi';
 import { useNavigate } from 'react-router-dom';
-import { BaseProduct } from '@/types/product';
+import { BaseProduct } from '@shared-types/product';
 import { getErrorMessage, logError } from '@utils/errorUtils';
 
+/**
+ * Props for the InvestigationRFIForm component
+ */
 interface InvestigationRFIFormProps {
+  /** The product being configured */
   product: BaseProduct;
 }
 
+/**
+ * Component for submitting investigation requests
+ * Allows users to specify investigation type, priority, and details
+ */
 export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
   product,
 }) => {
@@ -38,6 +46,10 @@ export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
 
   type RFIFormData = typeof defaultValues;
 
+  /**
+   * Handles form submission
+   * Formats the RFI data and submits it to the API
+   */
   const handleSubmit = async (data: RFIFormData) => {
     setFormError(null);
     try {
