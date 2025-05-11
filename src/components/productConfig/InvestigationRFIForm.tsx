@@ -3,13 +3,14 @@ import { useSubmitRFIMutation } from '@services/rfiApi';
 import { useNavigate } from 'react-router-dom';
 import { BaseProduct } from '@shared-types/product';
 import { getErrorMessage, logError } from '@utils/errorUtils';
-import { ConfigFormBase, PrioritySection } from '@components/productConfig';
+import { PrioritySection } from '@components/productConfig';
 import {
   InvestigationTypeSelector,
   SubjectInformationForm,
   InvestigationTimeframeForm,
   RFISubmissionFooter,
 } from '@components/productConfig/rfi';
+import { Form, FormActions } from '@components/forms';
 
 /**
  * Props for the InvestigationRFIForm component
@@ -21,7 +22,7 @@ interface InvestigationRFIFormProps {
 
 /**
  * Component for submitting investigation requests
- * 
+ *
  * @param props - The component props
  * @param props.product - Product data for the investigation request
  * @returns The rendered investigation request form with type selection, priority, subject information, and timeframe inputs
@@ -97,25 +98,45 @@ export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
   }
 
   return (
-    <ConfigFormBase
-      title="Maritime Investigation Request Form"
-      description="Submit a Request for Intelligence (RFI) to our maritime analysis team for detailed investigation."
-      defaultValues={defaultValues}
-      onSubmit={handleSubmit}
-      isSubmitting={isSubmitting}
-      error={displayError}
-    >
-      <div className="space-y-6">
-        <InvestigationTypeSelector />
-
-        <PrioritySection />
-
-        <SubjectInformationForm />
-
-        <InvestigationTimeframeForm />
-
-        <RFISubmissionFooter />
+    <div className="bg-white rounded-lg shadow">
+      <div className="p-6 border-b border-secondary-200">
+        <h2 className="text-xl font-semibold text-secondary-900">
+          Maritime Investigation Request Form
+        </h2>
+        <p className="mt-1 text-sm text-secondary-500">
+          Submit a Request for Intelligence (RFI) to our maritime analysis team
+          for detailed investigation.
+        </p>
       </div>
-    </ConfigFormBase>
+
+      <Form<RFIFormData>
+        defaultValues={defaultValues}
+        onSubmit={handleSubmit}
+        isSubmitting={isSubmitting}
+        error={displayError}
+      >
+        <div className="p-6 space-y-6">
+          <div className="space-y-6">
+            <InvestigationTypeSelector />
+
+            <PrioritySection />
+
+            <SubjectInformationForm />
+
+            <InvestigationTimeframeForm />
+
+            <RFISubmissionFooter />
+          </div>
+        </div>
+
+        <div className="px-6 py-4 bg-secondary-50 border-t border-secondary-200 flex justify-end space-x-3">
+          <FormActions
+            primaryText="Add to Cart"
+            secondaryText="Cancel"
+            onSecondaryClick={() => navigate(-1)}
+          />
+        </div>
+      </Form>
+    </div>
   );
 };

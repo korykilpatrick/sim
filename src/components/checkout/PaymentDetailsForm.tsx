@@ -1,16 +1,14 @@
-import React, { type FC } from 'react';
-import { Input } from '@components/common';
-import type { UseFormRegister, FieldErrors } from 'react-hook-form';
+import React from 'react';
+import { TextField } from '@components/forms';
+import type { UseFormReturn } from 'react-hook-form';
 import type { CheckoutFormValues } from '@shared-types/checkout';
 
 /**
  * Props for the PaymentDetailsForm component
  */
 interface PaymentDetailsFormProps {
-  /** Register function from react-hook-form */
-  register: UseFormRegister<CheckoutFormValues>;
-  /** Form validation errors */
-  errors: FieldErrors<CheckoutFormValues>;
+  /** Form methods from react-hook-form */
+  formMethods: UseFormReturn<CheckoutFormValues>;
   /** Whether the form should be displayed */
   visible: boolean;
 }
@@ -19,14 +17,12 @@ interface PaymentDetailsFormProps {
  * Form component for collecting payment details during checkout
  *
  * @param props - The component props
- * @param props.register - Register function from react-hook-form
- * @param props.errors - Form validation errors
+ * @param props.formMethods - Form methods from react-hook-form
  * @param props.visible - Whether the form should be displayed
  * @returns The rendered payment details form or null if not visible
  */
-export const PaymentDetailsForm: FC<PaymentDetailsFormProps> = ({
-  register,
-  errors,
+export const PaymentDetailsForm: React.FC<PaymentDetailsFormProps> = ({
+  formMethods,
   visible,
 }) => {
   if (!visible) {
@@ -36,39 +32,43 @@ export const PaymentDetailsForm: FC<PaymentDetailsFormProps> = ({
   return (
     <div className="space-y-4">
       <div>
-        <Input
+        <TextField
+          name="cardNumber"
           label="Card Number"
           placeholder="1234 5678 9012 3456"
-          error={errors.cardNumber?.message}
-          {...register('cardNumber')}
+          required
+          formMethods={formMethods}
         />
       </div>
 
       <div className="grid grid-cols-3 gap-4">
         <div>
-          <Input
+          <TextField
+            name="expiryDate"
             label="Expiry Date"
             placeholder="MM/YY"
-            error={errors.expiryDate?.message}
-            {...register('expiryDate')}
+            required
+            formMethods={formMethods}
           />
         </div>
 
         <div>
-          <Input
+          <TextField
+            name="cvv"
             label="CVV"
             placeholder="123"
-            error={errors.cvv?.message}
-            {...register('cvv')}
+            required
+            formMethods={formMethods}
           />
         </div>
 
         <div className="col-span-3">
-          <Input
+          <TextField
+            name="cardholderName"
             label="Cardholder Name"
             placeholder="John Doe"
-            error={errors.cardholderName?.message}
-            {...register('cardholderName')}
+            required
+            formMethods={formMethods}
           />
         </div>
       </div>

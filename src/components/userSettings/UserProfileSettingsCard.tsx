@@ -1,8 +1,7 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useState } from 'react';
 import { z } from 'zod';
-import { Input, Button, Alert } from '@components/common';
+import { Alert } from '@components/common';
+import { Form, TextField, FormActions } from '@components/forms';
 
 const profileSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -34,27 +33,16 @@ interface UserProfileSettingsCardProps {
 export const UserProfileSettingsCard: React.FC<
   UserProfileSettingsCardProps
 > = ({ userData, isSuccess }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileSchema),
-    defaultValues: {
-      name: userData?.name || '',
-      email: userData?.email || '',
-      company: '',
-      jobTitle: '',
-    },
-  });
-
-  const [showSuccess, setShowSuccess] = React.useState(isSuccess || false);
+  const [showSuccess, setShowSuccess] = useState(isSuccess || false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = async (data: ProfileFormValues) => {
+    setIsSubmitting(true);
     console.log('Profile update data:', data);
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
+    setIsSubmitting(false);
     setShowSuccess(true);
 
     setTimeout(() => {
@@ -82,54 +70,53 @@ export const UserProfileSettingsCard: React.FC<
           </p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="p-6">
+        <Form<ProfileFormValues>
+          schema={profileSchema}
+          onSubmit={onSubmit}
+          isSubmitting={isSubmitting}
+          defaultValues={{
+            name: userData?.name || '',
+            email: userData?.email || '',
+            company: '',
+            jobTitle: '',
+          }}
+          className="p-6"
+        >
           <div className="space-y-6">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <div>
-                <Input
-                  label="Full Name"
-                  placeholder="John Doe"
-                  error={errors.name?.message}
-                  {...register('name')}
-                />
-              </div>
+              <TextField
+                name="name"
+                label="Full Name"
+                placeholder="John Doe"
+                required
+              />
 
-              <div>
-                <Input
-                  label="Email Address"
-                  type="email"
-                  placeholder="john@example.com"
-                  error={errors.email?.message}
-                  {...register('email')}
-                />
-              </div>
+              <TextField
+                name="email"
+                label="Email Address"
+                type="email"
+                placeholder="john@example.com"
+                required
+              />
 
-              <div>
-                <Input
-                  label="Company (Optional)"
-                  placeholder="Acme Inc."
-                  error={errors.company?.message}
-                  {...register('company')}
-                />
-              </div>
+              <TextField
+                name="company"
+                label="Company (Optional)"
+                placeholder="Acme Inc."
+              />
 
-              <div>
-                <Input
-                  label="Job Title (Optional)"
-                  placeholder="Maritime Analyst"
-                  error={errors.jobTitle?.message}
-                  {...register('jobTitle')}
-                />
-              </div>
+              <TextField
+                name="jobTitle"
+                label="Job Title (Optional)"
+                placeholder="Maritime Analyst"
+              />
             </div>
 
             <div className="pt-5">
-              <Button type="submit" variant="primary" isLoading={isSubmitting}>
-                Save Changes
-              </Button>
+              <FormActions primaryText="Save Changes" showSecondary={false} />
             </div>
           </div>
-        </form>
+        </Form>
       </div>
     </>
   );

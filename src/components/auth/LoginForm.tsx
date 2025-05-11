@@ -1,10 +1,15 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Input, Button, Alert } from '@components/common';
+import { Alert } from '@components/common';
 import { useLoginMutation } from '@services/authApi';
 import { getErrorMessage, logError } from '@utils/errorUtils';
+import {
+  Form,
+  TextField,
+  PasswordField,
+  CheckboxField,
+  FormActions,
+} from '@components/forms';
 
 /**
  * Form validation schema using zod
@@ -12,6 +17,7 @@ import { getErrorMessage, logError } from '@utils/errorUtils';
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
+  rememberMe: z.boolean().optional(),
 });
 
 /**
@@ -32,14 +38,6 @@ interface LoginFormProps {
  */
 export const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
   const [login, { isLoading, error }] = useLoginMutation();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
-  });
 
   /**
    * Handles form submission and authentication
@@ -65,43 +63,29 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
         />
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <Form<LoginFormValues>
+        schema={loginSchema}
+        onSubmit={onSubmit}
+        isSubmitting={isLoading}
+      >
         <div className="space-y-4">
-          <div>
-            <Input
-              label="Email"
-              type="email"
-              placeholder="Enter your email"
-              error={errors.email?.message}
-              {...register('email')}
-            />
-          </div>
+          <TextField
+            name="email"
+            label="Email"
+            type="email"
+            placeholder="Enter your email"
+            required
+          />
 
-          <div>
-            <Input
-              label="Password"
-              type="password"
-              placeholder="Enter your password"
-              error={errors.password?.message}
-              {...register('password')}
-            />
-          </div>
+          <PasswordField
+            name="password"
+            label="Password"
+            placeholder="Enter your password"
+            required
+          />
 
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-ocean-500 focus:ring-ocean-400 bg-navy-700 border-navy-600 rounded"
-              />
-              <label
-                htmlFor="remember-me"
-                className="ml-2 block text-sm text-ocean-100"
-              >
-                Remember me
-              </label>
-            </div>
+            <CheckboxField name="rememberMe" label="Remember me" />
 
             <div className="text-sm">
               <a
@@ -113,16 +97,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
             </div>
           </div>
 
-          <Button
-            type="submit"
-            variant="primary"
-            fullWidth
-            isLoading={isLoading}
-          >
-            Sign In
-          </Button>
+          <FormActions primaryText="Sign In" showSecondary={false} />
         </div>
-      </form>
+      </Form>
     </>
   );
 };
