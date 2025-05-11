@@ -28,7 +28,8 @@ export function PasswordField({
   disabled = false,
   className = '',
 }: PasswordFieldProps): React.ReactElement {
-  const { register, errors } = useFormContext();
+  const { register, formState } = useFormContext();
+  const errors = formState.errors;
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {

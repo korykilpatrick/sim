@@ -29,7 +29,8 @@ export function TextareaField({
   disabled = false,
   className = '',
 }: TextareaFieldProps): React.ReactElement {
-  const { register, errors } = useFormContext();
+  const { register, formState } = useFormContext();
+  const errors = formState.errors;
 
   return (
     <FormField

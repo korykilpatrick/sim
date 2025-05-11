@@ -22,7 +22,8 @@ export function CheckboxField({
   disabled = false,
   className = '',
 }: CheckboxFieldProps): React.ReactElement {
-  const { register, errors } = useFormContext();
+  const { register, formState } = useFormContext();
+  const errors = formState.errors;
   const errorMessage = errors[name]?.message?.toString();
 
   return (
