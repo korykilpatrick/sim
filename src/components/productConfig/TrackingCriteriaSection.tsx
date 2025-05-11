@@ -15,6 +15,12 @@ export interface TrackingCriteriaSectionProps {
 
 /**
  * Component for the tracking criteria selection section
+ * 
+ * @param props - The component props
+ * @param props.options - Options for tracking criteria
+ * @param props.label - Custom label
+ * @param props.helperText - Custom helper text
+ * @returns The rendered tracking criteria selection section
  */
 export const TrackingCriteriaSection: React.FC<
   TrackingCriteriaSectionProps

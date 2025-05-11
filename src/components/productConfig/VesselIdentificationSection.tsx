@@ -29,6 +29,19 @@ export interface VesselIdentificationSectionProps {
 
 /**
  * Component for vessel identification input fields
+ * 
+ * @param props - The component props
+ * @param props.showIMO - Whether to show vessel IMO field
+ * @param props.showName - Whether to show vessel name field
+ * @param props.imoRequired - Whether IMO is required
+ * @param props.nameRequired - Whether name is required
+ * @param props.imoLabel - Custom IMO label
+ * @param props.imoPlaceholder - Custom IMO placeholder
+ * @param props.imoHelperText - Custom IMO helper text
+ * @param props.nameLabel - Custom name label
+ * @param props.namePlaceholder - Custom name placeholder
+ * @param props.nameHelperText - Custom name helper text
+ * @returns The rendered vessel identification input fields
  */
 export const VesselIdentificationSection: React.FC<
   VesselIdentificationSectionProps

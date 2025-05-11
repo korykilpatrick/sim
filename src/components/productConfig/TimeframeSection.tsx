@@ -21,6 +21,15 @@ export interface TimeframeSectionProps {
 
 /**
  * Component for selecting a timeframe with start and end dates
+ * 
+ * @param props - The component props
+ * @param props.startRequired - Whether start date is required
+ * @param props.endRequired - Whether end date is required
+ * @param props.startLabel - Custom start date label
+ * @param props.startHelperText - Custom start date helper text
+ * @param props.endLabel - Custom end date label
+ * @param props.endHelperText - Custom end date helper text
+ * @returns The rendered timeframe selection component with start and end date fields
  */
 export const TimeframeSection: React.FC<TimeframeSectionProps> = ({
   startRequired = true,
