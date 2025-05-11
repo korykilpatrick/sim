@@ -12,6 +12,11 @@ export interface ClearFiltersButtonProps {
 
 /**
  * Component for clearing all product filters
+ *
+ * @param props - The component props
+ * @param props.hasActiveFilters - Whether any filters are active
+ * @param props.onClearFilters - Function to handle clearing all filters
+ * @returns The rendered clear filters button or null if no active filters
  */
 export const ClearFiltersButton: React.FC<ClearFiltersButtonProps> = ({
   hasActiveFilters,

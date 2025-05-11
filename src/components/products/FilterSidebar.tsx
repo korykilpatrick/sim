@@ -20,6 +20,13 @@ export interface FilterSidebarProps {
 
 /**
  * Component for filtering products in the marketplace
+ *
+ * @param props - The component props
+ * @param props.selectedType - Currently selected product type
+ * @param props.onTypeChange - Function to handle type selection changes
+ * @param props.onSearchChange - Function to handle search query changes
+ * @param props.searchQuery - Current search query
+ * @returns The rendered filter sidebar component
  */
 export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   selectedType,
