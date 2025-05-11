@@ -12,6 +12,11 @@ import type { UserProduct, UserProductStatus } from '@shared-types/userProduct';
 import type { Order, OrderItem } from '@shared-types/order';
 import type { ProductType } from '@shared-types/product';
 
+/**
+ * Dashboard page component for displaying user's purchased products and account information
+ * 
+ * @returns The rendered dashboard page with sidebar, product filters, product grid, and alerts
+ */
 const DashboardPage: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<ProductType | null>(null);
 
