@@ -11,6 +11,10 @@ export interface NavigationProps {
 
 /**
  * Component for main navigation links
+ * 
+ * @param props - The component props
+ * @param props.isAuthenticated - Whether the user is authenticated
+ * @returns The rendered navigation component with conditional links based on authentication status
  */
 export const Navigation: React.FC<NavigationProps> = ({ isAuthenticated }) => {
   return (
