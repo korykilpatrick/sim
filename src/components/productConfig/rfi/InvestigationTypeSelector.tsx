@@ -3,6 +3,8 @@ import { SelectField } from '../FormFields';
 
 /**
  * Component for selecting investigation type in RFI form
+ * 
+ * @returns The rendered investigation type selector dropdown
  */
 export const InvestigationTypeSelector: React.FC = () => {
   return (

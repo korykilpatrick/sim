@@ -3,6 +3,8 @@ import { TimeframeSection } from '../TimeframeSection';
 
 /**
  * Component for timeframe selection in RFI form
+ * 
+ * @returns The rendered investigation timeframe form section
  */
 export const InvestigationTimeframeForm: React.FC = () => {
   return (
