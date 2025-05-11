@@ -6,18 +6,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { MaritimeAlertProduct } from '@shared-types/product';
 import { MaritimeAlertProductConfiguration } from '@shared-types/productConfiguration';
 import { getErrorMessage, logError } from '@utils/errorUtils';
-import { useFormContext } from 'react-hook-form';
 import {
   ConfigFormBase,
   AlertTypeSection,
   MonitoringDurationSection,
   UpdateFrequencySection,
-  AreaNameSection,
-  MapSelectionSection,
-  NotesSection,
-  TextField,
-  CheckboxGroup,
 } from '@components/productConfig';
+import { MaritimeAlertConditionalFields } from './MaritimeAlertConditionalFields';
 
 /**
  * Props for MaritimeAlertConfig component
@@ -197,55 +192,6 @@ export const MaritimeAlertConfig = ({
     }
   };
 
-  // Component for conditional rendering using useFormContext
-  const ConditionalFields: React.FC = () => {
-    const { watch } = useFormContext<MaritimeAlertFormData>();
-    const alertType = watch('alertType');
-
-    return (
-      <>
-        {(alertType === 'SHIP' || alertType === 'SHIP_AND_AREA') && (
-          <div className="space-y-6 border-t border-secondary-200 pt-6">
-            <h3 className="text-lg font-medium text-secondary-900">
-              Ship-based Alert Configuration
-            </h3>
-            <TextField
-              name="vesselIMOs"
-              label="Vessel IMO Numbers"
-              placeholder="9876543, 1234567"
-              required
-              helperText="Enter comma-separated IMO numbers for vessels to monitor"
-            />
-            <CheckboxGroup
-              name="shipCriteria"
-              label="Alert Criteria"
-              options={shipCriteriaOptions}
-              required
-              helperText="Select at least one criterion"
-            />
-          </div>
-        )}
-        {(alertType === 'AREA' || alertType === 'SHIP_AND_AREA') && (
-          <div className="space-y-6 border-t border-secondary-200 pt-6">
-            <h3 className="text-lg font-medium text-secondary-900">
-              Area-based Alert Configuration
-            </h3>
-            <AreaNameSection />
-            <MapSelectionSection />
-            <CheckboxGroup
-              name="areaCriteria"
-              label="Alert Criteria"
-              options={areaCriteriaOptions}
-              required
-              helperText="Select at least one criterion"
-            />
-          </div>
-        )}
-        <NotesSection />
-      </>
-    );
-  };
-
   return (
     <ConfigFormBase
       title="Configure Maritime Alert"
@@ -262,7 +208,10 @@ export const MaritimeAlertConfig = ({
 
         <UpdateFrequencySection />
 
-        <ConditionalFields />
+        <MaritimeAlertConditionalFields
+          shipCriteriaOptions={shipCriteriaOptions}
+          areaCriteriaOptions={areaCriteriaOptions}
+        />
       </div>
     </ConfigFormBase>
   );

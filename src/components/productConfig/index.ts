@@ -28,3 +28,6 @@ export { ReportDepthSection } from './ReportDepthSection';
 export { AlertTypeSection } from './AlertTypeSection';
 export { PrioritySection } from './PrioritySection';
 export { InfoBoxSection } from './InfoBoxSection';
+export { ShipAlertConfigSection } from './ShipAlertConfigSection';
+export { AreaAlertConfigSection } from './AreaAlertConfigSection';
+export { MaritimeAlertConditionalFields } from './MaritimeAlertConditionalFields';
