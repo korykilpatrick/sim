@@ -12,6 +12,11 @@ export interface ProductCardPricingProps {
 
 /**
  * Component for displaying product pricing information
+ *
+ * @param props - The component props
+ * @param props.price - Product price in dollars
+ * @param props.creditCost - Product cost in credits
+ * @returns The rendered product card pricing component
  */
 export const ProductCardPricing: React.FC<ProductCardPricingProps> = ({
   price,
