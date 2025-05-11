@@ -13,6 +13,11 @@ interface MarketplaceErrorStateProps {
 
 /**
  * Component for displaying error state in marketplace
+ * 
+ * @param props - The component props
+ * @param props.message - Error message to display
+ * @param props.onRetry - Function to retry loading products
+ * @returns The rendered marketplace error state component with message and retry button
  */
 export const MarketplaceErrorState: React.FC<MarketplaceErrorStateProps> = ({
   message = 'Failed to load products. Please try again.',
