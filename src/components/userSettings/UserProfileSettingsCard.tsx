@@ -25,6 +25,11 @@ interface UserProfileSettingsCardProps {
 
 /**
  * Component for user profile settings form
+ *
+ * @param props - The component props
+ * @param props.userData - User data to populate the form
+ * @param props.isSuccess - Whether the form submission was successful
+ * @returns The rendered user profile settings form with success alert
  */
 export const UserProfileSettingsCard: React.FC<
   UserProfileSettingsCardProps
