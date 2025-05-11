@@ -4,6 +4,8 @@ import { TextField } from '../FormFields';
 
 /**
  * Component for subject information section in RFI form
+ * 
+ * @returns The rendered subject information form with vessel identification and region fields
  */
 export const SubjectInformationForm: React.FC = () => {
   return (

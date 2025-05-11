@@ -4,6 +4,8 @@ import { TextareaField } from '../FormFields';
 
 /**
  * Component for the submission footer in RFI form
+ * 
+ * @returns The rendered RFI submission footer with investigation scope field and process information
  */
 export const RFISubmissionFooter: React.FC = () => {
   return (
