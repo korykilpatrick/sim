@@ -12,6 +12,10 @@ export interface SearchResultsProps {
 
 /**
  * Component for displaying a grid of product search results
+ * 
+ * @param props - The component props
+ * @param props.products - List of products to display
+ * @returns The rendered search results grid with product cards
  */
 export const SearchResults: React.FC<SearchResultsProps> = ({ products }) => {
   return (
