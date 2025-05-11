@@ -3,7 +3,7 @@ import { Input } from '@components/common';
 import { FormField } from './FormField';
 import { useFormContext } from './FormContext';
 import type { TextFieldProps } from './types';
-import { FieldValues, UseFormReturn } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form';
 
 /**
  * Component for rendering a text input field
@@ -21,7 +21,6 @@ import { FieldValues, UseFormReturn } from 'react-hook-form';
  * @param props.maxLength - Maximum length
  * @param props.minLength - Minimum length
  * @param props.autoComplete - Auto complete attribute
- * @param props.formMethods - Optional form methods from parent component
  * @returns The rendered text input field with label and validation
  */
 export function TextField<TFormValues extends FieldValues = any>({
@@ -37,14 +36,9 @@ export function TextField<TFormValues extends FieldValues = any>({
   maxLength,
   minLength,
   autoComplete,
-  formMethods,
   ...rest
-}: TextFieldProps & {
-  formMethods?: UseFormReturn<TFormValues>;
-}): React.ReactElement {
-  const contextMethods = useFormContext<TFormValues>();
-
-  const methods = formMethods || contextMethods;
+}: TextFieldProps): React.ReactElement {
+  const methods = useFormContext<TFormValues>();
   
   const register = methods?.register || (() => ({}));
   const errors = methods?.formState?.errors || {};

@@ -210,15 +210,6 @@ export interface FormProps<TFormValues extends FieldValues> {
   isSubmitting?: boolean;
 }
 
-/**
- * Props for text input fields with form methods
- */
-export interface TextFieldWithFormMethodsProps<
-  TFormValues extends FieldValues = any,
-> extends TextFieldProps {
-  /** Form methods from parent component */
-  formMethods: UseFormReturn<TFormValues>;
-}
 
 /**
  * Context type for form context
