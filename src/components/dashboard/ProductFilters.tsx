@@ -15,6 +15,12 @@ interface ProductFiltersProps {
 
 /**
  * Component for filtering dashboard products by type
+ * 
+ * @param props - The component props
+ * @param props.activeFilter - Currently active filter
+ * @param props.onFilterChange - Function to handle filter changes
+ * @param props.productTypes - Available product types for filtering
+ * @returns The rendered product filters with filter buttons
  */
 export const ProductFilters: React.FC<ProductFiltersProps> = ({
   activeFilter,
