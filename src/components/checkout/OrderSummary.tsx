@@ -22,6 +22,15 @@ interface OrderSummaryProps {
 
 /**
  * Component for displaying order summary during checkout
+ *
+ * @param props - The component props
+ * @param props.items - Items in the cart
+ * @param props.totalAmount - Total amount before tax
+ * @param props.totalCredits - Total credits cost
+ * @param props.paymentMethod - Selected payment method
+ * @param props.isLoading - Whether the order is being processed
+ * @param props.isDisabled - Whether the submit button should be disabled
+ * @returns The rendered order summary component
  */
 export const OrderSummary: FC<OrderSummaryProps> = ({
   items,

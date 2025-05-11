@@ -17,6 +17,12 @@ interface PaymentDetailsFormProps {
 
 /**
  * Form component for collecting payment details during checkout
+ *
+ * @param props - The component props
+ * @param props.register - Register function from react-hook-form
+ * @param props.errors - Form validation errors
+ * @param props.visible - Whether the form should be displayed
+ * @returns The rendered payment details form or null if not visible
  */
 export const PaymentDetailsForm: FC<PaymentDetailsFormProps> = ({
   register,
