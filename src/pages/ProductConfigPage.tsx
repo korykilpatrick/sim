@@ -9,6 +9,11 @@ import { ReportConfig } from '@components/productConfig/ReportConfig';
 import { InvestigationRFIForm } from '@components/productConfig/InvestigationRFIForm';
 import { Spinner, Alert, Button } from '@components/common';
 
+/**
+ * Component for configuring product options before purchase
+ * 
+ * @returns The rendered product configuration page with appropriate form based on product type
+ */
 const ProductConfigPage: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
