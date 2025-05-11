@@ -3,6 +3,8 @@ import { NumberField } from './FormFields';
 
 /**
  * Component for the monitoring duration input section
+ * 
+ * @returns The rendered monitoring duration input field
  */
 export const MonitoringDurationSection: React.FC = () => {
   return (
