@@ -16,6 +16,11 @@ export interface AlertItemProps {
 
 /**
  * Component for displaying a single alert notification
+ * 
+ * @param props - The component props
+ * @param props.alert - Alert data to display
+ * @param props.onMarkAsRead - Function to mark an alert as read
+ * @returns The rendered alert item with severity indicator, content, and action buttons
  */
 export const AlertItem: React.FC<AlertItemProps> = ({
   alert,
