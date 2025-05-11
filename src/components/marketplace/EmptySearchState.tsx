@@ -2,6 +2,8 @@ import React from 'react';
 
 /**
  * Component for displaying a message when no products are found
+ * 
+ * @returns The rendered empty search state component with message and icon
  */
 export const EmptySearchState: React.FC = () => {
   return (
