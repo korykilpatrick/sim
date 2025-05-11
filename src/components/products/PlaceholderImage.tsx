@@ -2,6 +2,8 @@ import React from 'react';
 
 /**
  * Component for displaying a placeholder when no product image is available
+ * 
+ * @returns The rendered placeholder image component
  */
 export const PlaceholderImage: React.FC = () => {
   return (

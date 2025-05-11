@@ -11,6 +11,10 @@ export interface ProductSpecialFeaturesProps {
 
 /**
  * Component for displaying special features for Maritime Alert products
+ *
+ * @param props - The component props
+ * @param props.product - Product data
+ * @returns The rendered product special features component
  */
 export const ProductSpecialFeatures: React.FC<ProductSpecialFeaturesProps> = ({
   product,
