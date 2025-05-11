@@ -27,6 +27,10 @@ export interface AreaMonitoringConfigProps {
 
 /**
  * Component for configuring Area Monitoring Service products
+ * 
+ * @param props - The component props
+ * @param props.product - Product data to configure
+ * @returns The rendered area monitoring configuration form with all input sections
  */
 export const AreaMonitoringConfig: React.FC<AreaMonitoringConfigProps> = ({
   product,
