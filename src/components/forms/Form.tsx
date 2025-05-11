@@ -1,5 +1,10 @@
 import React from 'react';
-import { FormProvider as HookFormProvider, FieldValues } from 'react-hook-form';
+import { 
+  FormProvider as HookFormProvider, 
+  FieldValues, 
+  UseFormRegister,
+  Control
+} from 'react-hook-form';
 import { FormProvider } from './FormContext';
 import { FormError } from './FormError';
 import { useForm } from './useForm';
@@ -29,10 +34,12 @@ export function Form<TFormValues extends FieldValues>({
   error,
   isSubmitting: externalIsSubmitting,
 }: FormProps<TFormValues>): React.ReactElement {
-  const methods = useForm<TFormValues>({
-    defaultValues,
+  const formConfig = {
+    defaultValues: defaultValues || undefined,
     schema,
-  });
+  } as any;
+  
+  const methods = useForm<TFormValues>(formConfig);
 
   const { handleSubmitWithState, control, formState, register } = methods;
   const { errors } = formState;
@@ -42,9 +49,9 @@ export function Form<TFormValues extends FieldValues>({
     <HookFormProvider {...methods}>
       <FormProvider
         value={{
-          register,
-          errors,
-          control,
+          register: register as unknown as UseFormRegister<FieldValues>,
+          formState: { errors },
+          control: control as unknown as Control<FieldValues>,
           isSubmitting,
           defaultValues,
         }}

@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppSelector, useAppDispatch } from '@hooks/redux';
 import { clearCart } from '@store/slices/cartSlice';
 import { useCreateOrderMutation } from '@services/ordersApi';
@@ -17,6 +15,7 @@ import {
   type CheckoutFormValues,
   type PaymentMethod,
 } from '@shared-types/checkout';
+import { Form } from '@components/forms';
 
 /**
  * Checkout page component for completing purchases
@@ -35,14 +34,6 @@ const CheckoutPage: React.FC = () => {
     useState<PaymentMethod>('credit_card');
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<CheckoutFormValues>({
-    resolver: zodResolver(checkoutSchema),
-  });
-
   const hasSufficientCredits = credits >= totalCredits;
 
   const onSubmit = async (data: CheckoutFormValues) => {
@@ -51,19 +42,21 @@ const CheckoutPage: React.FC = () => {
     try {
       // In a real app, we would send payment info to a payment processor separately
       // Here we're just mocking the order creation
+      const orderItems = items.map(item => {
+        if (!item.configurationDetails) {
+          throw new Error(`Missing configuration details for product ${item.product.name}`);
+        }
+        
+        return {
+          product: item.product,
+          quantity: item.quantity,
+          configurationDetails: item.configurationDetails,
+        };
+      });
+
       const orderData = {
-        items,
-        totalAmount,
-        totalCredits,
+        items: orderItems,
         paymentMethod,
-        billingDetails: {
-          name: data.name,
-          address: data.address,
-          city: data.city,
-          state: data.state,
-          zipCode: data.zipCode,
-          country: data.country,
-        },
         paymentDetails:
           paymentMethod === 'credit_card'
             ? {
@@ -120,12 +113,16 @@ const CheckoutPage: React.FC = () => {
         />
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <Form<CheckoutFormValues>
+        schema={checkoutSchema}
+        onSubmit={onSubmit}
+        isSubmitting={isLoading}
+      >
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Checkout Form */}
           <div className="flex-1 space-y-8">
             {/* Billing Information */}
-            <ShippingAddressForm register={register} errors={errors} />
+            <ShippingAddressForm />
 
             {/* Payment Method */}
             <PaymentMethodSelector
@@ -137,8 +134,6 @@ const CheckoutPage: React.FC = () => {
 
             {/* Payment Details Form */}
             <PaymentDetailsForm
-              register={register}
-              errors={errors}
               visible={paymentMethod === 'credit_card'}
             />
           </div>
@@ -158,7 +153,7 @@ const CheckoutPage: React.FC = () => {
             />
           </div>
         </div>
-      </form>
+      </Form>
     </div>
   );
 };

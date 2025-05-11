@@ -1,12 +1,13 @@
 import React, { createContext, useContext } from 'react';
-import { FieldValues } from 'react-hook-form';
+import { FieldValues, UseFormRegister, Control, FieldErrors } from 'react-hook-form';
 import type { FormContextType } from './types';
 
 // Create a default context value for when useFormContext is used outside of FormProvider
-const defaultContextValue: FormContextType<any> = {
-  register: () => ({ onChange: () => {}, onBlur: () => {}, ref: () => {}, name: '' }),
-  formState: { errors: {} },
-  control: {} as any,
+// Create a type-safe default context value
+const defaultContextValue: FormContextType<FieldValues> = {
+  register: (() => ({ name: '' })) as unknown as UseFormRegister<FieldValues>,
+  formState: { errors: {} as unknown as FieldErrors<FieldValues> },
+  control: {} as unknown as Control<FieldValues>,
   isSubmitting: false,
   defaultValues: undefined,
 };

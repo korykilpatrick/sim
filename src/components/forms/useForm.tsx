@@ -46,10 +46,12 @@ export function useForm<TFormValues extends FieldValues>(
   const { schema, ...rest } = props;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const methods = useHookForm<TFormValues>({
-    ...(rest as UseFormProps<TFormValues>),
+  const formConfig = {
+    ...rest,
     resolver: schema ? zodResolver(schema) : undefined,
-  });
+  } as any;
+  
+  const methods = useHookForm<TFormValues>(formConfig);
 
   const handleSubmitWithState = (
     onValid: SubmitHandler<TFormValues>,
@@ -65,7 +67,7 @@ export function useForm<TFormValues extends FieldValues>(
       return methods.handleSubmit(
         async (data) => {
           try {
-            await onValid(data as TFormValues);
+            await onValid(data as unknown as TFormValues);
           } finally {
             setIsSubmitting(false);
           }
@@ -84,5 +86,5 @@ export function useForm<TFormValues extends FieldValues>(
     ...methods,
     isSubmitting,
     handleSubmitWithState,
-  } as UseFormExtendedReturn<TFormValues>;
+  } as unknown as UseFormExtendedReturn<TFormValues>;
 }

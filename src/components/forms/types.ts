@@ -228,5 +228,5 @@ export interface FormContextType<TFormValues extends FieldValues> {
   formState: { errors: FieldErrors<TFormValues> };
   control: Control<TFormValues>;
   isSubmitting: boolean;
-  defaultValues?: Partial<TFormValues>;
+  defaultValues: Partial<TFormValues> | undefined;
 }
