@@ -2,13 +2,7 @@ import React, { useState } from 'react';
 import { z } from 'zod';
 import { Alert } from '@components/common';
 import { Form, TextField, FormActions } from '@components/forms';
-
-const profileSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().min(1, 'Email is required').email('Invalid email format'),
-  company: z.string().optional(),
-  jobTitle: z.string().optional(),
-});
+import { profileSchema } from '@schemas';
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
