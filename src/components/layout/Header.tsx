@@ -8,6 +8,8 @@ import { UserMenu } from './UserMenu';
 
 /**
  * Main header component with logo, navigation, and user menu
+ * 
+ * @returns The rendered header component with logo, navigation, cart icon, and user menu
  */
 export const Header: React.FC = () => {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
