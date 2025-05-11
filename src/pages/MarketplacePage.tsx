@@ -17,6 +17,9 @@ import {
 
 /**
  * Helper to check if it's an RTK Query API error with our expected payload
+ *
+ * @param error - The error to check
+ * @returns True if the error is an RTK Query API error, false otherwise
  */
 function isApiError(error: any): error is RtkQueryError {
   return (
@@ -34,6 +37,8 @@ function isApiError(error: any): error is RtkQueryError {
 
 /**
  * Component for displaying the marketplace page
+ * 
+ * @returns The rendered marketplace page with filters, product grid, and promotional content
  */
 const MarketplacePage: React.FC = () => {
   const [selectedType, setSelectedType] = useState<ProductType | null>(null);
@@ -57,6 +62,8 @@ const MarketplacePage: React.FC = () => {
 
   /**
    * Handles product type filter change
+   * 
+   * @param type - The product type to filter by or null to clear filter
    */
   const handleTypeChange = (type: ProductType | null) => {
     setSelectedType(type);
@@ -64,6 +71,8 @@ const MarketplacePage: React.FC = () => {
 
   /**
    * Handles search query change
+   * 
+   * @param search - The search query string
    */
   const handleSearchChange = (search: string) => {
     setSearchQuery(search);
@@ -71,6 +80,8 @@ const MarketplacePage: React.FC = () => {
 
   /**
    * Gets error message from API error
+   * 
+   * @returns The formatted error message string
    */
   const getErrorMessage = () => {
     if (isApiError(error)) {
