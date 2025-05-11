@@ -22,6 +22,12 @@ interface ReportsListProps {
 
 /**
  * Component for displaying a list of reports
+ *
+ * @param props - The component props
+ * @param props.reports - Reports data to display
+ * @param props.isLoading - Whether reports are loading
+ * @param props.error - Error message if reports failed to load
+ * @returns The rendered reports list component with loading, error, and content states
  */
 export const ReportsList: React.FC<ReportsListProps> = ({
   reports,
