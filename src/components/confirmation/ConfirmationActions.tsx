@@ -13,7 +13,7 @@ export interface ConfirmationActionsProps {
 
 /**
  * Component for displaying action buttons based on product types
- * 
+ *
  * @param props - The component props
  * @param props.items - Array of cart items to determine which action buttons to show
  * @returns The rendered action buttons based on the purchased product types

@@ -7,7 +7,7 @@ import { Button } from '@components/common';
 
 /**
  * Component for displaying the cart page
- * 
+ *
  * @returns The rendered cart page with items list and order summary
  */
 const CartPage: React.FC = () => {

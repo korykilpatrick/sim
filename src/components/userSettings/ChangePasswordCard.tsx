@@ -3,7 +3,7 @@ import { Button } from '@components/common';
 
 /**
  * Component for the change password card in user settings
- * 
+ *
  * @returns The rendered change password card component
  */
 export const ChangePasswordCard: React.FC = () => {

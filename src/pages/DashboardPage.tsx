@@ -14,7 +14,7 @@ import type { ProductType } from '@shared-types/product';
 
 /**
  * Dashboard page component for displaying user's purchased products and account information
- * 
+ *
  * @returns The rendered dashboard page with sidebar, product filters, product grid, and alerts
  */
 const DashboardPage: React.FC = () => {

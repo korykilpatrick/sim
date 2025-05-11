@@ -49,12 +49,7 @@ export const PaymentDetailsForm: React.FC<PaymentDetailsFormProps> = ({
         </div>
 
         <div>
-          <TextField
-            name="cvv"
-            label="CVV"
-            placeholder="123"
-            required
-          />
+          <TextField name="cvv" label="CVV" placeholder="123" required />
         </div>
 
         <div className="col-span-3">

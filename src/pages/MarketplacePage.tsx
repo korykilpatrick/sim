@@ -37,7 +37,7 @@ function isApiError(error: any): error is RtkQueryError {
 
 /**
  * Component for displaying the marketplace page
- * 
+ *
  * @returns The rendered marketplace page with filters, product grid, and promotional content
  */
 const MarketplacePage: React.FC = () => {
@@ -62,7 +62,7 @@ const MarketplacePage: React.FC = () => {
 
   /**
    * Handles product type filter change
-   * 
+   *
    * @param type - The product type to filter by or null to clear filter
    */
   const handleTypeChange = (type: ProductType | null) => {
@@ -71,7 +71,7 @@ const MarketplacePage: React.FC = () => {
 
   /**
    * Handles search query change
-   * 
+   *
    * @param search - The search query string
    */
   const handleSearchChange = (search: string) => {
@@ -80,7 +80,7 @@ const MarketplacePage: React.FC = () => {
 
   /**
    * Gets error message from API error
-   * 
+   *
    * @returns The formatted error message string
    */
   const getErrorMessage = () => {

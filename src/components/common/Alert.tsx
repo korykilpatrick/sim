@@ -23,7 +23,7 @@ type AlertProps = {
 
 /**
  * Component for displaying alert messages with different variants
- * 
+ *
  * @param props - The component props
  * @param props.variant - Alert variant (info, success, warning, error)
  * @param props.title - Optional title for the alert

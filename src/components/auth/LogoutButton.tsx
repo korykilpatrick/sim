@@ -19,7 +19,7 @@ type LogoutButtonProps = {
 
 /**
  * Button component that handles user logout functionality
- * 
+ *
  * @param props - The component props
  * @param props.className - Additional CSS class names
  * @returns The rendered logout button that handles user sign out

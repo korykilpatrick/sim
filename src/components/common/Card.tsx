@@ -9,7 +9,7 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 /**
  * Card component for displaying content in a structured container
- * 
+ *
  * @param props - The component props
  * @param props.title - Optional card title
  * @param props.subtitle - Optional card subtitle

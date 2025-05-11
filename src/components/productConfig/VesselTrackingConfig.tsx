@@ -28,7 +28,7 @@ interface VesselTrackingConfigProps {
 
 /**
  * Component for configuring Vessel Tracking Service products
- * 
+ *
  * @param props - The component props
  * @param props.product - Product data
  * @returns The rendered vessel tracking configuration form

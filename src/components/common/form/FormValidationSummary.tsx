@@ -12,7 +12,7 @@ interface FormValidationSummaryProps {
 
 /**
  * Component for displaying form validation errors
- * 
+ *
  * @param props - The component props
  * @param props.error - Error message to display
  * @param props.className - Additional CSS classes

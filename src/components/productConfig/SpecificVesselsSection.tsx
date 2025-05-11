@@ -3,7 +3,7 @@ import { TextField } from './FormFields';
 
 /**
  * Component for the specific vessels input section
- * 
+ *
  * @returns The rendered specific vessels input field
  */
 export const SpecificVesselsSection: React.FC = () => {

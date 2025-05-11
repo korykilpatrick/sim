@@ -33,7 +33,7 @@ export const CartItemDetails: React.FC<CartItemDetailsProps> = ({
 }) => {
   /**
    * Creates a human-readable summary of the product configuration
-   * 
+   *
    * @returns A string representation of the configuration or null if no configuration exists
    */
   const getConfigSummary = (): string | null => {

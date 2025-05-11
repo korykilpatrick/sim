@@ -2,7 +2,7 @@ import React from 'react';
 
 /**
  * Component for the map selection interface
- * 
+ *
  * @returns The rendered map selection interface with placeholder content
  */
 export const MapSelectionSection: React.FC = () => {

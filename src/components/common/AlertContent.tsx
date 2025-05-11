@@ -12,7 +12,7 @@ export interface AlertContentProps {
 
 /**
  * Component for displaying alert content (title and message)
- * 
+ *
  * @param props - The component props
  * @param props.title - Alert title
  * @param props.message - Alert message

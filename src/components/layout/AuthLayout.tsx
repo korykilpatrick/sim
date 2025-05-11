@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 
 /**
  * Layout component for authentication pages (login and registration)
- * 
+ *
  * @returns The rendered authentication layout with centered content and branding
  */
 export const AuthLayout = () => {

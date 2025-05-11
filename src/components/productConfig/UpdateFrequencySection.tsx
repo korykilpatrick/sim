@@ -3,7 +3,7 @@ import { SelectField } from './FormFields';
 
 /**
  * Component for the update frequency selection section
- * 
+ *
  * @returns The rendered update frequency selection dropdown
  */
 export const UpdateFrequencySection: React.FC = () => {

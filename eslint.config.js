@@ -82,16 +82,19 @@ export default [
       ...pluginReact.configs.recommended.rules,
       ...pluginReactHooks.configs.recommended.rules,
       // Add JSDoc rules
-      'jsdoc/require-jsdoc': ['error', {
-        publicOnly: true,
-        require: {
-          FunctionDeclaration: true,
-          MethodDefinition: true,
-          ClassDeclaration: true,
-          ArrowFunctionExpression: true,
-          FunctionExpression: true,
-        }
-      }],
+      'jsdoc/require-jsdoc': [
+        'error',
+        {
+          publicOnly: true,
+          require: {
+            FunctionDeclaration: true,
+            MethodDefinition: true,
+            ClassDeclaration: true,
+            ArrowFunctionExpression: true,
+            FunctionExpression: true,
+          },
+        },
+      ],
       'jsdoc/require-param': 'error',
       'jsdoc/require-param-description': 'error',
       'jsdoc/require-returns': 'error',
@@ -126,16 +129,19 @@ export default [
       ...tseslint.configs.recommendedTypeChecked.rules,
       ...tseslint.configs.stylisticTypeChecked.rules,
       // Add JSDoc rules
-      'jsdoc/require-jsdoc': ['error', {
-        publicOnly: true,
-        require: {
-          FunctionDeclaration: true,
-          MethodDefinition: true,
-          ClassDeclaration: true,
-          ArrowFunctionExpression: true,
-          FunctionExpression: true,
-        }
-      }],
+      'jsdoc/require-jsdoc': [
+        'error',
+        {
+          publicOnly: true,
+          require: {
+            FunctionDeclaration: true,
+            MethodDefinition: true,
+            ClassDeclaration: true,
+            ArrowFunctionExpression: true,
+            FunctionExpression: true,
+          },
+        },
+      ],
       'jsdoc/require-param': 'error',
       'jsdoc/require-param-description': 'error',
       'jsdoc/require-returns': 'error',

@@ -1,9 +1,9 @@
 import React from 'react';
-import { 
-  FormProvider as HookFormProvider, 
-  FieldValues, 
+import {
+  FormProvider as HookFormProvider,
+  FieldValues,
   UseFormRegister,
-  Control
+  Control,
 } from 'react-hook-form';
 import { FormProvider } from './FormContext';
 import { FormError } from './FormError';
@@ -38,7 +38,7 @@ export function Form<TFormValues extends FieldValues>({
     defaultValues: defaultValues || undefined,
     schema,
   } as any;
-  
+
   const methods = useForm<TFormValues>(formConfig);
 
   const { handleSubmitWithState, control, formState, register } = methods;

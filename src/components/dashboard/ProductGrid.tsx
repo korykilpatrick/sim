@@ -17,7 +17,7 @@ interface ProductGridProps {
 
 /**
  * Component for displaying dashboard products in a grid
- * 
+ *
  * @param props - The component props
  * @param props.products - Filtered products to display
  * @param props.activeFilter - Currently active filter

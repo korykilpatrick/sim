@@ -14,7 +14,7 @@ export interface AlertActionsProps {
 
 /**
  * Component for displaying alert actions (like close button)
- * 
+ *
  * @param props - The component props
  * @param props.variant - Alert variant
  * @param props.onClose - Function to handle closing the alert

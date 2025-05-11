@@ -31,7 +31,7 @@ type ButtonProps = {
 /**
  * Button component for user interactions
  * Provides customizable styling with variants, sizes, loading states and icons
- * 
+ *
  * @param props - The component props
  * @param props.variant - Visual style variant of the button
  * @param props.size - Size of the button

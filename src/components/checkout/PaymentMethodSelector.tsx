@@ -16,7 +16,7 @@ interface PaymentMethodSelectorProps {
 
 /**
  * Component for selecting payment method during checkout
- * 
+ *
  * @param props - The component props
  * @param props.paymentMethod - Currently selected payment method
  * @param props.onPaymentMethodChange - Function to handle payment method change

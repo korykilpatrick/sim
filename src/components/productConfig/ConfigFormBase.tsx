@@ -25,7 +25,7 @@ type ConfigFormBaseProps = {
 
 /**
  * Base component for product configuration forms
- * 
+ *
  * @param props - The component props
  * @param props.title - Form title
  * @param props.description - Form description

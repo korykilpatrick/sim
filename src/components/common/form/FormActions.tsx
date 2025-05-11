@@ -21,7 +21,7 @@ interface FormActionsProps {
 
 /**
  * Component for consistent form action buttons
- * 
+ *
  * @param props - The component props
  * @param props.primaryText - Primary button text
  * @param props.secondaryText - Secondary button text

@@ -23,7 +23,7 @@ type ModalProps = {
 
 /**
  * Modal component for displaying content in a dialog overlay
- * 
+ *
  * @param props - The component props
  * @param props.isOpen - Whether the modal is currently open
  * @param props.onClose - Function to call when the modal should close

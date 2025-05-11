@@ -16,7 +16,7 @@ interface FormSectionProps {
 
 /**
  * Component for consistent form section styling
- * 
+ *
  * @param props - The component props
  * @param props.title - Section title
  * @param props.description - Optional description

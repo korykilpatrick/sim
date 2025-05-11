@@ -21,7 +21,7 @@ export interface TimeframeSectionProps {
 
 /**
  * Component for selecting a timeframe with start and end dates
- * 
+ *
  * @param props - The component props
  * @param props.startRequired - Whether start date is required
  * @param props.endRequired - Whether end date is required

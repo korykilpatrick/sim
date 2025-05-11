@@ -15,7 +15,7 @@ export interface TrackingCriteriaSectionProps {
 
 /**
  * Component for the tracking criteria selection section
- * 
+ *
  * @param props - The component props
  * @param props.options - Options for tracking criteria
  * @param props.label - Custom label

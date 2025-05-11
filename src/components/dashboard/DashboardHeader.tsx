@@ -13,7 +13,7 @@ interface DashboardHeaderProps {
 
 /**
  * Component for displaying dashboard header with loading and error states
- * 
+ *
  * @param props - The component props
  * @param props.isLoading - Whether products are loading
  * @param props.error - Error message if loading failed

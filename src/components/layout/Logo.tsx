@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 /**
  * Component for displaying the SynMax logo
- * 
+ *
  * @returns The rendered logo component with company name and link to home page
  */
 export const Logo: React.FC = () => {

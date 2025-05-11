@@ -3,7 +3,7 @@ import { RadioGroup } from './FormFields';
 
 /**
  * Component for selecting priority level
- * 
+ *
  * @returns The rendered priority selection radio group
  */
 export const PrioritySection: React.FC = () => {

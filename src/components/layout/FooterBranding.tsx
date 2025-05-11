@@ -2,7 +2,7 @@ import React from 'react';
 
 /**
  * Component for displaying the footer branding section
- * 
+ *
  * @returns The rendered footer branding section with company name and tagline
  */
 export const FooterBranding: React.FC = () => {

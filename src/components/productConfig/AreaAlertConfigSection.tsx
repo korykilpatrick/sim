@@ -13,7 +13,7 @@ export interface AreaAlertConfigSectionProps {
 
 /**
  * Component for displaying area-based alert configuration fields
- * 
+ *
  * @param props - The component props
  * @param props.areaCriteriaOptions - Options for area criteria checkboxes
  * @returns The rendered area alert configuration section with name, map, and criteria fields

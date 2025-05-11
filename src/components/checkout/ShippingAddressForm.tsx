@@ -55,12 +55,7 @@ export const ShippingAddressForm: React.FC<ShippingAddressFormProps> = ({
         </div>
 
         <div>
-          <TextField
-            name="city"
-            label="City"
-            placeholder="New York"
-            required
-          />
+          <TextField name="city" label="City" placeholder="New York" required />
         </div>
 
         <div>

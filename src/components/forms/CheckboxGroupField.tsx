@@ -27,7 +27,7 @@ export function CheckboxGroupField({
   className = '',
 }: CheckboxGroupProps): React.ReactElement {
   const formContext = useFormContext();
-  
+
   const control = formContext?.control || {};
 
   const formFieldProps = {
@@ -46,16 +46,19 @@ export function CheckboxGroupField({
           }}
           defaultValue={[]}
           render={({ field }) => {
-            const value = field && field.value ? 
-              (Array.isArray(field.value) ? field.value : []) : 
-              [];
-            
+            const value =
+              field && field.value
+                ? Array.isArray(field.value)
+                  ? field.value
+                  : []
+                : [];
+
             const handleChange = (newValue: any) => {
               if (field && typeof field.onChange === 'function') {
                 field.onChange(newValue);
               }
             };
-            
+
             return (
               <>
                 {options.map((option) => (
@@ -89,7 +92,7 @@ export function CheckboxGroupField({
           }}
         />
       </div>
-    )
+    ),
   } as FormFieldProps;
 
   return <FormField {...formFieldProps} />;

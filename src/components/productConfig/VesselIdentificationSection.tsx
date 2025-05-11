@@ -29,7 +29,7 @@ export interface VesselIdentificationSectionProps {
 
 /**
  * Component for vessel identification input fields
- * 
+ *
  * @param props - The component props
  * @param props.showIMO - Whether to show vessel IMO field
  * @param props.showName - Whether to show vessel name field

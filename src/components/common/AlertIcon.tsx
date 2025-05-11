@@ -12,7 +12,7 @@ interface AlertIconProps {
 
 /**
  * Component for displaying icons for different alert types
- * 
+ *
  * @param props - The component props
  * @param props.variant - Alert variant
  * @returns The rendered icon appropriate for the alert variant

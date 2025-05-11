@@ -16,7 +16,7 @@ interface Slide {
 
 /**
  * Component for displaying a promotional slider with auto-rotating slides
- * 
+ *
  * @returns The rendered promotional slider component
  */
 export const PromotionalSlider: React.FC = () => {

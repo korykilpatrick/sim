@@ -21,7 +21,7 @@ export interface NotesSectionProps {
 
 /**
  * Component for the notes input section
- * 
+ *
  * @param props - The component props
  * @param props.name - Field name, defaults to 'notes'
  * @param props.label - Field label, defaults to 'Notes'

@@ -2,7 +2,7 @@ import React from 'react';
 
 /**
  * Component for displaying the footer contact information
- * 
+ *
  * @returns The rendered footer contact section with address and email
  */
 export const FooterContact: React.FC = () => {

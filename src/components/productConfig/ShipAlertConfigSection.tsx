@@ -11,7 +11,7 @@ export interface ShipAlertConfigSectionProps {
 
 /**
  * Component for displaying ship-based alert configuration fields
- * 
+ *
  * @param props - The component props
  * @param props.shipCriteriaOptions - Options for ship criteria checkboxes
  * @returns The rendered ship alert configuration section with vessel IMO input and criteria checkboxes

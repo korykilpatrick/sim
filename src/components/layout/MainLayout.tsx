@@ -4,7 +4,7 @@ import { Footer } from './Footer';
 
 /**
  * Main layout component for the application
- * 
+ *
  * @returns The rendered main layout with header, content area, and footer
  */
 export const MainLayout = () => {

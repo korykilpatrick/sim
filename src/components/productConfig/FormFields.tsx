@@ -1,7 +1,7 @@
 /**
  * This file re-exports form components from the centralized forms directory
  * to maintain backward compatibility with existing code.
- * 
+ *
  * New code should import directly from @components/forms instead.
  */
 

@@ -17,7 +17,7 @@ export interface MaritimeAlertConditionalFieldsProps {
 /**
  * Component for conditionally rendering ship and/or area alert configuration sections
  * based on the selected alert type
- * 
+ *
  * @param props - The component props
  * @param props.shipCriteriaOptions - Options for ship criteria checkboxes
  * @param props.areaCriteriaOptions - Options for area criteria checkboxes

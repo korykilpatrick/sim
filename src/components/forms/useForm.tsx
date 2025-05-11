@@ -50,7 +50,7 @@ export function useForm<TFormValues extends FieldValues>(
     ...rest,
     resolver: schema ? zodResolver(schema) : undefined,
   } as any;
-  
+
   const methods = useHookForm<TFormValues>(formConfig);
 
   const handleSubmitWithState = (

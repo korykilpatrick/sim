@@ -32,7 +32,7 @@ type ReportConfigProps = {
 
 /**
  * Component for configuring Report products
- * 
+ *
  * @param props - The component props
  * @param props.product - Product data
  * @returns The rendered report configuration form

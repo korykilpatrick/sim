@@ -3,7 +3,7 @@ import { Button } from '@components/common';
 
 /**
  * Component for notification preferences card in user settings
- * 
+ *
  * @returns The rendered notification preferences card component
  */
 export const NotificationPreferencesCard: React.FC = () => {

@@ -15,7 +15,7 @@ interface ProductFiltersProps {
 
 /**
  * Component for filtering dashboard products by type
- * 
+ *
  * @param props - The component props
  * @param props.activeFilter - Currently active filter
  * @param props.onFilterChange - Function to handle filter changes

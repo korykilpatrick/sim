@@ -20,7 +20,7 @@ import { Form } from '@components/forms';
 
 /**
  * Checkout page component for completing purchases
- * 
+ *
  * @returns The rendered checkout page with forms and order summary
  */
 const CheckoutPage: React.FC = () => {
@@ -43,11 +43,13 @@ const CheckoutPage: React.FC = () => {
     try {
       // In a real app, we would send payment info to a payment processor separately
       // Here we're just mocking the order creation
-      const orderItems = items.map(item => {
+      const orderItems = items.map((item) => {
         if (!item.configurationDetails) {
-          throw new Error(`Missing configuration details for product ${item.product.name}`);
+          throw new Error(
+            `Missing configuration details for product ${item.product.name}`,
+          );
         }
-        
+
         return {
           product: item.product,
           quantity: item.quantity,
@@ -58,21 +60,24 @@ const CheckoutPage: React.FC = () => {
       const orderData = {
         items: orderItems,
         paymentMethod: paymentMethod === 'credit_card' ? 'stripe' : 'credits',
-        paymentDetails: paymentMethod === 'credit_card' 
-          ? {
-              paymentType: 'card' as const,
-              paymentMethodId: data.cardNumber || undefined,
-              billingAddress: data.address ? {
-                street: data.address,
-                city: data.city || '',
-                state: data.state || '',
-                postalCode: data.zipCode || '',
-                country: data.country || '',
-              } : undefined,
-              cardBrand: data.cardholderName || undefined,
-              payPalOrderId: undefined,
-            }
-          : undefined,
+        paymentDetails:
+          paymentMethod === 'credit_card'
+            ? {
+                paymentType: 'card' as const,
+                paymentMethodId: data.cardNumber || undefined,
+                billingAddress: data.address
+                  ? {
+                      street: data.address,
+                      city: data.city || '',
+                      state: data.state || '',
+                      postalCode: data.zipCode || '',
+                      country: data.country || '',
+                    }
+                  : undefined,
+                cardBrand: data.cardholderName || undefined,
+                payPalOrderId: undefined,
+              }
+            : undefined,
       } as unknown as CreateOrderRequestBody;
 
       const result = await createOrder(orderData).unwrap();
@@ -140,9 +145,7 @@ const CheckoutPage: React.FC = () => {
             />
 
             {/* Payment Details Form */}
-            <PaymentDetailsForm
-              visible={paymentMethod === 'credit_card'}
-            />
+            <PaymentDetailsForm visible={paymentMethod === 'credit_card'} />
           </div>
 
           {/* Order Summary */}

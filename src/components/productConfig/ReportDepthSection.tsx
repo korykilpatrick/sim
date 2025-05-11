@@ -3,7 +3,7 @@ import { SelectField } from './FormFields';
 
 /**
  * Component for selecting report depth
- * 
+ *
  * @returns The rendered report depth selection dropdown
  */
 export const ReportDepthSection: React.FC = () => {

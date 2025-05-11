@@ -39,10 +39,11 @@ export function TextField<TFormValues extends FieldValues = any>({
   ...rest
 }: TextFieldProps): React.ReactElement {
   const methods = useFormContext<TFormValues>();
-  
+
   const register = methods?.register || (() => ({}));
   const errors = methods?.formState?.errors || {};
-  const errorMessage = name && errors[name as keyof typeof errors]?.message?.toString();
+  const errorMessage =
+    name && errors[name as keyof typeof errors]?.message?.toString();
 
   return (
     <FormField

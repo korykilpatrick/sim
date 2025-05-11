@@ -10,7 +10,7 @@ export interface OrderConfirmationHeaderProps {
 
 /**
  * Component for displaying the success icon, title, and order ID
- * 
+ *
  * @param props - The component props
  * @param props.orderId - Order ID to display
  * @returns The rendered order confirmation header with success icon and order details

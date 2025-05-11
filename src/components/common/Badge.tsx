@@ -16,7 +16,7 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 /**
  * Component for displaying badges with different variants and sizes
- * 
+ *
  * @param props - The component props
  * @param props.variant - Visual style variant of the badge
  * @param props.size - Size of the badge

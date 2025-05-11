@@ -17,7 +17,7 @@ type SpinnerProps = {
 
 /**
  * Spinner component for indicating loading states
- * 
+ *
  * @param props - The component props
  * @param props.size - Size of the spinner
  * @param props.color - Color of the spinner
