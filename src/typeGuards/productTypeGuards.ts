@@ -22,7 +22,7 @@ import type {
   MaritimeAlertProductConfiguration,
 } from '@shared-types/productConfiguration';
 
-import { isObject, hasProperty, isOfDiscriminatedType } from './baseTypeGuards';
+import { isObject, hasProperty } from './baseTypeGuards';
 
 /**
  * Type guard for checking if a value is a BaseProduct.
@@ -58,7 +58,8 @@ export function isMaritimeAlertProduct(
   if (!isBaseProduct(value)) return false;
 
   return (
-    isOfDiscriminatedType(value, 'type', 'MARITIME_ALERT' as ProductType) &&
+    hasProperty(value, 'type') &&
+    value.type === 'MARITIME_ALERT' &&
     hasProperty(value, 'alertTypesAvailable') &&
     Array.isArray(value.alertTypesAvailable)
   );
@@ -123,10 +124,11 @@ export function getProductTypeName(productType: ProductType): string {
       return 'Investigation Service';
     case 'MARITIME_ALERT':
       return 'Maritime Alert Service';
-    default:
+    default: {
       // This ensures exhaustive checking
       const _exhaustiveCheck: never = productType;
       throw new Error(`Unhandled product type: ${_exhaustiveCheck}`);
+    }
   }
 }
 
@@ -140,7 +142,8 @@ export function isVTSConfig(value: unknown): value is VTSProductConfiguration {
   if (!isObject(value)) return false;
 
   return (
-    isOfDiscriminatedType(value, 'type', 'VTS' as ProductType) &&
+    hasProperty(value, 'type') &&
+    value.type === 'VTS' &&
     hasProperty(value, 'trackingDurationDays') &&
     hasProperty(value, 'selectedCriteria') &&
     hasProperty(value, 'vesselIMOs') &&
@@ -159,7 +162,8 @@ export function isAMSConfig(value: unknown): value is AMSProductConfiguration {
   if (!isObject(value)) return false;
 
   return (
-    isOfDiscriminatedType(value, 'type', 'AMS' as ProductType) &&
+    hasProperty(value, 'type') &&
+    value.type === 'AMS' &&
     hasProperty(value, 'monitoringDurationDays') &&
     hasProperty(value, 'aoiDefinition') &&
     hasProperty(value, 'selectedCriteria') &&
@@ -178,7 +182,8 @@ export function isFTSConfig(value: unknown): value is FTSProductConfiguration {
   if (!isObject(value)) return false;
 
   return (
-    isOfDiscriminatedType(value, 'type', 'FTS' as ProductType) &&
+    hasProperty(value, 'type') &&
+    value.type === 'FTS' &&
     hasProperty(value, 'fleetName') &&
     hasProperty(value, 'vessels') &&
     hasProperty(value, 'monitoringDurationDays') &&
@@ -200,7 +205,8 @@ export function isReportComplianceConfig(
   if (!isObject(value)) return false;
 
   return (
-    isOfDiscriminatedType(value, 'type', 'REPORT_COMPLIANCE' as ProductType) &&
+    hasProperty(value, 'type') &&
+    value.type === 'REPORT_COMPLIANCE' &&
     hasProperty(value, 'vesselIMO') &&
     hasProperty(value, 'timeframeStart') &&
     hasProperty(value, 'timeframeEnd') &&
@@ -220,7 +226,8 @@ export function isReportChronologyConfig(
   if (!isObject(value)) return false;
 
   return (
-    isOfDiscriminatedType(value, 'type', 'REPORT_CHRONOLOGY' as ProductType) &&
+    hasProperty(value, 'type') &&
+    value.type === 'REPORT_CHRONOLOGY' &&
     hasProperty(value, 'vesselIMO') &&
     hasProperty(value, 'timeframeStart') &&
     hasProperty(value, 'timeframeEnd') &&
@@ -240,7 +247,8 @@ export function isInvestigationConfig(
   if (!isObject(value)) return false;
 
   return (
-    isOfDiscriminatedType(value, 'type', 'INVESTIGATION' as ProductType) &&
+    hasProperty(value, 'type') &&
+    value.type === 'INVESTIGATION' &&
     hasProperty(value, 'investigationType')
   );
 }
@@ -257,7 +265,8 @@ export function isMaritimeAlertConfig(
   if (!isObject(value)) return false;
 
   return (
-    isOfDiscriminatedType(value, 'type', 'MARITIME_ALERT' as ProductType) &&
+    hasProperty(value, 'type') &&
+    value.type === 'MARITIME_ALERT' &&
     hasProperty(value, 'maritimeAlertType') &&
     hasProperty(value, 'selectedCriteria') &&
     Array.isArray(value.selectedCriteria)
@@ -278,21 +287,29 @@ export function isProductConfiguration(
   const type = value.type;
 
   switch (type) {
-    case 'VTS':
+    case 'VTS': {
       return isVTSConfig(value);
-    case 'AMS':
+    }
+    case 'AMS': {
       return isAMSConfig(value);
-    case 'FTS':
+    }
+    case 'FTS': {
       return isFTSConfig(value);
-    case 'REPORT_COMPLIANCE':
+    }
+    case 'REPORT_COMPLIANCE': {
       return isReportComplianceConfig(value);
-    case 'REPORT_CHRONOLOGY':
+    }
+    case 'REPORT_CHRONOLOGY': {
       return isReportChronologyConfig(value);
-    case 'INVESTIGATION':
+    }
+    case 'INVESTIGATION': {
       return isInvestigationConfig(value);
-    case 'MARITIME_ALERT':
+    }
+    case 'MARITIME_ALERT': {
       return isMaritimeAlertConfig(value);
-    default:
+    }
+    default: {
       return false;
+    }
   }
 }

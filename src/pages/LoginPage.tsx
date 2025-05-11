@@ -25,7 +25,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 /**
  * Login page component that handles user authentication
  */
-const LoginPage = (): JSX.Element => {
+const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/marketplace';

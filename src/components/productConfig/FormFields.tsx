@@ -2,16 +2,27 @@ import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Input } from '@components/common/Input';
 
-// Text Input Field
+/**
+ * Props for the TextField component
+ */
 type TextFieldProps = {
+  /** Field name for form registration */
   name: string;
+  /** Label text displayed above the input */
   label: string;
+  /** Placeholder text for the input */
   placeholder?: string;
+  /** Helper text displayed below the input */
   helperText?: string;
+  /** Input type (text, email, password, etc.) */
   type?: string;
+  /** Whether the field is required */
   required?: boolean;
 };
 
+/**
+ * A text input field component for forms
+ */
 export const TextField: React.FC<TextFieldProps> = ({
   name,
   label,
@@ -41,17 +52,29 @@ export const TextField: React.FC<TextFieldProps> = ({
   );
 };
 
-// Number Input Field
+/**
+ * Props for the NumberField component
+ */
 type NumberFieldProps = {
+  /** Field name for form registration */
   name: string;
+  /** Label text displayed above the input */
   label: string;
+  /** Placeholder text for the input */
   placeholder?: string;
+  /** Helper text displayed below the input */
   helperText?: string;
+  /** Minimum allowed value */
   min?: number;
+  /** Maximum allowed value */
   max?: number;
+  /** Whether the field is required */
   required?: boolean;
 };
 
+/**
+ * A number input field component for forms with min/max validation
+ */
 export const NumberField: React.FC<NumberFieldProps> = ({
   name,
   label,
@@ -97,15 +120,25 @@ export const NumberField: React.FC<NumberFieldProps> = ({
   );
 };
 
-// Select Field
+/**
+ * Props for the SelectField component
+ */
 type SelectFieldProps = {
+  /** Field name for form registration */
   name: string;
+  /** Label text displayed above the select */
   label: string;
+  /** Array of options for the select dropdown */
   options: { value: string; label: string }[];
+  /** Helper text displayed below the select */
   helperText?: string;
+  /** Whether the field is required */
   required?: boolean;
 };
 
+/**
+ * A select dropdown field component for forms
+ */
 export const SelectField: React.FC<SelectFieldProps> = ({
   name,
   label,
@@ -153,15 +186,25 @@ export const SelectField: React.FC<SelectFieldProps> = ({
   );
 };
 
-// Checkbox Group
+/**
+ * Props for the CheckboxGroup component
+ */
 type CheckboxGroupProps = {
+  /** Field name for form registration */
   name: string;
+  /** Label text displayed above the checkbox group */
   label: string;
+  /** Array of options for the checkbox group */
   options: { value: string; label: string }[];
+  /** Helper text displayed below the checkbox group */
   helperText?: string;
+  /** Whether at least one checkbox is required */
   required?: boolean;
 };
 
+/**
+ * A group of checkboxes for multi-select form fields
+ */
 export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
   name,
   label,
@@ -229,15 +272,25 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
   );
 };
 
-// Radio Group
+/**
+ * Props for the RadioGroup component
+ */
 type RadioGroupProps = {
+  /** Field name for form registration */
   name: string;
+  /** Label text displayed above the radio group */
   label: string;
+  /** Array of options for the radio group */
   options: { value: string; label: string }[];
+  /** Helper text displayed below the radio group */
   helperText?: string;
+  /** Whether a selection is required */
   required?: boolean;
 };
 
+/**
+ * A group of radio buttons for single-select form fields
+ */
 export const RadioGroup: React.FC<RadioGroupProps> = ({
   name,
   label,
@@ -289,14 +342,23 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
   );
 };
 
-// Date Field
+/**
+ * Props for the DateField component
+ */
 type DateFieldProps = {
+  /** Field name for form registration */
   name: string;
+  /** Label text displayed above the date input */
   label: string;
+  /** Helper text displayed below the date input */
   helperText?: string;
+  /** Whether the field is required */
   required?: boolean;
 };
 
+/**
+ * A date input field component for forms
+ */
 export const DateField: React.FC<DateFieldProps> = ({
   name,
   label,
@@ -323,16 +385,27 @@ export const DateField: React.FC<DateFieldProps> = ({
   );
 };
 
-// Textarea Field
+/**
+ * Props for the TextareaField component
+ */
 type TextareaFieldProps = {
+  /** Field name for form registration */
   name: string;
+  /** Label text displayed above the textarea */
   label: string;
+  /** Placeholder text for the textarea */
   placeholder?: string;
+  /** Helper text displayed below the textarea */
   helperText?: string;
+  /** Number of visible text rows */
   rows?: number;
+  /** Whether the field is required */
   required?: boolean;
 };
 
+/**
+ * A textarea field component for multi-line text input in forms
+ */
 export const TextareaField: React.FC<TextareaFieldProps> = ({
   name,
   label,

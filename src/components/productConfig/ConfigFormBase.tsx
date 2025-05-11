@@ -3,16 +3,30 @@ import { useNavigate } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 import { Button } from '@components/common/Button';
 
+/**
+ * Props for the ConfigFormBase component
+ */
 type ConfigFormBaseProps = {
+  /** Title displayed at the top of the form */
   title: string;
+  /** Description text displayed below the title */
   description: string;
+  /** Default values for the form fields */
   defaultValues: any;
+  /** Function called when the form is submitted */
   onSubmit: (data: any) => void;
+  /** Whether the form is currently submitting */
   isSubmitting: boolean;
+  /** Error message to display if submission fails */
   error: any;
+  /** Form content */
   children: React.ReactNode;
 };
 
+/**
+ * Base component for product configuration forms
+ * Provides common layout, error handling, and form submission
+ */
 export const ConfigFormBase: React.FC<ConfigFormBaseProps> = ({
   title,
   description,
@@ -25,6 +39,10 @@ export const ConfigFormBase: React.FC<ConfigFormBaseProps> = ({
   const navigate = useNavigate();
   const methods = useForm({ defaultValues });
 
+  /**
+   * Handles the cancel button click
+   * Confirms with the user before navigating back
+   */
   const handleCancel = () => {
     if (
       window.confirm(

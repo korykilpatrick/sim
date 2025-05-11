@@ -16,10 +16,18 @@ import {
   ReportChronologyProductConfiguration,
 } from '@shared-types/productConfiguration';
 
+/**
+ * Props for the ReportConfig component
+ */
 type ReportConfigProps = {
+  /** The product being configured */
   product: BaseProduct;
 };
 
+/**
+ * Component for configuring vessel reports (Compliance or Chronology)
+ * Handles configuration for both report types based on the product type
+ */
 export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -45,6 +53,10 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({ product }) => {
     additionalInfo: string;
   };
 
+  /**
+   * Handles form submission
+   * Creates the appropriate configuration based on report type and adds to cart
+   */
   const handleSubmit = (data: ReportFormData) => {
     setIsSubmitting(true);
     setError(null);
