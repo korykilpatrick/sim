@@ -11,6 +11,10 @@ export interface CartIconProps {
 
 /**
  * Component for displaying the cart icon with item counter
+ * 
+ * @param props - The component props
+ * @param props.itemCount - Number of items in the cart
+ * @returns The rendered cart icon with item count badge
  */
 export const CartIcon: React.FC<CartIconProps> = ({ itemCount }) => {
   return (
