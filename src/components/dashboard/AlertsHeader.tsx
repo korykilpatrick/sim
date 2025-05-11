@@ -12,6 +12,11 @@ export interface AlertsHeaderProps {
 
 /**
  * Component for displaying the alerts card header with title and actions
+ * 
+ * @param props - The component props
+ * @param props.hasUnreadAlerts - Whether there are any unread alerts
+ * @param props.onMarkAllAsRead - Function to mark all alerts as read
+ * @returns The rendered alerts header with title and conditional mark all as read button
  */
 export const AlertsHeader: React.FC<AlertsHeaderProps> = ({
   hasUnreadAlerts,
