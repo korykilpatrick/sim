@@ -4,6 +4,8 @@ import { LogoutButton } from '@components/auth/LogoutButton';
 
 /**
  * Component for user account dropdown menu
+ * 
+ * @returns The rendered user menu dropdown with account options and logout button
  */
 export const UserMenu: React.FC = () => {
   return (
