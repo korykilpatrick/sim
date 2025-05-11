@@ -46,7 +46,15 @@ export function CheckboxGroupField({
           }}
           defaultValue={[]}
           render={({ field }) => {
-            const value = Array.isArray(field.value) ? field.value : [];
+            const value = field && field.value ? 
+              (Array.isArray(field.value) ? field.value : []) : 
+              [];
+            
+            const handleChange = (newValue: any) => {
+              if (field && typeof field.onChange === 'function') {
+                field.onChange(newValue);
+              }
+            };
             
             return (
               <>
@@ -60,9 +68,9 @@ export function CheckboxGroupField({
                       checked={value.includes(option.value)}
                       onChange={(e) => {
                         if (e.target.checked) {
-                          field.onChange([...value, option.value]);
+                          handleChange([...value, option.value]);
                         } else {
-                          field.onChange(
+                          handleChange(
                             value.filter((v: string) => v !== option.value),
                           );
                         }
