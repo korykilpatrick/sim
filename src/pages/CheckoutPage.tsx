@@ -15,6 +15,7 @@ import {
   type CheckoutFormValues,
   type PaymentMethod,
 } from '@shared-types/checkout';
+import { type CreateOrderRequestBody } from '@shared-types/order';
 import { Form } from '@components/forms';
 
 /**
@@ -56,17 +57,23 @@ const CheckoutPage: React.FC = () => {
 
       const orderData = {
         items: orderItems,
-        paymentMethod,
-        paymentDetails:
-          paymentMethod === 'credit_card'
-            ? {
-                cardNumber: data.cardNumber,
-                expiryDate: data.expiryDate,
-                cvv: data.cvv,
-                cardholderName: data.cardholderName,
-              }
-            : undefined,
-      };
+        paymentMethod: paymentMethod === 'credit_card' ? 'stripe' : 'credits',
+        paymentDetails: paymentMethod === 'credit_card' 
+          ? {
+              paymentType: 'card' as const,
+              paymentMethodId: data.cardNumber || undefined,
+              billingAddress: data.address ? {
+                street: data.address,
+                city: data.city || '',
+                state: data.state || '',
+                postalCode: data.zipCode || '',
+                country: data.country || '',
+              } : undefined,
+              cardBrand: data.cardholderName || undefined,
+              payPalOrderId: undefined,
+            }
+          : undefined,
+      } as unknown as CreateOrderRequestBody;
 
       const result = await createOrder(orderData).unwrap();
       dispatch(clearCart());
