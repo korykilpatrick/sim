@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { FilterSidebar, PromotionalSlider } from '@components/products';
-import { Spinner, Alert } from '@components/common';
 import { useGetProductsQuery } from '@services/productsApi';
 import type { ProductType } from '@shared-types/product';
 import {
@@ -12,9 +11,13 @@ import {
   MarketplaceHeader,
   SearchResults,
   EmptySearchState,
-} from '../components/marketplace';
+  MarketplaceLoadingState,
+  MarketplaceErrorState,
+} from '@components/marketplace';
 
-// Helper to check if it's an RTK Query API error with our expected payload
+/**
+ * Helper to check if it's an RTK Query API error with our expected payload
+ */
 function isApiError(error: any): error is RtkQueryError {
   return (
     typeof error === 'object' &&
@@ -29,6 +32,9 @@ function isApiError(error: any): error is RtkQueryError {
   );
 }
 
+/**
+ * Component for displaying the marketplace page
+ */
 const MarketplacePage: React.FC = () => {
   const [selectedType, setSelectedType] = useState<ProductType | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -44,18 +50,34 @@ const MarketplacePage: React.FC = () => {
   }, [searchQuery]);
 
   // Fetch products with filtering
-  // Fetch products with filtering
-  const { data, error, isLoading } = useGetProductsQuery({
+  const { data, error, isLoading, refetch } = useGetProductsQuery({
     ...(selectedType !== null && { type: selectedType }),
     ...(debouncedSearch && { search: debouncedSearch }),
   });
 
+  /**
+   * Handles product type filter change
+   */
   const handleTypeChange = (type: ProductType | null) => {
     setSelectedType(type);
   };
 
+  /**
+   * Handles search query change
+   */
   const handleSearchChange = (search: string) => {
     setSearchQuery(search);
+  };
+
+  /**
+   * Gets error message from API error
+   */
+  const getErrorMessage = () => {
+    if (isApiError(error)) {
+      return error.data.message;
+    }
+    return (error as SerializedError)?.message ||
+      'There was an error loading the product catalog. Please try again later.';
   };
 
   return (
@@ -76,19 +98,11 @@ const MarketplacePage: React.FC = () => {
         {/* Product Grid */}
         <div className="flex-1">
           {isLoading ? (
-            <div className="flex justify-center items-center h-64">
-              <Spinner size="lg" />
-            </div>
+            <MarketplaceLoadingState />
           ) : error ? (
-            <Alert
-              variant="error"
-              title="Error loading products"
-              message={
-                isApiError(error)
-                  ? error.data.message
-                  : (error as SerializedError)?.message ||
-                    'There was an error loading the product catalog. Please try again later.'
-              }
+            <MarketplaceErrorState 
+              message={getErrorMessage()}
+              onRetry={refetch}
             />
           ) : data && data.products.length > 0 ? (
             <div>
