@@ -31,6 +31,13 @@ type ProductCardProps = {
   product: UserProduct;
 };
 
+/**
+ * Component for displaying a purchased product card with status and configuration details
+ * 
+ * @param props - The component props
+ * @param props.product - The user product data to display
+ * @returns The rendered product card with name, status, configuration summary, and dates
+ */
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const {
     id: _id,
