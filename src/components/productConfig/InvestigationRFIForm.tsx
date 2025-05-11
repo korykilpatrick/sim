@@ -21,6 +21,10 @@ interface InvestigationRFIFormProps {
 
 /**
  * Component for submitting investigation requests
+ * 
+ * @param props - The component props
+ * @param props.product - Product data for the investigation request
+ * @returns The rendered investigation request form with type selection, priority, subject information, and timeframe inputs
  */
 export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
   product,
