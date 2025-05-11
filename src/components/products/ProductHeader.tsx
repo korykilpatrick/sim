@@ -15,6 +15,12 @@ export interface ProductHeaderProps {
 
 /**
  * Component for displaying the product header with title, tags, and back button
+ *
+ * @param props - The component props
+ * @param props.name - Product name
+ * @param props.tags - Product tags
+ * @param props.onBack - Function to navigate back
+ * @returns The rendered product header component
  */
 export const ProductHeader: React.FC<ProductHeaderProps> = ({
   name,
