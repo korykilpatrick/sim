@@ -20,6 +20,8 @@ import {
 
 /**
  * Checkout page component for completing purchases
+ * 
+ * @returns The rendered checkout page with forms and order summary
  */
 const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
