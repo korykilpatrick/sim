@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField } from './FormFields';
+import { TextField } from '@components/forms';
 
 /**
  * Props for the VesselIdentificationSection component

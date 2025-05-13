@@ -1,7 +1,7 @@
 import React from 'react';
 import { AreaNameSection } from './AreaNameSection';
 import { MapSelectionSection } from './MapSelectionSection';
-import { CheckboxGroup } from './FormFields';
+import { CheckboxGroupField } from '@components/forms';
 
 /**
  * Props for the AreaAlertConfigSection component
@@ -28,7 +28,7 @@ export const AreaAlertConfigSection: React.FC<AreaAlertConfigSectionProps> = ({
       </h3>
       <AreaNameSection />
       <MapSelectionSection />
-      <CheckboxGroup
+      <CheckboxGroupField
         name="areaCriteria"
         label="Alert Criteria"
         options={areaCriteriaOptions}

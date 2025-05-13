@@ -1,5 +1,5 @@
 import React from 'react';
-import { RadioGroup } from './FormFields';
+import { RadioField } from '@components/forms';
 
 /**
  * Props for AlertTypeSection component
@@ -20,7 +20,7 @@ export const AlertTypeSection: React.FC<AlertTypeSectionProps> = ({
   options,
 }) => {
   return (
-    <RadioGroup
+    <RadioField
       name="alertType"
       label="Alert Type"
       options={options}

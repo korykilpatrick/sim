@@ -1,5 +1,5 @@
 import React from 'react';
-import { RadioGroup } from './FormFields';
+import { RadioField } from '@components/forms';
 
 /**
  * Component for selecting priority level
@@ -8,7 +8,7 @@ import { RadioGroup } from './FormFields';
  */
 export const PrioritySection: React.FC = () => {
   return (
-    <RadioGroup
+    <RadioField
       name="priority"
       label="Priority Level"
       options={[

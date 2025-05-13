@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckboxGroup } from './FormFields';
+import { CheckboxGroupField } from '@components/forms';
 
 /**
  * Props for the MonitoringCriteriaSection component
@@ -21,7 +21,7 @@ export const MonitoringCriteriaSection: React.FC<
 > = ({ options }) => {
   return (
     <div className="border-t border-secondary-200 pt-6">
-      <CheckboxGroup
+      <CheckboxGroupField
         name="selectedCriteria"
         label="Monitoring Criteria"
         options={options}

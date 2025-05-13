@@ -1,5 +1,5 @@
 import React from 'react';
-import { NumberField } from './FormFields';
+import { NumberField } from '@components/forms';
 
 /**
  * Component for the monitoring duration input section
