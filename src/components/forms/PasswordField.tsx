@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Input } from '@components/common';
-import { FormField } from './FormField';
-import { useFormContext } from './FormContext';
-import type { PasswordFieldProps } from './types';
+import { FormField } from '@components/forms/FormField';
+import { useFormContext } from '@components/forms/core/FormContext';
+import type { PasswordFieldProps } from '@components/forms/types';
 
 /**
  * Component for rendering a password input field with toggle visibility

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Input } from '@components/common';
-import { FormField } from './FormField';
-import { useFormContext } from './FormContext';
-import type { TextFieldProps } from './types';
+import { FormField } from '@components/forms/FormField';
+import { useFormContext } from '@components/forms/core/FormContext';
+import type { TextFieldProps } from '@components/forms/types';
 import { FieldValues } from 'react-hook-form';
 
 /**

@@ -1,8 +1,11 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { FormField } from './FormField';
-import { useFormContext } from './FormContext';
-import type { CheckboxGroupProps, FormFieldProps } from './types';
+import { FormField } from '@components/forms/FormField';
+import { useFormContext } from '@components/forms/core/FormContext';
+import type {
+  CheckboxGroupProps,
+  FormFieldProps,
+} from '@components/forms/types';
 
 /**
  * Component for rendering a group of checkboxes

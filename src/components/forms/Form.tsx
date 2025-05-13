@@ -5,10 +5,10 @@ import {
   UseFormRegister,
   Control,
 } from 'react-hook-form';
-import { FormProvider } from './FormContext';
-import { FormError } from './FormError';
-import { useForm } from './useForm';
-import type { FormProps } from './types';
+import { FormProvider } from '@components/forms/core/FormContext';
+import { FormError } from '@components/forms/FormError';
+import { useForm } from '@components/forms/useForm';
+import type { FormProps } from '@components/forms/types';
 
 /**
  * Main form component that provides form context and handles submission

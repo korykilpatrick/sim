@@ -1,5 +1,5 @@
 import React from 'react';
-import type { FormActionsProps } from './types';
+import type { FormActionsProps } from '@components/forms/types';
 
 /**
  * Component for consistent form action buttons

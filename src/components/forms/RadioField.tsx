@@ -1,7 +1,7 @@
 import React from 'react';
-import { FormField } from './FormField';
-import { useFormContext } from './FormContext';
-import type { RadioFieldProps } from './types';
+import { FormField } from '@components/forms/FormField';
+import { useFormContext } from '@components/forms/core/FormContext';
+import type { RadioFieldProps } from '@components/forms/types';
 
 /**
  * Component for rendering a group of radio buttons

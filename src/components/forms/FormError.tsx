@@ -1,5 +1,5 @@
 import React from 'react';
-import type { FormErrorProps } from './types';
+import type { FormErrorProps } from '@components/forms/types';
 
 /**
  * Component for displaying form validation errors
