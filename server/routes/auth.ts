@@ -50,46 +50,43 @@ router.post(
     req: Request<{}, AuthResponse | { message: string }, RegisterRequest>,
     res: Response<AuthResponse | { message: string }>,
   ) => {
-    const { email, name: _name, password: _password } = req.body;
+    const { email, name, password: _password } = req.body;
 
+    // Check if user already exists
     if (users.some((u) => u.email === email)) {
-      const existingUser = users.find((u) => u.email === email);
-      if (!existingUser) {
-        return res
-          .status(400)
-          .json({ message: 'Something unexpected happened' });
+      return res.status(409).json({ message: 'Email already registered.' });
+    }
+
+    // Generate a new user ID
+    // Find the maximum numeric part of existing IDs and increment
+    let maxId = 0;
+    users.forEach(user => {
+      const numericId = parseInt(user.id, 10);
+      if (!isNaN(numericId) && numericId > maxId) {
+        maxId = numericId;
       }
-      const responseUser: User = {
-        id: existingUser.id,
-        name: existingUser.name,
-        email: existingUser.email,
-        credits: existingUser.credits,
-      };
-      return res.status(201).json({
-        user: responseUser,
-        token: tokens[existingUser.id],
-      });
-    }
+    });
+    const newUserId = (maxId + 1).toString();
 
-    const newUserId = '2'; // Mock logic
-    const user2 = users.find((u) => u.id === newUserId);
-    if (user2 && email === 'newuser@somewhere.com') {
-      // Simplified mock condition
-      const responseUser: User = {
-        id: user2.id,
-        name: user2.name || 'New User', // Ensure name is present if User type expects it
-        email: user2.email,
-        credits: user2.credits,
-      };
-      return res.status(201).json({
-        user: responseUser,
-        token: tokens[user2.id],
-      });
-    }
+    // Create new user
+    const newUser: User = {
+      id: newUserId,
+      email,
+      name: name || 'New User', // Use provided name or default
+      credits: 50, // Default credits for new user
+    };
 
-    return res.status(400).json({
-      message:
-        'Only newuser@somewhere.com can be newly registered in this mock.',
+    // Add to in-memory store
+    users.push(newUser);
+
+    // Generate and store mock token
+    const newMockToken = `mock-jwt-token-for-user-${newUserId}`;
+    tokens[newUserId] = newMockToken;
+
+    // Return success response
+    return res.status(201).json({
+      user: newUser,
+      token: newMockToken,
     });
   },
 );
