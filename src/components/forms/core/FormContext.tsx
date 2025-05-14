@@ -27,6 +27,22 @@ export function useFormContext<
   TFormValues extends FieldValues,
 >(): FormContextType<TFormValues> {
   const context = useContext(FormContext);
+  // Log what context is being received by consumers
+  if (context === defaultContextValue) {
+    console.warn(
+      'useFormContext: Receiving default context value. This usually means a component is used outside a FormProvider.',
+      {
+        consumerStackTrace: new Error('Consumer stack trace').stack
+      }
+    );
+  } else if (!context) {
+    console.error(
+      'useFormContext: Receiving undefined context. This is unexpected if a FormProvider is present.',
+      {
+        consumerStackTrace: new Error('Consumer stack trace').stack
+      }
+    );
+  }
   return context as FormContextType<TFormValues>;
 }
 

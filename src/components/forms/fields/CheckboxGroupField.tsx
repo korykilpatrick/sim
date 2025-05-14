@@ -31,7 +31,30 @@ export function CheckboxGroupField({
 }: CheckboxGroupProps): React.ReactElement {
   const formContext = useFormContext();
 
-  const control = formContext?.control || {};
+  const control = formContext?.control;
+
+  if (!control || typeof control.register !== 'function') {
+    console.error(
+      `CheckboxGroupField ('${name}'): Receiving an invalid 'control' object. ` +
+      `This typically means the component is not rendered within a FormProvider, ` +
+      `or the form context is not propagating correctly. Form rendering will be skipped to prevent a crash.`,
+      { receivedControl: control }
+    );
+    return (
+      <FormField
+        name={name}
+        label={label}
+        required={required}
+        {...(helperText && { helperText })}
+        className={className}
+        error="Configuration error: Form field cannot be rendered."
+      >
+        <div className="mt-1 space-y-2 text-red-500">
+          Field '{label || name}' is unavailable due to a form setup issue.
+        </div>
+      </FormField>
+    );
+  }
 
   const formFieldProps = {
     name,
