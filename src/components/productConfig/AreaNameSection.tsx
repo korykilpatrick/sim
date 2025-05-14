@@ -1,9 +1,9 @@
 import React from 'react';
-import { TextField } from './FormFields';
+import { TextField } from '@components/forms';
 
 /**
  * Component for the area name input section
- * 
+ *
  * @returns The rendered area name input field with label and helper text
  */
 export const AreaNameSection: React.FC = () => {

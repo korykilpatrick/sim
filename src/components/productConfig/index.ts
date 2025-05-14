@@ -4,15 +4,6 @@ export { ReportConfig } from './ReportConfig';
 export { MaritimeAlertConfig } from './MaritimeAlertConfig';
 export { InvestigationRFIForm } from './InvestigationRFIForm';
 export { ConfigFormBase } from './ConfigFormBase';
-export {
-  NumberField,
-  TextField,
-  SelectField,
-  CheckboxGroup,
-  TextareaField,
-  DateField,
-  RadioGroup,
-} from './FormFields';
 
 export { AreaNameSection } from './AreaNameSection';
 export { MapSelectionSection } from './MapSelectionSection';

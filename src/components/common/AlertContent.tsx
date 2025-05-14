@@ -12,6 +12,11 @@ export interface AlertContentProps {
 
 /**
  * Component for displaying alert content (title and message)
+ *
+ * @param props - The component props
+ * @param props.title - Alert title
+ * @param props.message - Alert message
+ * @returns The rendered alert content with title and message
  */
 export const AlertContent: React.FC<AlertContentProps> = ({
   title,

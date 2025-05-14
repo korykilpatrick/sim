@@ -13,7 +13,7 @@ import { MaritimeAlertProduct } from '@shared-types/product';
 
 /**
  * Component for displaying detailed product information and purchase options
- * 
+ *
  * @returns The rendered product details page with image gallery, pricing, and information
  */
 const ProductDetailsPage: React.FC = () => {

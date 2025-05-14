@@ -13,7 +13,7 @@ interface MarketplaceErrorStateProps {
 
 /**
  * Component for displaying error state in marketplace
- * 
+ *
  * @param props - The component props
  * @param props.message - Error message to display
  * @param props.onRetry - Function to retry loading products

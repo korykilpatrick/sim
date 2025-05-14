@@ -4,7 +4,7 @@ import { LoginForm } from '@components/auth';
 
 /**
  * Login page component that handles user authentication
- * 
+ *
  * @returns The rendered login page with sign-in form and registration link
  */
 const LoginPage = (): React.ReactElement => {

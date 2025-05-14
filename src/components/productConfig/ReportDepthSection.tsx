@@ -1,9 +1,9 @@
 import React from 'react';
-import { SelectField } from './FormFields';
+import { SelectField } from '@components/forms';
 
 /**
  * Component for selecting report depth
- * 
+ *
  * @returns The rendered report depth selection dropdown
  */
 export const ReportDepthSection: React.FC = () => {

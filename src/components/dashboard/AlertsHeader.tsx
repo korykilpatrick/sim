@@ -12,7 +12,7 @@ export interface AlertsHeaderProps {
 
 /**
  * Component for displaying the alerts card header with title and actions
- * 
+ *
  * @param props - The component props
  * @param props.hasUnreadAlerts - Whether there are any unread alerts
  * @param props.onMarkAllAsRead - Function to mark all alerts as read

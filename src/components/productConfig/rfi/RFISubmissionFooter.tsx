@@ -1,10 +1,10 @@
 import React from 'react';
 import { InfoBoxSection } from '../InfoBoxSection';
-import { TextareaField } from '../FormFields';
+import { TextareaField } from '@components/forms';
 
 /**
  * Component for the submission footer in RFI form
- * 
+ *
  * @returns The rendered RFI submission footer with investigation scope field and process information
  */
 export const RFISubmissionFooter: React.FC = () => {

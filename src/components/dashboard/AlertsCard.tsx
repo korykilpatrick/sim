@@ -12,7 +12,7 @@ import { EmptyAlertsState } from './EmptyAlertsState';
 
 /**
  * Component for displaying a card with recent alerts
- * 
+ *
  * @returns The rendered alerts card with header, alert items, and view all link
  */
 export const AlertsCard: React.FC = () => {

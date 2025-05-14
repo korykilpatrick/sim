@@ -5,7 +5,7 @@ import { ReportsList, CustomReportRequestCard } from '@components/reports';
 
 /**
  * Reports page component
- * 
+ *
  * @returns The rendered reports page with reports list and custom report request card
  */
 const ReportsPage: React.FC = () => {

@@ -1,22 +1,18 @@
 import React from 'react';
-
-/**
- * Props for the FormValidationSummary component
- */
-interface FormValidationSummaryProps {
-  /** Error message to display */
-  error: string | null;
-  /** Additional CSS classes */
-  className?: string;
-}
+import type { FormErrorProps } from '@components/forms';
 
 /**
  * Component for displaying form validation errors
+ *
+ * @param props - The component props
+ * @param props.error - Error message to display
+ * @param props.className - Additional CSS classes
+ * @returns The rendered error message or null if no error
  */
-export const FormValidationSummary: React.FC<FormValidationSummaryProps> = ({
+export function FormError({
   error,
   className = '',
-}) => {
+}: FormErrorProps): React.ReactElement | null {
   if (!error) return null;
 
   return (
@@ -50,4 +46,4 @@ export const FormValidationSummary: React.FC<FormValidationSummaryProps> = ({
       </div>
     </div>
   );
-};
+} 

@@ -4,7 +4,7 @@ import { useAppSelector } from '@hooks/redux';
 
 /**
  * Component for displaying the dashboard sidebar with user info and navigation
- * 
+ *
  * @returns The rendered dashboard sidebar with user profile, credit balance, and navigation links
  */
 export const DashboardSidebar: React.FC = () => {

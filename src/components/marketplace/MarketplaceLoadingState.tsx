@@ -3,7 +3,7 @@ import { Spinner } from '../common';
 
 /**
  * Component for displaying loading state in marketplace
- * 
+ *
  * @returns The rendered marketplace loading state component with spinner
  */
 export const MarketplaceLoadingState: React.FC = () => {

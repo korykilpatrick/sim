@@ -1,10 +1,10 @@
 import React from 'react';
 import { VesselIdentificationSection } from '../VesselIdentificationSection';
-import { TextField } from '../FormFields';
+import { TextField } from '@components/forms';
 
 /**
  * Component for subject information section in RFI form
- * 
+ *
  * @returns The rendered subject information form with vessel identification and region fields
  */
 export const SubjectInformationForm: React.FC = () => {

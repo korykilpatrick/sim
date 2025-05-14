@@ -9,7 +9,7 @@ import {
 
 /**
  * User settings page component
- * 
+ *
  * @returns The rendered user settings page with profile, password, and notification preferences
  */
 const UserSettingsPage: React.FC = () => {

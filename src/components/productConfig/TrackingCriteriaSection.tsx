@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckboxGroup } from './FormFields';
+import { CheckboxGroupField } from '@components/forms';
 
 /**
  * Props for the TrackingCriteriaSection component
@@ -15,7 +15,7 @@ export interface TrackingCriteriaSectionProps {
 
 /**
  * Component for the tracking criteria selection section
- * 
+ *
  * @param props - The component props
  * @param props.options - Options for tracking criteria
  * @param props.label - Custom label
@@ -31,7 +31,7 @@ export const TrackingCriteriaSection: React.FC<
 }) => {
   return (
     <div className="border-t border-secondary-200 pt-6">
-      <CheckboxGroup
+      <CheckboxGroupField
         name="selectedCriteria"
         label={label}
         options={options}

@@ -4,7 +4,7 @@ import { RegisterForm } from '@components/auth';
 
 /**
  * Registration page component
- * 
+ *
  * @returns The rendered registration page with sign-up form and login link
  */
 const RegisterPage = (): React.ReactElement => {

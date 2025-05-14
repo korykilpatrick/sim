@@ -1,93 +1,87 @@
-import React, { type FC } from 'react';
-import { Input } from '@components/common';
-import type { UseFormRegister, FieldErrors } from 'react-hook-form';
-import type { CheckoutFormValues } from '@shared-types/checkout';
+import React from 'react';
+import { TextField } from '@components/forms';
 
 /**
  * Props for the ShippingAddressForm component
  */
 interface ShippingAddressFormProps {
-  /** Register function from react-hook-form */
-  register: UseFormRegister<CheckoutFormValues>;
-  /** Form validation errors */
-  errors: FieldErrors<CheckoutFormValues>;
+  /** Optional additional CSS classes */
+  className?: string;
 }
 
 /**
  * Form component for collecting shipping/billing address information during checkout
+ *
+ * @param props - The component props
+ * @param props.className - Optional additional CSS classes
+ * @returns The rendered shipping address form
  */
-export const ShippingAddressForm: FC<ShippingAddressFormProps> = ({
-  register,
-  errors,
+export const ShippingAddressForm: React.FC<ShippingAddressFormProps> = ({
+  className = '',
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div className={`bg-white rounded-lg shadow p-6 ${className}`}>
       <h2 className="text-lg font-medium text-secondary-900 mb-4">
         Billing Information
       </h2>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <Input
+          <TextField
+            name="name"
             label="Full Name"
             placeholder="John Doe"
-            error={errors.name?.message}
-            {...register('name')}
+            required
           />
         </div>
 
         <div className="sm:col-span-2">
-          <Input
+          <TextField
+            name="email"
             label="Email Address"
             type="email"
             placeholder="john@example.com"
-            error={errors.email?.message}
-            {...register('email')}
+            required
           />
         </div>
 
         <div className="sm:col-span-2">
-          <Input
+          <TextField
+            name="address"
             label="Address"
             placeholder="123 Main St"
-            error={errors.address?.message}
-            {...register('address')}
+            required
           />
         </div>
 
         <div>
-          <Input
-            label="City"
-            placeholder="New York"
-            error={errors.city?.message}
-            {...register('city')}
-          />
+          <TextField name="city" label="City" placeholder="New York" required />
         </div>
 
         <div>
-          <Input
+          <TextField
+            name="state"
             label="State / Province"
             placeholder="NY"
-            error={errors.state?.message}
-            {...register('state')}
+            required
           />
         </div>
 
         <div>
-          <Input
+          <TextField
+            name="zipCode"
             label="ZIP / Postal Code"
             placeholder="10001"
-            error={errors.zipCode?.message}
-            {...register('zipCode')}
+            required
           />
         </div>
 
         <div>
-          <Input
+          <TextField
+            name="country"
             label="Country"
             placeholder="United States"
-            error={errors.country?.message}
-            {...register('country')}
+            required
           />
         </div>
       </div>

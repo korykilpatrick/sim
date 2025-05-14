@@ -16,7 +16,7 @@ export interface AlertItemProps {
 
 /**
  * Component for displaying a single alert notification
- * 
+ *
  * @param props - The component props
  * @param props.alert - Alert data to display
  * @param props.onMarkAsRead - Function to mark an alert as read

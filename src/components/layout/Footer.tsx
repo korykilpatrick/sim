@@ -6,7 +6,7 @@ import { FooterCopyright } from './FooterCopyright';
 
 /**
  * Main footer component with branding, links, contact info, and copyright
- * 
+ *
  * @returns The rendered footer component with branding, links, contact, and copyright sections
  */
 export const Footer: React.FC = () => {

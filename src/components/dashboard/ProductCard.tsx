@@ -33,7 +33,7 @@ type ProductCardProps = {
 
 /**
  * Component for displaying a purchased product card with status and configuration details
- * 
+ *
  * @param props - The component props
  * @param props.product - The user product data to display
  * @returns The rendered product card with name, status, configuration summary, and dates

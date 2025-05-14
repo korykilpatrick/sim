@@ -4,7 +4,7 @@ import { Button } from '../common';
 
 /**
  * Component for displaying empty cart state
- * 
+ *
  * @returns The rendered empty cart state component with a button to browse products
  */
 export const EmptyCartState: React.FC = () => {

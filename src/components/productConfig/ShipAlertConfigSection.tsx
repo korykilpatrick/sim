@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, CheckboxGroup } from '@components/productConfig';
+import { TextField, CheckboxGroupField } from '@components/forms';
 
 /**
  * Props for the ShipAlertConfigSection component
@@ -11,7 +11,7 @@ export interface ShipAlertConfigSectionProps {
 
 /**
  * Component for displaying ship-based alert configuration fields
- * 
+ *
  * @param props - The component props
  * @param props.shipCriteriaOptions - Options for ship criteria checkboxes
  * @returns The rendered ship alert configuration section with vessel IMO input and criteria checkboxes
@@ -31,7 +31,7 @@ export const ShipAlertConfigSection: React.FC<ShipAlertConfigSectionProps> = ({
         required
         helperText="Enter comma-separated IMO numbers for vessels to monitor"
       />
-      <CheckboxGroup
+      <CheckboxGroupField
         name="shipCriteria"
         label="Alert Criteria"
         options={shipCriteriaOptions}

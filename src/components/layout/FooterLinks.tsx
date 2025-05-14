@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 /**
  * Component for displaying the footer navigation links
- * 
+ *
  * @returns The rendered footer links section with navigation links
  */
 export const FooterLinks: React.FC = () => {

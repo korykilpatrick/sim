@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider as HookFormProvider } from 'react-hook-form';
+import { FormProvider as CustomFormProvider } from '@components/forms/core/FormContext';
+import type { UseFormRegister, Control, FieldErrors, FieldValues } from 'react-hook-form';
 import { Button } from '@components/common';
 
 /**
@@ -25,7 +27,7 @@ type ConfigFormBaseProps = {
 
 /**
  * Base component for product configuration forms
- * 
+ *
  * @param props - The component props
  * @param props.title - Form title
  * @param props.description - Form description
@@ -47,6 +49,8 @@ export const ConfigFormBase: React.FC<ConfigFormBaseProps> = ({
 }) => {
   const navigate = useNavigate();
   const methods = useForm({ defaultValues });
+  const { control, formState, register: rhfRegister } = methods;
+  const { errors } = formState;
 
   const handleCancel = () => {
     if (
@@ -58,6 +62,14 @@ export const ConfigFormBase: React.FC<ConfigFormBaseProps> = ({
     }
   };
 
+  const customFormContextValue = {
+    register: rhfRegister as unknown as UseFormRegister<FieldValues>,
+    formState: { errors: errors as FieldErrors<FieldValues> },
+    control: control as Control<FieldValues>,
+    isSubmitting: isSubmitting,
+    defaultValues: defaultValues,
+  };
+
   return (
     <div className="bg-white rounded-lg shadow">
       <div className="p-6 border-b border-secondary-200">
@@ -65,30 +77,32 @@ export const ConfigFormBase: React.FC<ConfigFormBaseProps> = ({
         <p className="mt-1 text-sm text-secondary-500">{description}</p>
       </div>
 
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <div className="p-6 space-y-6">
-            {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-md mb-4">
-                {typeof error === 'string'
-                  ? error
-                  : 'An error occurred while saving your configuration. Please try again.'}
-              </div>
-            )}
+      <HookFormProvider {...methods}>
+        <CustomFormProvider value={customFormContextValue}>
+          <form onSubmit={methods.handleSubmit(onSubmit)}>
+            <div className="p-6 space-y-6">
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-md mb-4">
+                  {typeof error === 'string'
+                    ? error
+                    : 'An error occurred while saving your configuration. Please try again.'}
+                </div>
+              )}
 
-            {children}
-          </div>
+              {children}
+            </div>
 
-          <div className="px-6 py-4 bg-secondary-50 border-t border-secondary-200 flex justify-end space-x-3">
-            <Button variant="outline" onClick={handleCancel}>
-              Cancel
-            </Button>
-            <Button type="submit" variant="primary" isLoading={isSubmitting}>
-              Add to Cart
-            </Button>
-          </div>
-        </form>
-      </FormProvider>
+            <div className="px-6 py-4 bg-secondary-50 border-t border-secondary-200 flex justify-end space-x-3">
+              <Button variant="outline" onClick={handleCancel}>
+                Cancel
+              </Button>
+              <Button type="submit" variant="primary" isLoading={isSubmitting}>
+                Add to Cart
+              </Button>
+            </div>
+          </form>
+        </CustomFormProvider>
+      </HookFormProvider>
     </div>
   );
 };

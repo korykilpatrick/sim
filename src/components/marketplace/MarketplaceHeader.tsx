@@ -14,7 +14,7 @@ export interface MarketplaceHeaderProps {
 
 /**
  * Component for displaying the marketplace header with product count information
- * 
+ *
  * @param props - The component props
  * @param props.hasTypeFilter - Whether a product type filter is selected
  * @param props.productCount - Number of products found

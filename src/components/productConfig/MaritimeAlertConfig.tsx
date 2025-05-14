@@ -24,7 +24,7 @@ interface MaritimeAlertConfigProps {
 
 /**
  * Component for configuring Maritime Alert products
- * 
+ *
  * @param props - The component props
  * @param props.product - The maritime alert product being configured
  * @returns The rendered maritime alert configuration form with alert type, monitoring duration, and conditional fields

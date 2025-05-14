@@ -14,7 +14,7 @@ export interface InfoBoxSectionProps {
 
 /**
  * Component for displaying information boxes
- * 
+ *
  * @param props - The component props
  * @param props.type - Box type/color (info, warning, success, error)
  * @param props.title - Box title

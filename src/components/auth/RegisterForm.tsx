@@ -1,10 +1,9 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Input, Button, Alert } from '@components/common';
+import { Alert } from '@components/common';
 import { useRegisterMutation } from '@services/authApi';
 import { getErrorMessage, logError } from '@utils/errorUtils';
+import { Form, TextField, PasswordField, FormActions } from '@components/forms';
 
 /**
  * Form validation schema using zod for registration form
@@ -41,22 +40,20 @@ interface RegisterFormProps {
 
 /**
  * Component for the registration form
+ *
+ * @param props - The component props
+ * @param props.onRegisterSuccess - Callback function called after successful registration
+ * @returns The rendered registration form with email, name, password inputs and submit button
  */
 export const RegisterForm: React.FC<RegisterFormProps> = ({
   onRegisterSuccess,
 }) => {
   const [register, { isLoading, error }] = useRegisterMutation();
 
-  const {
-    register: registerField,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<RegisterFormValues>({
-    resolver: zodResolver(registerSchema),
-  });
-
   /**
    * Handles form submission for user registration
+   *
+   * @param data - The form data containing user registration information
    */
   const onSubmit = async (data: RegisterFormValues): Promise<void> => {
     try {
@@ -80,60 +77,46 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         />
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <Form<RegisterFormValues>
+        schema={registerSchema}
+        onSubmit={onSubmit}
+        isSubmitting={isLoading}
+      >
         <div className="space-y-4">
-          <div>
-            <Input
-              label="Email"
-              type="email"
-              placeholder="Enter your email"
-              error={errors.email?.message}
-              {...registerField('email')}
-            />
-          </div>
+          <TextField
+            name="email"
+            label="Email"
+            type="email"
+            placeholder="Enter your email"
+            required
+          />
 
-          <div>
-            <Input
-              label="Name"
-              type="text"
-              placeholder="Enter your name"
-              error={errors.name?.message}
-              {...registerField('name')}
-            />
-          </div>
+          <TextField
+            name="name"
+            label="Name"
+            placeholder="Enter your name"
+            required
+          />
 
-          <div>
-            <Input
-              label="Password"
-              type="password"
-              placeholder="Create a password"
-              error={errors.password?.message}
-              {...registerField('password')}
-            />
-          </div>
+          <PasswordField
+            name="password"
+            label="Password"
+            placeholder="Create a password"
+            required
+          />
 
-          <div>
-            <Input
-              label="Confirm Password"
-              type="password"
-              placeholder="Confirm your password"
-              error={errors.confirmPassword?.message}
-              {...registerField('confirmPassword')}
-            />
-          </div>
+          <PasswordField
+            name="confirmPassword"
+            label="Confirm Password"
+            placeholder="Confirm your password"
+            required
+          />
 
           <div className="pt-2">
-            <Button
-              type="submit"
-              variant="primary"
-              fullWidth
-              isLoading={isLoading}
-            >
-              Create Account
-            </Button>
+            <FormActions primaryText="Create Account" showSecondary={false} />
           </div>
         </div>
-      </form>
+      </Form>
     </>
   );
 };

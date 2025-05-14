@@ -2,7 +2,7 @@ import React from 'react';
 
 /**
  * Component for displaying the footer copyright notice
- * 
+ *
  * @returns The rendered footer copyright section with current year and company name
  */
 export const FooterCopyright: React.FC = () => {

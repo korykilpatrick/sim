@@ -4,7 +4,7 @@ import { Button } from '@components/common';
 
 /**
  * Component for displaying a 404 page when a route is not found
- * 
+ *
  * @returns The rendered 404 page with navigation options
  */
 const NotFoundPage: React.FC = () => {

@@ -1,9 +1,9 @@
 import React from 'react';
-import { SelectField } from '../FormFields';
+import { SelectField } from '@components/forms';
 
 /**
  * Component for selecting investigation type in RFI form
- * 
+ *
  * @returns The rendered investigation type selector dropdown
  */
 export const InvestigationTypeSelector: React.FC = () => {
