@@ -1,12 +1,24 @@
 import React, { useState, useEffect } from 'react';
 
+/**
+ * Interface for promotional slider slide data
+ */
 interface Slide {
+  /** Unique identifier for the slide */
   id: string;
+  /** Title text displayed on the slide */
   title: string;
+  /** Description text displayed on the slide */
   description: string;
+  /** Background color CSS class for the slide */
   bgColor: string;
 }
 
+/**
+ * Component for displaying a promotional slider with auto-rotating slides
+ *
+ * @returns The rendered promotional slider component
+ */
 export const PromotionalSlider: React.FC = () => {
   // Mock promotional slides
   const slides: Slide[] = [
@@ -41,6 +53,11 @@ export const PromotionalSlider: React.FC = () => {
     return () => clearInterval(interval);
   }, [slides.length]);
 
+  /**
+   * Navigate to a specific slide by index
+   *
+   * @param index - The index of the slide to display
+   */
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
   };

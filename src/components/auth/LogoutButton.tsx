@@ -7,7 +7,7 @@ import {
   isErrorOfType,
   ErrorCode,
 } from '@utils/errorUtils';
-import { isDefined } from '../../typeGuards/baseTypeGuards';
+import { isDefined } from '@typeGuards/baseTypeGuards';
 
 /**
  * Props for the LogoutButton component
@@ -19,6 +19,10 @@ type LogoutButtonProps = {
 
 /**
  * Button component that handles user logout functionality
+ *
+ * @param props - The component props
+ * @param props.className - Additional CSS class names
+ * @returns The rendered logout button that handles user sign out
  */
 export const LogoutButton: FC<LogoutButtonProps> = ({ className = '' }) => {
   const navigate = useNavigate();

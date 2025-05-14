@@ -31,6 +31,18 @@ type ButtonProps = {
 /**
  * Button component for user interactions
  * Provides customizable styling with variants, sizes, loading states and icons
+ *
+ * @param props - The component props
+ * @param props.variant - Visual style variant of the button
+ * @param props.size - Size of the button
+ * @param props.isLoading - Whether the button is in a loading state
+ * @param props.leftIcon - Icon to display to the left of the button text
+ * @param props.rightIcon - Icon to display to the right of the button text
+ * @param props.fullWidth - Whether the button should take up the full width of its container
+ * @param props.children - Content to display inside the button
+ * @param props.className - Additional CSS classes
+ * @param props.disabled - Whether the button is disabled
+ * @returns The rendered button component with appropriate styling
  */
 export const Button = ({
   variant = 'primary',
@@ -43,7 +55,7 @@ export const Button = ({
   className = '',
   disabled,
   ...rest
-}: ButtonProps): JSX.Element => {
+}: ButtonProps): React.ReactElement => {
   // Base classes
   const baseClasses =
     'inline-flex items-center justify-center font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors';

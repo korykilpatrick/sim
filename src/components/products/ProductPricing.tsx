@@ -1,14 +1,29 @@
 import React, { useState } from 'react';
 import { BaseProduct } from '@shared-types/product';
 import { useAppSelector } from '@hooks/redux';
-import { Button } from '@components/common/Button';
+import { Button } from '@components/common';
 
+/**
+ * Props for the ProductPricing component
+ */
 type ProductPricingProps = {
+  /** Product data */
   product: BaseProduct;
+  /** Function to handle adding product to cart */
   onAddToCart: () => void;
+  /** Function to handle immediate purchase */
   onBuyNow: () => void;
 };
 
+/**
+ * Component for displaying product pricing information and purchase options
+ *
+ * @param props - The component props
+ * @param props.product - Product data
+ * @param props.onAddToCart - Function to handle adding product to cart
+ * @param props.onBuyNow - Function to handle immediate purchase
+ * @returns The rendered product pricing component
+ */
 export const ProductPricing: React.FC<ProductPricingProps> = ({
   product,
   onAddToCart,

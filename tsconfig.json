@@ -38,6 +38,8 @@
       "@hooks/*": ["src/hooks/*"],
       "@mocks/*": ["src/mocks/*"],
       "@pages/*": ["src/pages/*"],
+      "@schemas": ["src/schemas"],
+      "@schemas/*": ["src/schemas/*"],
       "@services/*": ["src/services/*"],
       "@store/*": ["src/store/*"],
       "@frontend-types/*": ["src/types/*"],

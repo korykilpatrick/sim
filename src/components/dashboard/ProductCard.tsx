@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { format, isValid } from 'date-fns';
-import { Button } from '@components/common/Button';
-import { Badge } from '@components/common/Badge';
+import { Button, Badge } from '@components/common';
 import type { UserProduct } from '@shared-types/userProduct';
 import type {
   VTSProductConfiguration,
@@ -32,6 +31,13 @@ type ProductCardProps = {
   product: UserProduct;
 };
 
+/**
+ * Component for displaying a purchased product card with status and configuration details
+ *
+ * @param props - The component props
+ * @param props.product - The user product data to display
+ * @returns The rendered product card with name, status, configuration summary, and dates
+ */
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const {
     id: _id,

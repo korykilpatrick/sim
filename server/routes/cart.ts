@@ -8,7 +8,6 @@ import type {
 } from '@shared-types/productConfiguration';
 import type { ProductType, BaseProduct } from '@shared-types/product';
 import type { User } from '@shared-types/user';
-import type { Result } from '@shared-types/utility';
 
 const router = express.Router();
 
@@ -34,11 +33,6 @@ interface CartErrorResponse {
   /** Optional error code */
   code?: string;
 }
-
-/**
- * Unified result type for cart operations
- */
-type CartResult = Result<CartResponse, CartErrorResponse>;
 
 /**
  * Type for the GET / route params

@@ -123,10 +123,11 @@ export function getProductTypeName(productType: ProductType): string {
       return 'Investigation Service';
     case 'MARITIME_ALERT':
       return 'Maritime Alert Service';
-    default:
+    default: {
       // This ensures exhaustive checking
       const _exhaustiveCheck: never = productType;
       throw new Error(`Unhandled product type: ${_exhaustiveCheck}`);
+    }
   }
 }
 

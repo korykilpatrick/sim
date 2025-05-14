@@ -2,7 +2,10 @@ import React from 'react';
 import { CartItem as CartItemType } from '@/types';
 import { useAppDispatch } from '@hooks/redux';
 import { updateItemQuantity, removeItem } from '@store/slices/cartSlice';
-import { ProductConfigurationType } from '@shared-types/productConfiguration';
+import { CartItemImage } from './CartItemImage';
+import { CartItemDetails } from './CartItemDetails';
+import { QuantityControl } from './QuantityControl';
+import { RemoveButton } from './RemoveButton';
 
 /**
  * Props for the CartItem component
@@ -14,11 +17,21 @@ type CartItemProps = {
 
 /**
  * Displays a cart item with product details, quantity control, and removal option
+ *
+ * @param props - The component props
+ * @param props.item - The cart item to display
+ * @returns The rendered cart item component
  */
-export const CartItem = ({ item }: CartItemProps): JSX.Element => {
+export const CartItem = ({ item }: CartItemProps) => {
   const dispatch = useAppDispatch();
-  const { itemId, product, quantity, configuredPrice, configuredCreditCost } =
-    item;
+  const {
+    itemId,
+    product,
+    quantity,
+    configuredPrice,
+    configuredCreditCost,
+    configurationDetails,
+  } = item;
 
   const price = configuredPrice ?? product.price;
   const creditCost = configuredCreditCost ?? product.creditCost;
@@ -34,146 +47,30 @@ export const CartItem = ({ item }: CartItemProps): JSX.Element => {
     dispatch(removeItem(itemId));
   };
 
-  /**
-   * Creates a human-readable summary of the product configuration
-   */
-  const getConfigSummary = (): string | null => {
-    if (!item.configurationDetails) return null;
-
-    const config = item.configurationDetails as ProductConfigurationType;
-    let duration: number | undefined;
-
-    // Type guards for accessing properties on discriminated union
-    switch (config.type) {
-      case 'VTS':
-        duration = config.trackingDurationDays;
-        break;
-      case 'AMS':
-        duration = config.monitoringDurationDays;
-        break;
-      case 'MARITIME_ALERT':
-        duration = config.monitoringDurationDays;
-        break;
-      case 'FTS':
-        duration = config.monitoringDurationDays;
-        break;
-    }
-
-    if (duration !== undefined) {
-      return `${duration} days`;
-    }
-
-    // Summaries for other config types
-    if (
-      config.type === 'REPORT_COMPLIANCE' ||
-      config.type === 'REPORT_CHRONOLOGY'
-    ) {
-      return `Depth: ${config.depth}`;
-    }
-
-    return null;
-  };
-
-  const configSummary = getConfigSummary();
-
   return (
     <div className="flex flex-col md:flex-row border-b border-secondary-200 py-6 last:border-b-0">
       {/* Product Image */}
-      <div className="w-full md:w-24 h-24 flex-shrink-0 bg-secondary-100 rounded-md overflow-hidden">
-        {product.imageUrl ? (
-          <img
-            src={product.imageUrl}
-            alt={product.name}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-12 w-12 text-secondary-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-          </div>
-        )}
-      </div>
+      <CartItemImage imageUrl={product.imageUrl} alt={product.name} />
 
-      {/* Product Info */}
       <div className="flex-1 md:ml-6 mt-4 md:mt-0">
-        <div className="flex flex-col md:flex-row md:justify-between">
-          <div>
-            <h3 className="text-lg font-medium text-secondary-900">
-              {product.name}
-            </h3>
-            <p className="mt-1 text-sm text-secondary-500">
-              {configSummary ? (
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
-                  {configSummary}
-                </span>
-              ) : null}
-            </p>
-          </div>
-
-          <div className="mt-4 md:mt-0 text-right">
-            <p className="text-lg font-medium text-secondary-900">
-              ${totalPrice.toFixed(2)}
-            </p>
-            <p className="text-sm text-secondary-500">{totalCredits} credits</p>
-          </div>
-        </div>
+        {/* Product Info */}
+        <CartItemDetails
+          productName={product.name}
+          configurationDetails={configurationDetails}
+          totalPrice={totalPrice}
+          totalCredits={totalCredits}
+        />
 
         <div className="flex items-center justify-between mt-4">
-          <div className="flex items-center">
-            <label
-              htmlFor={`quantity-${itemId}`}
-              className="mr-2 text-sm text-ocean-100"
-            >
-              Qty
-            </label>
-            <div className="flex border border-navy-600 rounded-md">
-              <button
-                type="button"
-                className="px-2 py-1 text-ocean-100 hover:bg-navy-600 bg-navy-700"
-                onClick={() => handleQuantityChange(quantity - 1)}
-                disabled={quantity <= 1}
-              >
-                -
-              </button>
-              <input
-                id={`quantity-${itemId}`}
-                type="text"
-                className="w-12 text-center border-x border-navy-600 bg-navy-700 text-ocean-100"
-                value={quantity}
-                onChange={(e) => {
-                  const val = parseInt(e.target.value);
-                  if (!isNaN(val)) handleQuantityChange(val);
-                }}
-              />
-              <button
-                type="button"
-                className="px-2 py-1 text-ocean-100 hover:bg-navy-600 bg-navy-700"
-                onClick={() => handleQuantityChange(quantity + 1)}
-              >
-                +
-              </button>
-            </div>
-          </div>
+          {/* Quantity Control */}
+          <QuantityControl
+            itemId={itemId}
+            quantity={quantity}
+            onQuantityChange={handleQuantityChange}
+          />
 
-          <button
-            type="button"
-            className="text-sm text-red-600 hover:text-red-800"
-            onClick={handleRemove}
-          >
-            Remove
-          </button>
+          {/* Remove Button */}
+          <RemoveButton onRemove={handleRemove} />
         </div>
       </div>
     </div>

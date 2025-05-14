@@ -2,6 +2,11 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAppSelector } from '@hooks/redux';
 
+/**
+ * Component for displaying the dashboard sidebar with user info and navigation
+ *
+ * @returns The rendered dashboard sidebar with user profile, credit balance, and navigation links
+ */
 export const DashboardSidebar: React.FC = () => {
   const location = useLocation();
   const { user } = useAppSelector((state) => state.auth);

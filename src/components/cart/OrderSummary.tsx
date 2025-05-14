@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@components/common/Button';
+import { Button } from '@components/common';
 
 /**
  * Props for the OrderSummary component
@@ -17,6 +17,16 @@ type OrderSummaryProps = {
   isAuthenticated: boolean;
 };
 
+/**
+ * Component for displaying order summary with pricing details and checkout options
+ *
+ * @param props - The component props
+ * @param props.subtotal - Subtotal price before tax
+ * @param props.totalCredits - Total credits cost for the order
+ * @param props.itemCount - Number of items in the cart
+ * @param props.isAuthenticated - Whether the user is authenticated
+ * @returns The rendered order summary component
+ */
 export const OrderSummary: FC<OrderSummaryProps> = ({
   subtotal,
   totalCredits,

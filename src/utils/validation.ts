@@ -8,7 +8,7 @@ import type { User } from '@shared-types/user';
 import type { BaseProduct } from '@shared-types/product';
 import type { CartItem } from '@shared-types/cart';
 import type { ValidatedRequest } from '@shared-types/utility';
-import { isObject } from './typeGuards';
+import { isObject } from '@typeGuards/baseTypeGuards';
 
 /**
  * User schema for validation

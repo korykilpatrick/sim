@@ -1,5 +1,10 @@
 import { Outlet } from 'react-router-dom';
 
+/**
+ * Layout component for authentication pages (login and registration)
+ *
+ * @returns The rendered authentication layout with centered content and branding
+ */
 export const AuthLayout = () => {
   return (
     <div className="flex min-h-screen bg-navy-900">

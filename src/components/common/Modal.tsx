@@ -21,6 +21,19 @@ type ModalProps = {
   closeOnOverlayClick?: boolean;
 };
 
+/**
+ * Modal component for displaying content in a dialog overlay
+ *
+ * @param props - The component props
+ * @param props.isOpen - Whether the modal is currently open
+ * @param props.onClose - Function to call when the modal should close
+ * @param props.title - Optional modal title
+ * @param props.children - Content to display inside the modal
+ * @param props.footer - Optional footer content
+ * @param props.size - Size of the modal
+ * @param props.closeOnOverlayClick - Whether clicking the overlay should close the modal
+ * @returns The rendered modal component or null if not open
+ */
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,

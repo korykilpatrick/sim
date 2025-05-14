@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useGetUserOrdersQuery } from '@services/ordersApi';
 import { useGetCreditsBalanceQuery } from '@services/creditsApi';
-import { DashboardSidebar } from '@components/dashboard/DashboardSidebar';
-import { ProductCard } from '@components/dashboard/ProductCard';
-import { AlertsCard } from '@components/dashboard/AlertsCard';
-import { Button } from '@components/common/Button';
-import { Spinner } from '@components/common/Spinner';
-import { Alert } from '@components/common/Alert';
+import {
+  DashboardSidebar,
+  ProductFilters,
+  ProductGrid,
+  DashboardHeader,
+  AlertsCard,
+} from '@/components/dashboard';
 import type { UserProduct, UserProductStatus } from '@shared-types/userProduct';
 import type { Order, OrderItem } from '@shared-types/order';
 import type { ProductType } from '@shared-types/product';
 
+/**
+ * Dashboard page component for displaying user's purchased products and account information
+ *
+ * @returns The rendered dashboard page with sidebar, product filters, product grid, and alerts
+ */
 const DashboardPage: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<ProductType | null>(null);
 
@@ -109,99 +114,24 @@ const DashboardPage: React.FC = () => {
 
       {/* Main Content */}
       <div className="flex-1">
-        <h1 className="text-2xl font-bold mb-6">My Products</h1>
-
-        {/* Loading state */}
-        {(isOrdersLoading || isCreditsLoading) && (
-          <div className="flex justify-center py-12">
-            <Spinner size="lg" />
-          </div>
-        )}
-
-        {/* Error state */}
-        {ordersError && (
-          <Alert
-            variant="error"
-            title="Error loading your products"
-            message="There was an error loading your purchased products. Please try again later."
-            className="mb-6"
-          />
-        )}
+        <DashboardHeader
+          isLoading={isOrdersLoading || isCreditsLoading}
+          error={ordersError}
+        />
 
         {/* Content */}
         {!isOrdersLoading && !ordersError && (
           <>
-            {/* Filter tabs */}
-            {productTypes.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-6">
-                <button
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    activeFilter === null
-                      ? 'bg-primary-100 text-primary-800'
-                      : 'bg-secondary-100 text-secondary-700 hover:bg-secondary-200'
-                  }`}
-                  onClick={() => setActiveFilter(null)}
-                >
-                  All Products
-                </button>
+            <ProductFilters
+              activeFilter={activeFilter}
+              onFilterChange={setActiveFilter}
+              productTypes={productTypes}
+            />
 
-                {productTypes.map((typeOpt) => (
-                  <button
-                    key={typeOpt.value}
-                    className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                      activeFilter === typeOpt.value
-                        ? 'bg-primary-100 text-primary-800'
-                        : 'bg-secondary-100 text-secondary-700 hover:bg-secondary-200'
-                    }`}
-                    onClick={() => setActiveFilter(typeOpt.value)}
-                  >
-                    {typeOpt.label}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* Products grid */}
-            {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            ) : (
-              <div className="bg-white rounded-lg shadow p-8 text-center mb-8">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-12 w-12 mx-auto text-secondary-400 mb-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                  />
-                </svg>
-
-                <h2 className="text-xl font-medium text-secondary-900 mb-2">
-                  {activeFilter
-                    ? 'No products of this type'
-                    : 'No products yet'}
-                </h2>
-
-                <p className="text-secondary-600 mb-6">
-                  {activeFilter
-                    ? "You don't have any products of this type. Try selecting a different filter or browse the marketplace."
-                    : "You haven't purchased any products yet. Browse our marketplace to get started."}
-                </p>
-
-                <Link to="/marketplace">
-                  <Button variant="primary">Browse Marketplace</Button>
-                </Link>
-              </div>
-            )}
+            <ProductGrid
+              products={filteredProducts}
+              activeFilter={activeFilter}
+            />
 
             {/* Alerts section */}
             <div className="mb-8">

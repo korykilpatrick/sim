@@ -4,13 +4,18 @@ import { useGetProductQuery } from '@services/productsApi';
 import { useAppDispatch, useAppSelector } from '@hooks/redux';
 import { addItem } from '@store/slices/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
-import { Badge } from '@components/common/Badge';
-import { Spinner } from '@components/common/Spinner';
-import { Alert } from '@components/common/Alert';
-import { ProductImageGallery } from '@components/products/ProductImageGallery';
-import { ProductPricing } from '@components/products/ProductPricing';
+import { Spinner, Alert } from '@components/common';
+import { ProductImageGallery, ProductPricing } from '@components/products';
+import { ProductHeader } from '../components/products/ProductHeader';
+import { ProductInformation } from '../components/products/ProductInformation';
+import { ProductSpecialFeatures } from '../components/products/ProductSpecialFeatures';
 import { MaritimeAlertProduct } from '@shared-types/product';
 
+/**
+ * Component for displaying detailed product information and purchase options
+ *
+ * @returns The rendered product details page with image gallery, pricing, and information
+ */
 const ProductDetailsPage: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
@@ -101,34 +106,17 @@ const ProductDetailsPage: React.FC = () => {
 
   return (
     <div>
-      <div className="mb-8">
-        <a
-          onClick={() => navigate(-1)}
-          className="inline-flex items-center text-primary-600 hover:text-primary-800 cursor-pointer"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 mr-1"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            />
-          </svg>
-          Back
-        </a>
-      </div>
+      <ProductHeader
+        name={product.name}
+        tags={product.tags}
+        onBack={() => navigate(-1)}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Product Image */}
         <div className="lg:col-span-2">
           <ProductImageGallery
-            mainImage={product.imageUrl}
+            mainImage={product.imageUrl || undefined}
             alt={product.name}
           />
         </div>
@@ -145,51 +133,12 @@ const ProductDetailsPage: React.FC = () => {
         {/* Product Information */}
         <div className="lg:col-span-3">
           <div className="bg-white rounded-lg shadow p-6">
-            <div className="mb-6">
-              <h1 className="text-3xl font-bold text-secondary-900 mb-2">
-                {product.name}
-              </h1>
+            <ProductInformation description={product.longDescription} />
 
-              <div className="flex flex-wrap gap-2 mt-3">
-                {product.tags?.map((tag) => (
-                  <Badge key={tag} variant="secondary">
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-
-            <div className="border-t border-secondary-200 pt-6">
-              <h2 className="text-xl font-semibold mb-4">
-                Product Description
-              </h2>
-              <p className="text-secondary-700 whitespace-pre-line mb-6">
-                {product.longDescription}
-              </p>
-
-              {/* Special features for Maritime Alert products */}
-              {isMaritimeAlert && maritimeAlertProduct && (
-                <div className="mt-6">
-                  <h3 className="text-lg font-medium mb-3">
-                    Alert Types Available
-                  </h3>
-                  <ul className="list-disc list-inside space-y-2 text-secondary-700">
-                    {maritimeAlertProduct.alertTypesAvailable.map(
-                      (alertType) => (
-                        <li key={alertType}>
-                          {alertType === 'SHIP' &&
-                            'Ship-based alerts - Track specific vessels'}
-                          {alertType === 'AREA' &&
-                            'Area-based alerts - Monitor defined geographical areas'}
-                          {alertType === 'SHIP_AND_AREA' &&
-                            'Combined ship and area monitoring'}
-                        </li>
-                      ),
-                    )}
-                  </ul>
-                </div>
-              )}
-            </div>
+            {/* Special features for Maritime Alert products */}
+            {isMaritimeAlert && maritimeAlertProduct && (
+              <ProductSpecialFeatures product={maritimeAlertProduct} />
+            )}
           </div>
         </div>
       </div>
