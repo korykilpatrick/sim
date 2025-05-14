@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Input } from '@components/common';
-import { FormField } from '@components/forms/FormField';
+import { FormField } from '@components/forms';
 import { useFormContext } from '@components/forms/core/FormContext';
-import type { PasswordFieldProps } from '@components/forms/types';
+import type { PasswordFieldProps } from '@components/forms';
 
 /**
  * Component for rendering a password input field with toggle visibility
@@ -41,7 +41,7 @@ export function PasswordField({
       name={name}
       label={label}
       required={required}
-      helperText={helperText}
+      {...(helperText && { helperText })}
       className={className}
     >
       <div className="relative">
@@ -50,7 +50,7 @@ export function PasswordField({
           type={showPassword ? 'text' : 'password'}
           placeholder={placeholder}
           disabled={disabled}
-          error={errors[name]?.message?.toString()}
+          {...(errors[name]?.message?.toString() && { error: errors[name]?.message?.toString() })}
           {...register(name, {
             required: required ? `${label || name} is required` : false,
           })}
@@ -97,4 +97,4 @@ export function PasswordField({
       </div>
     </FormField>
   );
-}
+} 

@@ -1,7 +1,7 @@
 import React from 'react';
-import { FormField } from '@components/forms/FormField';
+import { FormField } from '@components/forms';
 import { useFormContext } from '@components/forms/core/FormContext';
-import type { TextareaFieldProps } from '@components/forms/types';
+import type { TextareaFieldProps } from '@components/forms';
 
 /**
  * Component for rendering a textarea field
@@ -37,7 +37,7 @@ export function TextareaField({
       name={name}
       label={label}
       required={required}
-      helperText={helperText}
+      {...(helperText && { helperText })}
       className={className}
     >
       <textarea
@@ -53,12 +53,10 @@ export function TextareaField({
         }`}
         {...register(name, {
           required: required ? `${label || name} is required` : false,
-          maxLength: maxLength
-            ? {
-                value: maxLength,
-                message: `${label || name} must be at most ${maxLength} characters`,
-              }
-            : undefined,
+          ...(maxLength && { maxLength: {
+            value: maxLength,
+            message: `${label || name} must be at most ${maxLength} characters`,
+          }}),
         })}
       />
     </FormField>

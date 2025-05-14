@@ -1,7 +1,7 @@
 import React from 'react';
-import { FormField } from '@components/forms/FormField';
+import { FormField } from '@components/forms';
 import { useFormContext } from '@components/forms/core/FormContext';
-import type { RadioFieldProps } from '@components/forms/types';
+import type { RadioFieldProps } from '@components/forms';
 
 /**
  * Component for rendering a group of radio buttons
@@ -32,11 +32,11 @@ export function RadioField({
       name={name}
       label={label}
       required={required}
-      helperText={helperText}
+      {...(helperText && { helperText })}
       className={className}
     >
       <div className="mt-1 space-y-2">
-        {options.map((option) => (
+        {options.map((option: { value: string; label: string }) => (
           <div key={option.value} className="flex items-center">
             <input
               id={`${name}-${option.value}`}
@@ -59,4 +59,4 @@ export function RadioField({
       </div>
     </FormField>
   );
-}
+} 

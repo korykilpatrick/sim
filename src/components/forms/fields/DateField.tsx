@@ -1,8 +1,8 @@
 import React from 'react';
 import { Input } from '@components/common';
-import { FormField } from '@components/forms/FormField';
+import { FormField } from '@components/forms';
 import { useFormContext } from '@components/forms/core/FormContext';
-import type { DateFieldProps } from '@components/forms/types';
+import type { DateFieldProps } from '@components/forms';
 
 /**
  * Component for rendering a date input field
@@ -36,7 +36,7 @@ export function DateField({
       name={name}
       label={label}
       required={required}
-      helperText={helperText}
+      {...(helperText && { helperText })}
       className={className}
     >
       <Input
@@ -45,11 +45,11 @@ export function DateField({
         min={min}
         max={max}
         disabled={disabled}
-        error={errors[name]?.message?.toString()}
+        {...(errors[name]?.message?.toString() && { error: errors[name]?.message?.toString() })}
         {...register(name, {
           required: required ? `${label || name} is required` : false,
         })}
       />
     </FormField>
   );
-}
+} 

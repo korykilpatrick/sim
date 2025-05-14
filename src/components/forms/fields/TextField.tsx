@@ -1,8 +1,8 @@
 import React from 'react';
 import { Input } from '@components/common';
-import { FormField } from '@components/forms/FormField';
+import { FormField } from '@components/forms';
 import { useFormContext } from '@components/forms/core/FormContext';
-import type { TextFieldProps } from '@components/forms/types';
+import type { TextFieldProps } from '@components/forms';
 import { FieldValues } from 'react-hook-form';
 
 /**
@@ -50,9 +50,9 @@ export function TextField<TFormValues extends FieldValues = any>({
       name={name}
       label={label}
       required={required}
-      helperText={helperText || undefined}
+      {...(helperText && { helperText })}
       className={className}
-      error={errorMessage || undefined}
+      {...(errorMessage && { error: errorMessage })}
     >
       <Input
         id={name}
@@ -72,4 +72,4 @@ export function TextField<TFormValues extends FieldValues = any>({
       />
     </FormField>
   );
-}
+} 

@@ -1,7 +1,7 @@
 import React from 'react';
-import { FormField } from '@components/forms/FormField';
+import { FormField } from '@components/forms';
 import { useFormContext } from '@components/forms/core/FormContext';
-import type { SelectFieldProps } from '@components/forms/types';
+import type { SelectFieldProps } from '@components/forms';
 
 /**
  * Component for rendering a select dropdown field
@@ -35,7 +35,7 @@ export function SelectField({
       name={name}
       label={label}
       required={required}
-      helperText={helperText}
+      {...(helperText && { helperText })}
       className={className}
     >
       <select
@@ -51,7 +51,7 @@ export function SelectField({
         })}
       >
         <option value="">{placeholder}</option>
-        {options.map((option) => (
+        {options.map((option: { value: string; label: string }) => (
           <option key={option.value} value={option.value}>
             {option.label}
           </option>
@@ -59,4 +59,4 @@ export function SelectField({
       </select>
     </FormField>
   );
-}
+} 

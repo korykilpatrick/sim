@@ -1,5 +1,5 @@
-import React from 'react';
-import type { FormSectionProps } from '@components/forms/types';
+import React, { ReactNode } from 'react';
+import type { FormSectionProps } from '@components/forms';
 
 /**
  * Component for grouping related form fields

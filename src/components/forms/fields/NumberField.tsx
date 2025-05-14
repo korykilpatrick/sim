@@ -1,8 +1,8 @@
 import React from 'react';
 import { Input } from '@components/common';
-import { FormField } from '@components/forms/FormField';
+import { FormField } from '@components/forms';
 import { useFormContext } from '@components/forms/core/FormContext';
-import type { NumberFieldProps } from '@components/forms/types';
+import type { NumberFieldProps } from '@components/forms';
 
 /**
  * Component for rendering a number input field
@@ -40,7 +40,7 @@ export function NumberField({
       name={name}
       label={label}
       required={required}
-      helperText={helperText}
+      {...(helperText && { helperText })}
       className={className}
     >
       <Input
@@ -51,26 +51,20 @@ export function NumberField({
         min={min}
         max={max}
         step={step}
-        error={errors[name]?.message?.toString()}
+        {...(errors[name]?.message?.toString() && { error: errors[name]?.message?.toString() })}
         {...register(name, {
           required: required ? `${label || name} is required` : false,
           valueAsNumber: true,
-          min:
-            min !== undefined
-              ? {
-                  value: min,
-                  message: `${label || name} must be at least ${min}`,
-                }
-              : undefined,
-          max:
-            max !== undefined
-              ? {
-                  value: max,
-                  message: `${label || name} must be at most ${max}`,
-                }
-              : undefined,
+          ...(min !== undefined && { min: {
+            value: min,
+            message: `${label || name} must be at least ${min}`,
+          }}),
+          ...(max !== undefined && { max: {
+            value: max,
+            message: `${label || name} must be at most ${max}`,
+          }}),
         })}
       />
     </FormField>
   );
-}
+} 

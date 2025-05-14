@@ -5,7 +5,7 @@ import {
   Control,
   FieldErrors,
 } from 'react-hook-form';
-import type { FormContextType } from '@components/forms/types';
+import type { FormContextType } from '@components/forms';
 
 // Create a default context value for when useFormContext is used outside of FormProvider
 // Create a type-safe default context value

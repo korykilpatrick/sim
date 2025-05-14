@@ -1,5 +1,5 @@
 import React from 'react';
-import type { FormErrorProps } from '@components/forms/types';
+import type { FormErrorProps } from '@components/forms';
 
 /**
  * Component for displaying form validation errors
@@ -46,4 +46,4 @@ export function FormError({
       </div>
     </div>
   );
-}
+} 

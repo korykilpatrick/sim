@@ -1,5 +1,5 @@
-import React from 'react';
-import type { FormFieldProps } from '@components/forms/types';
+import React, { ReactNode } from 'react';
+import type { FormFieldProps } from '@components/forms';
 
 /**
  * Base wrapper component for form fields
@@ -46,4 +46,4 @@ export function FormField({
       )}
     </div>
   );
-}
+} 

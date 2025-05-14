@@ -6,9 +6,9 @@ import {
   Control,
 } from 'react-hook-form';
 import { FormProvider } from '@components/forms/core/FormContext';
-import { FormError } from '@components/forms/FormError';
-import { useForm } from '@components/forms/useForm';
-import type { FormProps } from '@components/forms/types';
+import { FormError } from './FormError';
+import { useForm } from './useForm';
+import type { FormProps } from '@components/forms';
 
 /**
  * Main form component that provides form context and handles submission
@@ -69,4 +69,4 @@ export function Form<TFormValues extends FieldValues>({
       </FormProvider>
     </HookFormProvider>
   );
-}
+} 

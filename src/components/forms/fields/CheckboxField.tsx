@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFormContext } from '@components/forms/core/FormContext';
-import type { CheckboxFieldProps } from '@components/forms/types';
+import type { CheckboxFieldProps } from '@components/forms';
 
 /**
  * Component for rendering a checkbox field
@@ -53,4 +53,4 @@ export function CheckboxField({
       )}
     </div>
   );
-}
+} 
