@@ -81,6 +81,9 @@ This will create a production-ready build in the `dist` directory.
 ## Project Structure
 
 ```
+├── .github/               # GitHub specific files (e.g. workflows, issue templates)
+├── dist/                  # Production build output
+├── docs/                  # Project documentation
 ├── server/                # Express backend server
 │   ├── data/              # Mock data for the backend
 │   ├── routes/            # API route handlers
@@ -96,18 +99,24 @@ This will create a production-ready build in the `dist` directory.
 │   │   ├── alerts/        # Alert-related components
 │   │   ├── auth/          # Authentication components
 │   │   ├── cart/          # Shopping cart components
+│   │   ├── checkout/      # Checkout process components
 │   │   ├── common/        # Generic components (Button, Input, Modal, Card)
+│   │   ├── confirmation/  # Confirmation-related components
 │   │   ├── dashboard/     # Dashboard components
+│   │   ├── forms/         # Form-related components
 │   │   ├── layout/        # Layout components (Header, Sidebar, Footer)
-│   │   ├── map/           # Map-related components
-│   │   ├── maritime/      # Maritime-specific components
+│   │   ├── marketplace/   # Marketplace specific components
 │   │   ├── productConfig/ # Product configuration forms
-│   │   └── products/      # Product-related components
+│   │   ├── products/      # Product-related components
+│   │   ├── reports/       # Report-related components
+│   │   └── userSettings/  # User settings components
 │   ├── hooks/             # Custom React hooks
 │   ├── pages/             # Top-level route components
+│   ├── schemas/           # Zod schema definitions
 │   ├── services/          # RTK Query API definitions
 │   ├── store/             # Redux store configuration
-│   │   └── slices/        # Redux feature slices
+│   │   ├── slices/        # Redux feature slices
+│   │   └── index.ts       # Store configuration entry point
 │   ├── types/             # Global TypeScript type definitions
 │   ├── typeGuards/        # TypeScript type guard functions
 │   ├── utils/             # Utility functions
@@ -116,6 +125,24 @@ This will create a production-ready build in the `dist` directory.
 │   ├── routes.tsx         # Application routing configuration
 │   ├── index.css          # Global styles
 │   └── vite-env.d.ts      # Vite environment type definitions
+├── .eslintignore          # ESLint ignore configuration
+├── .eslintrc.cjs          # ESLint configuration (CommonJS)
+├── .gitignore             # Git ignore configuration
+├── .prettierignore        # Prettier ignore configuration
+├── .prettierrc.json       # Prettier configuration
+├── eslint.config.js       # ESLint configuration (ESM)
+├── index.html             # Main HTML entry point
+├──LICENSE                 # Project License
+├── package-lock.json      # Exact locked dependencies
+├── package.json           # Project dependencies and scripts
+├── postcss.config.js      # PostCSS configuration
+├── README.md              # This file
+├── tailwind.config.js     # Tailwind CSS configuration
+├── todo.txt               # To-do list for the project
+├── tsconfig.json          # TypeScript configuration for the frontend
+├── tsconfig.node.json     # TypeScript configuration for Node.js parts (e.g. Vite config)
+├── TYPING_STANDARDS.md    # Standards for TypeScript typing
+└── vite.config.ts         # Vite configuration
 ```
 
 ## Backend API
