@@ -1,5 +1,6 @@
 import { RouterProvider } from 'react-router-dom';
-import { router } from './routes';
+import { router } from '@app/router';
+import { GlobalStyles } from '@app/GlobalStyles';
 
 /**
  * Main application component that sets up the router
@@ -7,7 +8,12 @@ import { router } from './routes';
  * @returns The router provider component with the application routes
  */
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <GlobalStyles />
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;

@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { store } from '@store/index';
+import { store } from '@app/store';
 import App from './App';
-import './index.css';
+import '@styles/tailwind.css';
+import '@styles/globals.css';
 
 // Render the app
 ReactDOM.createRoot(document.getElementById('root')!).render(
