@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { apiSlice } from '@app/api';
 import authReducer from '@features/auth/authSlice';
 import cartReducer from '@features/cart/cartSlice';
-import uiReducer from '@features/ui/uiSlice';
 import creditsReducer from '@features/credits/creditsSlice';
 
 export const store = configureStore({
@@ -10,7 +10,6 @@ export const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authReducer,
     cart: cartReducer,
-    ui: uiReducer,
     credits: creditsReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -20,3 +19,6 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

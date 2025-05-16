@@ -2,11 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { FilterSidebar, PromotionalSlider } from '@features/products/components';
 import { useGetProductsQuery } from '@features/products/productsApi';
 import type { ProductType } from '@features/products/types';
-import {
-  RtkQueryError,
-  ApiErrorPayload as _ApiErrorPayload,
-} from '@/types/apiError';
 import { SerializedError } from '@reduxjs/toolkit';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import {
   MarketplaceHeader,
   SearchResults,
@@ -14,6 +11,18 @@ import {
   MarketplaceLoadingState,
   MarketplaceErrorState,
 } from '@features/products/components/marketplace';
+
+// Placeholder types - these should be defined globally or replaced with actual types
+interface ApiErrorPayload {
+  message: string;
+  // Add other expected properties if any, e.g., code, details
+}
+
+// This represents a FetchBaseQueryError where the server returned an error payload we expect
+interface RtkQueryError {
+  status: number; // HTTP status code
+  data: ApiErrorPayload;
+}
 
 /**
  * Helper to check if it's an RTK Query API error with our expected payload
@@ -25,12 +34,9 @@ function isApiError(error: any): error is RtkQueryError {
   return (
     typeof error === 'object' &&
     error !== null &&
-    'status' in error &&
-    typeof error.status === 'number' &&
-    'data' in error &&
+    typeof error.status === 'number' && // Check for numeric status first
     typeof error.data === 'object' &&
     error.data !== null &&
-    'message' in error.data &&
     typeof error.data.message === 'string'
   );
 }
@@ -41,6 +47,8 @@ function isApiError(error: any): error is RtkQueryError {
  * @returns The rendered marketplace page with filters, product grid, and promotional content
  */
 export const MarketplacePage: React.FC = () => {
+  console.log('MarketplacePage rendering, about to call useGetProductsQuery');
+
   const [selectedType, setSelectedType] = useState<ProductType | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -81,14 +89,23 @@ export const MarketplacePage: React.FC = () => {
    *
    * @returns The formatted error message string
    */
-  const getErrorMessage = () => {
+  const getErrorMessage = (): string => {
     if (isApiError(error)) {
       return error.data.message;
     }
-    return (
-      (error as SerializedError)?.message ||
-      'There was an error loading the product catalog. Please try again later.'
-    );
+    // Check for FetchBaseQueryError with string status (e.g., 'FETCH_ERROR')
+    if (error && typeof (error as FetchBaseQueryError).status === 'string') {
+      // data might be undefined, error property usually holds the message for these
+      if ('error' in error && typeof (error as any).error === 'string') {
+        return (error as any).error; 
+      }
+      return `An error occurred: ${(error as FetchBaseQueryError).status}`;
+    }
+    // Handle SerializedError (e.g., programming error before fetch)
+    if (error && error instanceof Error) { // SerializedError is typically an instance of Error
+        return error.message;
+    }
+    return 'An unexpected error occurred. Please try again later.'; // Fallback
   };
 
   return (

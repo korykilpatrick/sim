@@ -1,6 +1,7 @@
 import { RouterProvider } from 'react-router-dom';
+// import { Toaster } from 'react-hot-toast'; // Erroneously added, will be removed
+// import { GlobalStyles } from '@app/GlobalStyles'; // Removed
 import { router } from '@app/router';
-import { GlobalStyles } from '@app/GlobalStyles';
 
 /**
  * Main application component that sets up the router
@@ -10,8 +11,9 @@ import { GlobalStyles } from '@app/GlobalStyles';
 function App() {
   return (
     <>
-      <GlobalStyles />
+      {/* <GlobalStyles /> */}{/* Removed */}
       <RouterProvider router={router} />
+      {/* <Toaster /> */}{/* Erroneously added, will be removed */}
     </>
   );
 }

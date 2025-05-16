@@ -3,7 +3,8 @@ import { z } from 'zod';
 import { Alert } from '@components/ui/Alert';
 import { useRegisterMutation } from '@features/auth/authApi';
 import { getErrorMessage, logError } from '@lib/errorUtils';
-import { Form, TextField, PasswordField, FormActions } from '@components/forms';
+import { Form, TextField, PasswordField, FormActions } from '@features/forms/components';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 /**
  * Form validation schema using zod for registration form

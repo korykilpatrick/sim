@@ -1,36 +1,24 @@
-import { apiSlice } from '@app/api';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export interface RFISubmitRequest {
-  id: string;
-  name: string;
-  investigationType: 'vessel' | 'company' | 'incident';
-  subjectIdentifier: string;
-  timeframe: {
-    startDate: string;
-    endDate: string;
-  };
-  additionalInfo?: string;
-  priority?: 'standard' | 'urgent';
-}
+// Placeholder for RFI API slice
+// TODO: Define actual baseQuery and endpoints
 
-export interface RFISubmitResponse {
-  success: boolean;
-  requestId: string;
-  message: string;
-  estimatedResponse: string;
-  submittedAt: string;
-}
-
-export const rfiApiSlice = apiSlice.injectEndpoints({
+/**
+ * API slice for RFI (Request For Information) related operations.
+ */
+export const rfiApi = createApi({
+  reducerPath: 'rfiApi',
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/rfi' }), // Example base URL
   endpoints: (builder) => ({
-    submitRFI: builder.mutation({
-      query: (data: RFISubmitRequest) => ({
-        url: '/investigations/rfi',
+    submitRFI: builder.mutation<void, unknown>({
+      query: (rfiData) => ({
+        url: '/',
         method: 'POST',
-        body: data,
+        body: rfiData,
       }),
     }),
+    // Add other RFI related endpoints here
   }),
 });
 
-export const { useSubmitRFIMutation } = rfiApiSlice;
+export const { useSubmitRFIMutation } = rfiApi; 

@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useAppSelector } from '@hooks/redux';
+import { useAppSelector } from '@app/store';
 
 /**
  * Component that protects routes requiring authentication

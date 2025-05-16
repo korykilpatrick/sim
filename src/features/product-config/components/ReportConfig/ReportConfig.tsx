@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAppDispatch } from '@hooks/redux';
+import { useAppDispatch } from '@app/hooks';
 import { useNavigate } from 'react-router-dom';
 import { addItem } from '@features/cart/cartSlice';
 import { v4 as uuidv4 } from 'uuid';

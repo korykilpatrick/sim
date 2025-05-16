@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BaseProduct } from '@shared-types/product';
-import { useAppSelector } from '@hooks/redux';
+import { useAppSelector } from '@app/hooks';
 import { Button } from '@components/ui/Button';
 
 /**
