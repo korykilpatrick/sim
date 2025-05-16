@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSubmitRFIMutation } from '@services/rfiApi';
+import { useSubmitRFIMutation } from '@features/rfi/rfiApi';
 import { useNavigate } from 'react-router-dom';
 import { BaseProduct } from '@shared-types/product';
 import { getErrorMessage, logError } from '@lib/errorUtils';

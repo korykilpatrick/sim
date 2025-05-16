@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useGetUserOrdersQuery } from '@services/ordersApi';
-import { useGetCreditsBalanceQuery } from '@services/creditsApi';
+import { useGetUserOrdersQuery } from '@features/orders/ordersApi';
+import { useGetCreditsBalanceQuery } from '@features/credits/creditsApi';
 import {
   DashboardSidebar,
   ProductFilters,
