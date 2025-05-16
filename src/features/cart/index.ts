@@ -1,3 +1,11 @@
-export * from './cartSlice';
+export { 
+  addItem, 
+  updateItemQuantity, 
+  removeItem, 
+  clearCart,
+  default as cartReducer
+} from './cartSlice';
+
 export * from './components';
-export * from './types';
+
+export type { CartItem as CartItemType } from './types';
