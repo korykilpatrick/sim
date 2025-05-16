@@ -4,11 +4,11 @@
  */
 
 import { z } from 'zod';
-import type { User } from '@shared-types/user';
-import type { BaseProduct } from '@shared-types/product';
-import type { CartItem } from '@shared-types/cart';
-import type { ValidatedRequest } from '@shared-types/utility';
-import { isObject } from '@typeGuards/baseTypeGuards';
+import type { User } from '@features/auth/types';
+import type { BaseProduct } from '@features/products/types';
+import type { CartItem } from '@features/cart/types';
+import type { ValidatedRequest } from '@app/types';
+import { isObject } from '@lib/typeGuards';
 
 /**
  * User schema for validation
@@ -54,7 +54,7 @@ export const CartItemSchema = z.object({
  * @throws {z.ZodError} When validation fails
  */
 export function validateUser(data: unknown): User {
-  return UserSchema.parse(data);
+  return UserSchema.parse(data) as User;
 }
 
 /**
@@ -64,7 +64,7 @@ export function validateUser(data: unknown): User {
  * @throws {z.ZodError} When validation fails
  */
 export function validateProduct(data: unknown): BaseProduct {
-  return BaseProductSchema.parse(data);
+  return BaseProductSchema.parse(data) as BaseProduct;
 }
 
 /**
@@ -74,7 +74,7 @@ export function validateProduct(data: unknown): BaseProduct {
  * @throws {z.ZodError} When validation fails
  */
 export function validateCartItem(data: unknown): CartItem {
-  return CartItemSchema.parse(data);
+  return CartItemSchema.parse(data) as CartItem;
 }
 
 /**

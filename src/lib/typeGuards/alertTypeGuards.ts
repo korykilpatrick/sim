@@ -6,15 +6,15 @@
  */
 
 import type {
-  AlertConfigurationType,
+  AlertConfigurationU as AlertConfigurationType,
   VTSAlertConfiguration,
   AMSAlertConfiguration,
   FTSAlertConfiguration,
-  ReportComplianceAlertConfiguration,
-  ReportChronologyAlertConfiguration,
-  InvestigationAlertConfiguration,
+  ReportComplianceConfiguration as ReportComplianceAlertConfiguration,
+  ReportChronologyConfiguration as ReportChronologyAlertConfiguration,
+  InvestigationConfiguration as InvestigationAlertConfiguration,
   MaritimeAlertConfiguration,
-} from '@shared-types/alertConfiguration';
+} from '@features/alerts/types';
 
 import { isObject, hasProperty, isOfDiscriminatedType } from './baseTypeGuards';
 
@@ -145,7 +145,7 @@ export function isInvestigationAlertConfig(
  * @param value - Value to check
  * @returns True if the value is a valid Maritime alert configuration
  */
-export function isMaritimeAlertConfig(
+export function isMaritimeAlertConfiguration(
   value: unknown,
 ): value is MaritimeAlertConfiguration {
   if (!isObject(value)) return false;
@@ -185,7 +185,7 @@ export function isAlertConfiguration(
     case 'INVESTIGATION':
       return isInvestigationAlertConfig(value);
     case 'MARITIME_ALERT':
-      return isMaritimeAlertConfig(value);
+      return isMaritimeAlertConfiguration(value);
     default:
       return false;
   }

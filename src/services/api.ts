@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { RootState } from '@store/index';
+import type { RootState } from '@app/store';
 
 // Define a base URL for our API
 // In development, we point to our local Express server

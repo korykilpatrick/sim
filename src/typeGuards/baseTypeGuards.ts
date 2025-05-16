@@ -122,13 +122,13 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
  * @returns True if the object is of the specific discriminated type
  */
 export function isOfDiscriminatedType<
-  T extends { [K in D]: V },
-  D extends keyof T,
-  V extends T[D],
->(value: unknown, discriminantProp: D, discriminantValue: V): value is T {
+  T extends Record<string, unknown>,
+  K extends string,
+  V extends string | number | boolean
+>(value: unknown, discriminantProp: K, discriminantValue: V): value is T & Record<K, V> {
   return (
-    hasProperty(value, discriminantProp as string) &&
-    value[discriminantProp as string] === discriminantValue
+    hasProperty(value, discriminantProp) &&
+    value[discriminantProp] === discriminantValue
   );
 }
 

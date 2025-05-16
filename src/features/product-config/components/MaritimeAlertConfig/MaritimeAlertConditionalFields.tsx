@@ -1,8 +1,8 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { ShipAlertConfigSection } from '../ShipAlertConfigSection';
-import { AreaAlertConfigSection } from '../AreaAlertConfigSection';
-import { NotesSection } from '../NotesSection';
+import { ShipAlertConfigSection } from '../../ShipAlertConfigSection';
+import { AreaAlertConfigSection } from '../../AreaAlertConfigSection';
+import { NotesSection } from '../../NotesSection';
 
 /**
  * Props for the MaritimeAlertConditionalFields component

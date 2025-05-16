@@ -12,6 +12,10 @@ export interface AlertNotification {
   alertType: ProductType;
   read: boolean;
   createdAt: string;
+  severity: 'critical' | 'warning' | 'info';
+  timestamp: string;
+  summary: string;
+  linkToDetails?: string;
 }
 
 /**

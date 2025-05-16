@@ -6,15 +6,15 @@
  */
 
 import type {
-  AlertConfigurationType,
+  AlertConfigurationU as AlertConfigurationType,
   VTSAlertConfiguration,
   AMSAlertConfiguration,
   FTSAlertConfiguration,
-  ReportComplianceAlertConfiguration,
-  ReportChronologyAlertConfiguration,
-  InvestigationAlertConfiguration,
+  ReportComplianceConfiguration as ReportComplianceAlertConfiguration,
+  ReportChronologyConfiguration as ReportChronologyAlertConfiguration,
+  InvestigationConfiguration as InvestigationAlertConfiguration,
   MaritimeAlertConfiguration,
-} from '@shared-types/alertConfiguration';
+} from '@features/alerts/types';
 
 import { isObject, hasProperty, isOfDiscriminatedType } from './baseTypeGuards';
 

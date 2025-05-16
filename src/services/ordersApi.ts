@@ -4,7 +4,7 @@ import {
   CreateOrderRequestBody,
   Order as OrderType,
 } from '@shared-types/order'; // Import shared request and response parts
-import { clearCart } from '@store/slices/cartSlice';
+import { clearCart } from '@features/cart/cartSlice';
 
 // interface CreateOrderRequest { // Removed old frontend-specific request type
 //   items: CartItem[];
@@ -66,7 +66,7 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
 
     getOrder: builder.query<OrderResponse, string>({
       query: (orderId) => `/orders/${orderId}`,
-      providesTags: (result, error, id) => [{ type: 'Orders', id }],
+      providesTags: (_result, _error, id) => [{ type: 'Orders', id }],
     }),
 
     getUserOrders: builder.query<OrdersResponse, void>({

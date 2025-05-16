@@ -1,7 +1,7 @@
-import { apiSlice } from './api';
-import { InvestigationConfig } from '@frontend-types/product';
+import { apiSlice } from '@app/api';
+import { InvestigationConfiguration } from '@features/alerts/types';
 
-interface RFISubmitRequest extends InvestigationConfig {
+interface RFISubmitRequest extends InvestigationConfiguration {
   additionalInfo?: string;
   priority?: 'standard' | 'urgent';
 }

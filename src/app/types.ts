@@ -144,3 +144,12 @@ export interface AppState {
   isLoading: boolean;
   error: AppError | null;
 }
+
+/**
+ * Validated request interface for form validation results
+ */
+export interface ValidatedRequest<T> {
+  data: T;
+  isValid: boolean;
+  validationErrors?: Record<string, string[]>;
+}

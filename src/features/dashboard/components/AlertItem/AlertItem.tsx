@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
 import { Button } from '@components/ui/Button';
-import type { AlertNotification } from '@shared-types/alert';
+import type { AlertNotification } from '@features/alerts/types';
 
 /**
  * Props for the AlertItem component

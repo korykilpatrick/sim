@@ -4,11 +4,11 @@
  */
 
 import { z } from 'zod';
-import type { User } from '@shared-types/user';
-import type { BaseProduct } from '@shared-types/product';
-import type { CartItem } from '@shared-types/cart';
-import type { ValidatedRequest } from '@shared-types/utility';
-import { isObject } from '@typeGuards/baseTypeGuards';
+import type { User } from '@features/auth/types';
+import type { BaseProduct } from '@features/products/types';
+import type { CartItem } from '@features/cart/types';
+import type { ValidatedRequest } from '@app/types';
+import { isObject } from '@lib/typeGuards';
 
 /**
  * User schema for validation

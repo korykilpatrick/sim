@@ -7,9 +7,9 @@ import {
 import { Spinner } from '@components/ui/Spinner';
 import { Alert } from '@components/ui/Alert';
 import { getErrorMessage, logError } from '@lib/errorUtils';
-import { AlertsHeader } from './AlertsHeader';
-import { AlertItem } from './AlertItem';
-import { EmptyAlertsState } from './EmptyAlertsState';
+import { AlertsHeader } from '../AlertsHeader/AlertsHeader';
+import { AlertItem } from '../AlertItem/AlertItem';
+import { EmptyAlertsState } from '../EmptyAlertsState/EmptyAlertsState';
 
 /**
  * Component for displaying a card with recent alerts
