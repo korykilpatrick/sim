@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAppDispatch } from '@hooks/redux';
 import { useNavigate } from 'react-router-dom';
-import { addItem } from '@store/slices/cartSlice';
+import { addItem } from '@features/cart/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { MaritimeAlertProduct } from '@shared-types/product';
 import { MaritimeAlertProductConfiguration } from '@shared-types/productConfiguration';

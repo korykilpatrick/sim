@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '@hooks/redux';
-import { clearCart } from '@store/slices/cartSlice';
+import { clearCart } from '@features/cart/cartSlice';
 import { useCreateOrderMutation } from '@services/ordersApi';
 import { Alert, Button } from '@components/common';
 import {

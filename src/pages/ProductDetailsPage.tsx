@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useGetProductQuery } from '@services/productsApi';
 import { useAppDispatch, useAppSelector } from '@hooks/redux';
-import { addItem } from '@store/slices/cartSlice';
+import { addItem } from '@features/cart/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { Spinner, Alert } from '@components/common';
 import { ProductImageGallery, ProductPricing } from '@components/products';
