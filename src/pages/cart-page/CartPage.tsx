@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '@hooks/useAppRedux';
 import { clearCart } from '@features/cart/cartSlice';
-import { CartItem, OrderSummary, EmptyCartState } from '@features/cart/components';
+import { CartItem } from '@features/cart/components';
+import { OrderSummary } from '@features/cart/components/OrderSummary';
+import { EmptyCartState } from '@features/cart/components/EmptyCartState';
 import { Button } from '@components/ui/Button';
 
 /**

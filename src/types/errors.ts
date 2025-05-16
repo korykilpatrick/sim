@@ -54,9 +54,9 @@ export enum ErrorCode {
 export interface AppError {
   code: ErrorCode;
   message: string;
-  status?: number;
-  details?: Record<string, unknown>;
-  stack?: string;
+  status?: number | undefined;
+  details?: Record<string, unknown> | undefined;
+  stack?: string | undefined;
   timestamp: string;
 }
 
@@ -115,7 +115,8 @@ export function toAppError(error: unknown): AppError {
       code: mapApiErrorCodeToErrorCode(error.code),
       message: error.message,
       status: error.status,
-      details: error.details,
+      details: error.details || undefined,
+      stack: undefined,
       timestamp: error.timestamp || new Date().toISOString(),
     };
   }
@@ -128,7 +129,9 @@ export function toAppError(error: unknown): AppError {
     return {
       code: ErrorCode.UNKNOWN_ERROR,
       message: error.message,
-      stack: error.stack,
+      status: undefined,
+      details: undefined,
+      stack: error.stack || undefined,
       timestamp: new Date().toISOString(),
     };
   }
@@ -137,10 +140,12 @@ export function toAppError(error: unknown): AppError {
   return {
     code: ErrorCode.UNKNOWN_ERROR,
     message: typeof error === 'string' ? error : 'An unknown error occurred',
+    status: undefined,
     details:
       typeof error === 'object' && error !== null
         ? { originalError: error }
         : undefined,
+    stack: undefined,
     timestamp: new Date().toISOString(),
   };
 }

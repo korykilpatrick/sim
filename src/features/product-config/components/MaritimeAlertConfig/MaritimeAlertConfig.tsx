@@ -12,7 +12,7 @@ import {
   MonitoringDurationSection,
   UpdateFrequencySection,
 } from '@features/product-config/components';
-import { MaritimeAlertConditionalFields } from './MaritimeAlertConditionalFields';
+import { MaritimeAlertConditionalFields } from '../MaritimeAlertConditionalFields';
 
 /**
  * Props for MaritimeAlertConfig component

@@ -68,7 +68,11 @@ export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
       };
 
       // Submit the RFI
-      const result = await submitRFI(rfiData).unwrap();
+      const result = await submitRFI(rfiData).unwrap() as {
+        requestId: string;
+        message: string;
+        estimatedResponse: string;
+      };
 
       // Navigate to confirmation page
       navigate('/protected/confirmation', {

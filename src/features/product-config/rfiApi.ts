@@ -1,7 +1,14 @@
 import { apiSlice } from '@app/api';
-import { InvestigationConfiguration } from '@features/alerts/types';
 
-interface RFISubmitRequest extends InvestigationConfiguration {
+interface RFISubmitRequest {
+  id: string;
+  name: string;
+  investigationType: 'vessel' | 'company' | 'incident';
+  subjectIdentifier: string;
+  timeframe: {
+    startDate: string;
+    endDate: string;
+  };
   additionalInfo?: string;
   priority?: 'standard' | 'urgent';
 }
@@ -15,9 +22,9 @@ interface RFISubmitResponse {
 }
 
 export const rfiApiSlice = apiSlice.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: (builder: any) => ({
     submitRFI: builder.mutation<RFISubmitResponse, RFISubmitRequest>({
-      query: (data) => ({
+      query: (data: RFISubmitRequest) => ({
         url: '/investigations/rfi',
         method: 'POST',
         body: data,

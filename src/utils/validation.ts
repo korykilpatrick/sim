@@ -54,7 +54,7 @@ export const CartItemSchema = z.object({
  * @throws {z.ZodError} When validation fails
  */
 export function validateUser(data: unknown): User {
-  return UserSchema.parse(data);
+  return UserSchema.parse(data) as User;
 }
 
 /**
@@ -64,7 +64,7 @@ export function validateUser(data: unknown): User {
  * @throws {z.ZodError} When validation fails
  */
 export function validateProduct(data: unknown): BaseProduct {
-  return BaseProductSchema.parse(data);
+  return BaseProductSchema.parse(data) as BaseProduct;
 }
 
 /**
@@ -74,7 +74,7 @@ export function validateProduct(data: unknown): BaseProduct {
  * @throws {z.ZodError} When validation fails
  */
 export function validateCartItem(data: unknown): CartItem {
-  return CartItemSchema.parse(data);
+  return CartItemSchema.parse(data) as CartItem;
 }
 
 /**

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge } from '../common';
+import { Badge } from '@features/ui/components/Badge';
 
 /**
  * Props for the ProductHeader component

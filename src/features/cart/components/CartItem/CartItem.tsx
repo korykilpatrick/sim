@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { CartItem as CartItemType } from '@/types';
 import { useAppDispatch } from '@hooks/useAppRedux';
+import { CartItemDetailsProps } from '../CartItemDetails';
 import { updateItemQuantity, removeItem } from '@features/cart/cartSlice';
 import { CartItemImage } from '../CartItemImage';
 import { CartItemDetails } from '../CartItemDetails';
@@ -55,10 +56,12 @@ export const CartItem: FC<CartItemProps> = ({ item }) => {
       <div className="flex-1 md:ml-6 mt-4 md:mt-0">
         {/* Product Info */}
         <CartItemDetails
-          productName={product.name}
-          configurationDetails={configurationDetails}
-          totalPrice={totalPrice}
-          totalCredits={totalCredits}
+          {...{
+            productName: product.name,
+            configurationDetails: configurationDetails as string[] | undefined,
+            totalPrice,
+            totalCredits
+          } as CartItemDetailsProps}
         />
 
         <div className="flex items-center justify-between mt-4">

@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { z } from 'zod';
 import { Alert } from '@components/ui/Alert';
 import { Form, TextField, FormActions } from '@components/forms';
-import { profileSchema } from '@lib/zodSchemas';
+import { userProfileSchema } from '@lib/zodSchemas';
 
-type ProfileFormValues = z.infer<typeof profileSchema>;
+type ProfileFormValues = z.infer<typeof userProfileSchema>;
 
 interface UserProfileSettingsCardProps {
   /** User data */
   userData: {
-    name?: string;
+    firstName?: string;
+    lastName?: string;
     email?: string;
   };
   /** Whether the form submission was successful */
@@ -65,14 +66,16 @@ export const UserProfileSettingsCard: React.FC<
         </div>
 
         <Form<ProfileFormValues>
-          schema={profileSchema}
+          schema={userProfileSchema}
           onSubmit={onSubmit}
           isSubmitting={isSubmitting}
           defaultValues={{
-            name: userData?.name || '',
+            firstName: userData?.firstName || '',
+            lastName: userData?.lastName || '',
             email: userData?.email || '',
-            company: '',
+            organization: '',
             jobTitle: '',
+            phoneNumber: '',
           }}
           className="p-6"
         >

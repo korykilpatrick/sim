@@ -29,8 +29,8 @@ const UserSettingsPage: React.FC = () => {
         <div className="space-y-8">
           <UserProfileSettingsCard
             userData={{
-              name: user?.name,
-              email: user?.email,
+              name: user?.name || '',
+              email: user?.email || '',
             }}
           />
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import { ProductType } from '@shared-types/product';
-import { SearchBox } from './SearchBox';
-import { TypeFilter } from './TypeFilter';
-import { ClearFiltersButton } from './ClearFiltersButton';
+import { ProductType } from '@features/products/types';
+import { SearchBox } from './SearchBox/SearchBox';
+import { TypeFilter } from './TypeFilter/TypeFilter';
+import { ClearFiltersButton } from './ClearFiltersButton/ClearFiltersButton';
 
 /**
  * Props for the FilterSidebar component
@@ -36,13 +36,13 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 }) => {
   // Product type options
   const productTypes: { value: ProductType; label: string }[] = [
-    { value: 'VTS', label: 'Vessel Tracking' },
-    { value: 'AMS', label: 'Area Monitoring' },
-    { value: 'FTS', label: 'Fleet Tracking' },
-    { value: 'REPORT_COMPLIANCE', label: 'Compliance Reports' },
-    { value: 'REPORT_CHRONOLOGY', label: 'Chronology Reports' },
-    { value: 'INVESTIGATION', label: 'Investigations' },
-    { value: 'MARITIME_ALERT', label: 'Maritime Alerts' },
+    { value: ProductType.VTS, label: 'Vessel Tracking' },
+    { value: ProductType.AMS, label: 'Area Monitoring' },
+    { value: ProductType.FTS, label: 'Fleet Tracking' },
+    { value: ProductType.REPORT_COMPLIANCE, label: 'Compliance Reports' },
+    { value: ProductType.REPORT_CHRONOLOGY, label: 'Chronology Reports' },
+    { value: ProductType.INVESTIGATION, label: 'Investigations' },
+    { value: ProductType.MARITIME_ALERT, label: 'Maritime Alerts' },
   ];
 
   const handleClearFilters = () => {

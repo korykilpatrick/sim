@@ -1,10 +1,10 @@
 import React from 'react';
 import { BaseProduct } from '@shared-types/product';
-import { ProductCardImage } from './ProductCardImage';
-import { ProductCardInfo } from './ProductCardInfo';
-import { ProductCardTags } from './ProductCardTags';
-import { ProductCardPricing } from './ProductCardPricing';
-import { ProductCardActions } from './ProductCardActions';
+import { ProductCardImage } from './ProductCardImage/ProductCardImage';
+import { ProductCardInfo } from './ProductCardInfo/ProductCardInfo';
+import { ProductCardTags } from './ProductCardTags/ProductCardTags';
+import { ProductCardPricing } from './ProductCardPricing/ProductCardPricing';
+import { ProductCardActions } from './ProductCardActions/ProductCardActions';
 
 /**
  * Props for the ProductCard component
