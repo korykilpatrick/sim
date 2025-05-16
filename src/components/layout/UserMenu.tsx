@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { LogoutButton } from '@components/auth/LogoutButton';
+import { LogoutButton } from '@features/auth/components/LogoutButton';
 
 /**
  * Component for user account dropdown menu

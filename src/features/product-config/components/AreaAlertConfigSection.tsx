@@ -1,7 +1,7 @@
 import React from 'react';
 import { AreaNameSection } from './AreaNameSection';
 import { MapSelectionSection } from './MapSelectionSection';
-import { CheckboxGroupField } from '@components/forms';
+import { CheckboxGroupField } from '@features/forms';
 
 /**
  * Props for the AreaAlertConfigSection component

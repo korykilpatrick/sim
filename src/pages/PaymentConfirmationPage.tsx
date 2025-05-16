@@ -4,7 +4,7 @@ import {
   OrderConfirmationHeader,
   OrderSummaryList,
   ConfirmationActions,
-} from '@components/confirmation';
+} from '@features/confirmation';
 import { CartItem } from '@shared-types/cart';
 
 /**

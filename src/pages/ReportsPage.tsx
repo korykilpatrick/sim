@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGetUserOrdersQuery } from '@features/orders/ordersApi';
-import { DashboardSidebar } from '@components/dashboard';
-import { ReportsList, CustomReportRequestCard } from '@components/reports';
+import { DashboardSidebar } from '@features/dashboard';
+import { ReportsList, CustomReportRequestCard } from '@features/reports';
 
 /**
  * Reports page component

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, CheckboxGroupField } from '@components/forms';
+import { TextField, CheckboxGroupField } from '@features/forms';
 
 /**
  * Props for the ShipAlertConfigSection component

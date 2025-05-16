@@ -22,6 +22,11 @@ export interface ReportDetailsProps {
  * Component for displaying detailed report information
  *
  * @param props - The component props
+ * @param props.title - Title of the report
+ * @param props.createdAt - Date the report was created
+ * @param props.type - Type of the report
+ * @param props.status - Status of the report
+ * @param props.content - Content of the report
  * @returns The rendered report details component
  */
 export const ReportDetails: React.FC<ReportDetailsProps> = ({

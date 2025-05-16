@@ -16,7 +16,7 @@ import {
   NotesSection,
   SpecificVesselsSection,
 } from '@features/product-config/components';
-import { NumberField } from '@components/forms';
+import { NumberField } from '@features/forms';
 
 /**
  * Props for the VesselTrackingConfig component

@@ -1,11 +1,11 @@
 import React from 'react';
 import { useAppSelector } from '@hooks/redux';
-import { DashboardSidebar } from '@components/dashboard';
+import { DashboardSidebar } from '@features/dashboard';
 import {
   UserProfileSettingsCard,
   ChangePasswordCard,
   NotificationPreferencesCard,
-} from '@components/userSettings';
+} from '@features/user-settings';
 
 /**
  * User settings page component
@@ -29,7 +29,8 @@ const UserSettingsPage: React.FC = () => {
         <div className="space-y-8">
           <UserProfileSettingsCard
             userData={{
-              name: user?.name || '',
+              firstName: user?.name?.split(' ')[0] || '',
+              lastName: user?.name?.split(' ')[1] || '',
               email: user?.email || '',
             }}
           />

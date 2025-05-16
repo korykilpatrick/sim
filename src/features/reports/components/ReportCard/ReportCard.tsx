@@ -20,6 +20,10 @@ export interface ReportCardProps {
  * Component for displaying a report card
  *
  * @param props - The component props
+ * @param props.title - Title of the report
+ * @param props.createdAt - Date the report was created
+ * @param props.type - Type of the report
+ * @param props.status - Status of the report
  * @returns The rendered report card component
  */
 export const ReportCard: React.FC<ReportCardProps> = ({

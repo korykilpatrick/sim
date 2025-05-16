@@ -11,7 +11,7 @@ import {
   InvestigationTimeframeForm,
   RFISubmissionFooter,
 } from '@features/product-config/components/rfi';
-import { Form, FormActions } from '@components/forms';
+import { Form, FormActions } from '@features/forms';
 
 /**
  * Props for the InvestigationRFIForm component
