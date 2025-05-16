@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { z } from 'zod';
 import { Alert } from '@components/common';
 import { Form, TextField, FormActions } from '@components/forms';
-import { profileSchema } from '@schemas';
+import { userProfileSchema } from '@lib/zodSchemas';
 
-type ProfileFormValues = z.infer<typeof profileSchema>;
+type ProfileFormValues = z.infer<typeof userProfileSchema>;
 
 interface UserProfileSettingsCardProps {
   /** User data */
@@ -65,13 +65,14 @@ export const UserProfileSettingsCard: React.FC<
         </div>
 
         <Form<ProfileFormValues>
-          schema={profileSchema}
+          schema={userProfileSchema}
           onSubmit={onSubmit}
           isSubmitting={isSubmitting}
           defaultValues={{
-            name: userData?.name || '',
+            firstName: userData?.name?.split(' ')[0] || '',
+            lastName: userData?.name?.split(' ')[1] || '',
             email: userData?.email || '',
-            company: '',
+            organization: '',
             jobTitle: '',
           }}
           className="p-6"
@@ -79,9 +80,16 @@ export const UserProfileSettingsCard: React.FC<
           <div className="space-y-6">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <TextField
-                name="name"
-                label="Full Name"
-                placeholder="John Doe"
+                name="firstName"
+                label="First Name"
+                placeholder="John"
+                required
+              />
+
+              <TextField
+                name="lastName"
+                label="Last Name"
+                placeholder="Doe"
                 required
               />
 
@@ -94,8 +102,8 @@ export const UserProfileSettingsCard: React.FC<
               />
 
               <TextField
-                name="company"
-                label="Company (Optional)"
+                name="organization"
+                label="Organization (Optional)"
                 placeholder="Acme Inc."
               />
 

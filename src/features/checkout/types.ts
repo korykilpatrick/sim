@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { checkoutSchema } from '@schemas';
+import { checkoutSchema } from '@lib/zodSchemas';
 
 /**
  * Type for checkout form values derived from the validation schema
