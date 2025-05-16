@@ -1,4 +1,3 @@
-import React from 'react';
 import { CartItem as CartItemType } from '@features/cart/types';
 import { useAppDispatch } from '@hooks/redux';
 import { updateItemQuantity, removeItem } from '@features/cart/cartSlice';

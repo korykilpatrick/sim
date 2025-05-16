@@ -1,11 +1,12 @@
-import React from 'react';
+
+import { FC } from 'react';
 
 /**
  * Component displayed when no products match the current search criteria
  *
  * @returns The rendered empty state component
  */
-export const EmptySearchState: React.FC = () => {
+export const EmptySearchState: FC = () => {
   return (
     <div className="text-center py-12 px-4">
       <svg
@@ -24,7 +25,7 @@ export const EmptySearchState: React.FC = () => {
       </svg>
       <h3 className="mt-2 text-lg font-medium text-secondary-900">No products found</h3>
       <p className="mt-1 text-sm text-secondary-500">
-        Try adjusting your search or filter criteria to find what you're looking for.
+        Try adjusting your search or filter criteria to find what you&apos;re looking for.
       </p>
     </div>
   );

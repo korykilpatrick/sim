@@ -23,7 +23,8 @@ export interface ReportCardProps {
  * @returns The rendered report card component
  */
 export const ReportCard: React.FC<ReportCardProps> = ({
-  _id,
+  // _id is required in props but not used in the component
+  // _id,
   title,
   createdAt,
   type,

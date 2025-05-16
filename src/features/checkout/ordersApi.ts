@@ -66,7 +66,7 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
 
     getOrder: builder.query<OrderResponse, string>({
       query: (orderId) => `/orders/${orderId}`,
-      providesTags: (result, error, id) => [{ type: 'Orders', id }],
+      providesTags: (_result, _error, id) => [{ type: 'Orders', id }],
     }),
 
     getUserOrders: builder.query<OrdersResponse, void>({

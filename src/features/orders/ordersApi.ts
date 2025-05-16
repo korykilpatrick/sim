@@ -1,4 +1,4 @@
-import { apiSlice } from './api';
+import { apiSlice } from '@app/api';
 // import { CartItem } from '@/types/cart'; // No longer directly used in request type
 import {
   CreateOrderRequestBody,
@@ -47,13 +47,13 @@ interface OrdersResponse {
 export const ordersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createOrder: builder.mutation<CreateOrderResponse, CreateOrderRequestBody>({
-      query: (orderData) => ({
+      query: (orderData: CreateOrderRequestBody) => ({
         url: '/orders',
         method: 'POST',
         body: orderData, // orderData is now CreateOrderRequestBody
       }),
       // Clear the cart after successful checkout
-      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_: any, { dispatch, queryFulfilled }: { dispatch: any; queryFulfilled: any }) {
         try {
           await queryFulfilled;
           dispatch(clearCart());
@@ -65,7 +65,7 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
     }),
 
     getOrder: builder.query<OrderResponse, string>({
-      query: (orderId) => `/orders/${orderId}`,
+      query: (orderId: string) => `/orders/${orderId}`,
       providesTags: (_result, _error, id) => [{ type: 'Orders', id }],
     }),
 

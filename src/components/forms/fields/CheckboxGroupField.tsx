@@ -50,7 +50,7 @@ export function CheckboxGroupField({
         error="Configuration error: Form field cannot be rendered."
       >
         <div className="mt-1 space-y-2 text-red-500">
-          Field '{label || name}' is unavailable due to a form setup issue.
+          Field &apos;{label || name}&apos; is unavailable due to a form setup issue.
         </div>
       </FormField>
     );
@@ -122,4 +122,4 @@ export function CheckboxGroupField({
   } as FormFieldProps;
 
   return <FormField {...formFieldProps} />;
-} 
+}  

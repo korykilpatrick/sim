@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 /**
@@ -29,7 +29,7 @@ export const EmptyCartState: FC = () => {
         Your cart is empty
       </h2>
       <p className="text-secondary-500 mb-6">
-        Looks like you haven't added any products to your cart yet.
+        Looks like you haven&apos;t added any products to your cart yet.
       </p>
       <Link
         to="/marketplace"

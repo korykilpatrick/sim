@@ -1,6 +1,6 @@
 import React from 'react';
-import { AreaNameSection } from '@features/product-config/components/AreaNameSection';
-import { MapSelectionSection } from '@features/product-config/components/MapSelectionSection';
+import { AreaNameSection } from './AreaNameSection';
+import { MapSelectionSection } from './MapSelectionSection';
 import { CheckboxGroupField } from '@components/forms';
 
 /**
