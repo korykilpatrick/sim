@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useAppDispatch } from '@hooks/redux';
 import { useNavigate } from 'react-router-dom';
-import { addItem } from '@store/slices/cartSlice';
+import { addItem } from '@features/cart/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
 import {
   BaseProduct,
   ProductType as _ProductType,
 } from '@shared-types/product';
-import { getErrorMessage, logError } from '@utils/errorUtils';
+import { getErrorMessage, logError } from '@lib/errorUtils';
 import {
   ProductConfigurationDetailsU,
   ReportComplianceProductConfiguration,
@@ -20,7 +20,7 @@ import {
   ReportDepthSection,
   InfoBoxSection,
   NotesSection,
-} from '@components/productConfig';
+} from '@features/product-config/components';
 
 /**
  * Props for the ReportConfig component

@@ -11,7 +11,7 @@ import {
   AlertTypeSection,
   MonitoringDurationSection,
   UpdateFrequencySection,
-} from '@components/productConfig';
+} from '@features/product-config/components';
 import { MaritimeAlertConditionalFields } from './MaritimeAlertConditionalFields';
 
 /**

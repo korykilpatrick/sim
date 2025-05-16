@@ -15,7 +15,7 @@ import {
   MonitoringCriteriaSection,
   SpecificVesselsSection,
   NotesSection,
-} from '@components/productConfig';
+} from '@features/product-config/components';
 
 /**
  * Props for the AreaMonitoringConfig component

@@ -3,13 +3,13 @@ import { useSubmitRFIMutation } from '@features/product-config/rfiApi';
 import { useNavigate } from 'react-router-dom';
 import { BaseProduct } from '@shared-types/product';
 import { getErrorMessage, logError } from '@lib/errorUtils';
-import { PrioritySection } from '@components/productConfig';
+import { PrioritySection } from '@features/product-config/components';
 import {
   InvestigationTypeSelector,
   SubjectInformationForm,
   InvestigationTimeframeForm,
   RFISubmissionFooter,
-} from '@components/productConfig/rfi';
+} from '@features/product-config/components/rfi';
 import { Form, FormActions } from '@components/forms';
 
 /**
