@@ -1,12 +1,12 @@
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useGetProductQuery } from '@services/productsApi';
+import { useGetProductQuery } from '@features/products/productsApi';
 import { MaritimeAlertProduct } from '@shared-types/product';
-import { VesselTrackingConfig } from '@components/productConfig/VesselTrackingConfig';
-import { AreaMonitoringConfig } from '@components/productConfig/AreaMonitoringConfig';
-import { MaritimeAlertConfig } from '@components/productConfig/MaritimeAlertConfig';
-import { ReportConfig } from '@components/productConfig/ReportConfig';
-import { InvestigationRFIForm } from '@components/productConfig/InvestigationRFIForm';
+import { VesselTrackingConfig } from '@features/product-config/components/VesselTrackingConfig/VesselTrackingConfig';
+import { AreaMonitoringConfig } from '@features/product-config/components/AreaMonitoringConfig/AreaMonitoringConfig';
+import { MaritimeAlertConfig } from '@features/product-config/components/MaritimeAlertConfig/MaritimeAlertConfig';
+import { ReportConfig } from '@features/product-config/components/ReportConfig/ReportConfig';
+import { InvestigationRFIForm } from '@features/product-config/components/InvestigationRFIForm/InvestigationRFIForm';
 import { Spinner, Alert, Button } from '@components/common';
 
 /**
