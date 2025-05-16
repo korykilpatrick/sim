@@ -1,5 +1,5 @@
 import React from 'react';
-import { SelectField } from '@components/forms';
+import { SelectField } from '@features/forms';
 
 /**
  * Component for the update frequency selection section

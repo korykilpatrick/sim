@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm, FormProvider as HookFormProvider } from 'react-hook-form';
-import { FormProvider as CustomFormProvider } from '@components/forms/core/FormContext';
+import { FormProvider as CustomFormProvider } from '@features/forms/components/core/FormContext';
 import type { UseFormRegister, Control, FieldErrors, FieldValues } from 'react-hook-form';
-import { Button } from '@components/common';
+import { Button } from '@components/ui';
 
 /**
  * Props for the ConfigFormBase component

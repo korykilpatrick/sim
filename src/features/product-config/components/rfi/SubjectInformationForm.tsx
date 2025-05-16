@@ -1,6 +1,6 @@
 import React from 'react';
 import { VesselIdentificationSection } from '../VesselIdentificationSection';
-import { TextField } from '@components/forms';
+import { TextField } from '@features/forms';
 
 /**
  * Component for subject information section in RFI form

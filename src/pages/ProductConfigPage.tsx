@@ -7,7 +7,7 @@ import { AreaMonitoringConfig } from '@features/product-config/components/AreaMo
 import { MaritimeAlertConfig } from '@features/product-config/components/MaritimeAlertConfig/MaritimeAlertConfig';
 import { ReportConfig } from '@features/product-config/components/ReportConfig/ReportConfig';
 import { InvestigationRFIForm } from '@features/product-config/components/InvestigationRFIForm/InvestigationRFIForm';
-import { Spinner, Alert, Button } from '@components/common';
+import { Spinner, Alert, Button } from '@components/ui';
 
 /**
  * Component for configuring product options before purchase

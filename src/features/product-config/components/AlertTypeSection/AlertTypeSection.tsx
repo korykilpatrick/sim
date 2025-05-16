@@ -1,5 +1,5 @@
 import React from 'react';
-import { RadioField } from '@components/forms';
+import { RadioField } from '@features/forms';
 
 /**
  * Props for AlertTypeSection component

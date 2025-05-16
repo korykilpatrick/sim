@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextareaField } from '@components/forms';
+import { TextareaField } from '@features/forms';
 
 /**
  * Props for the NotesSection component

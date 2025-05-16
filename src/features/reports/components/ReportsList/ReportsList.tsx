@@ -17,6 +17,9 @@ export interface ReportsListProps {
  * Component for displaying a list of reports
  *
  * @param props - The component props
+ * @param props.reports - Array of reports to display
+ * @param props.isLoading - Whether the reports are loading
+ * @param props.error - Error message if there was an error loading reports
  * @returns The rendered reports list component
  */
 export const ReportsList: React.FC<ReportsListProps> = ({
@@ -51,7 +54,7 @@ export const ReportsList: React.FC<ReportsListProps> = ({
   return (
     <div className="space-y-4">
       {reports.map((report) => (
-        <ReportCard key={report.id} {...report} />
+        <ReportCard key={report._id} {...report} />
       ))}
     </div>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { DateField } from '@components/forms';
+import { DateField } from '@features/forms';
 
 /**
  * Props for the TimeframeSection component

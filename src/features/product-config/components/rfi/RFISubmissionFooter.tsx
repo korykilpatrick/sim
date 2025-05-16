@@ -1,6 +1,6 @@
 import React from 'react';
 import { InfoBoxSection } from '../InfoBoxSection';
-import { TextareaField } from '@components/forms';
+import { TextareaField } from '@features/forms';
 
 /**
  * Component for the submission footer in RFI form

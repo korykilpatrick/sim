@@ -7,7 +7,7 @@ import {
   ProductGrid,
   DashboardHeader,
   AlertsCard,
-} from '@/components/dashboard';
+} from '@features/dashboard';
 import type { UserProduct, UserProductStatus } from '@shared-types/userProduct';
 import type { Order, OrderItem } from '@shared-types/order';
 import type { ProductType } from '@shared-types/product';
