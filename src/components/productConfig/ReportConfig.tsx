@@ -7,7 +7,7 @@ import {
   BaseProduct,
   ProductType as _ProductType,
 } from '@shared-types/product';
-import { getErrorMessage, logError } from '@utils/errorUtils';
+import { getErrorMessage, logError } from '@lib/errorUtils';
 import {
   ProductConfigurationDetailsU,
   ReportComplianceProductConfiguration,

@@ -5,7 +5,7 @@ import { addItem } from '@features/cart/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { MaritimeAlertProduct } from '@shared-types/product';
 import { MaritimeAlertProductConfiguration } from '@shared-types/productConfiguration';
-import { getErrorMessage, logError } from '@utils/errorUtils';
+import { getErrorMessage, logError } from '@lib/errorUtils';
 import {
   ConfigFormBase,
   AlertTypeSection,
