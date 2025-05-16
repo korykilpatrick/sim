@@ -1,10 +1,10 @@
-export { Alert } from './Alert';
+export * from './alert';
 // export { AlertIcon } from './AlertIcon';
 // export { AlertContent } from './AlertContent';
 // export { AlertActions } from './AlertActions';
-export { Badge } from './Badge';
-export { Button } from './Button';
-export { Card } from './Card';
+export * from './badge';
+export * from './button';
+export * from './card';
 export { Input } from './Input';
 export { Modal } from './Modal';
-export { Spinner } from './Spinner';
+export * from './spinner';

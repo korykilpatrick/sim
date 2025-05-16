@@ -5,11 +5,13 @@ import { useAppDispatch, useAppSelector } from '@hooks/useAppRedux';
 import { addItem } from '@features/cart/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { Spinner, Alert } from '@components/ui';
-import { ProductImageGallery, ProductPricing } from '@features/products/components';
-import { ProductHeader } from '@features/products/components/ProductHeader';
-import { ProductInformation } from '@features/products/components/ProductInformation';
-import { ProductSpecialFeatures } from '@features/products/components/ProductSpecialFeatures';
+import { ProductImageGallery } from '@features/products/components/product-image-gallery';
+import { ProductPricing } from '@features/products/components/product-pricing';
+import { ProductHeader } from '@features/products/components/product-header';
+import { ProductInformation } from '@features/products/components/product-information';
+import { ProductSpecialFeatures } from '@features/products/components/product-special-features';
 import { MaritimeAlertProduct } from '@shared-types/product';
+import { AddToCartButton } from '@features/cart/components';
 
 /**
  * Component for displaying detailed product information and purchase options

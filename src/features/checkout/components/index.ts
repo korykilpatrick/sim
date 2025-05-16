@@ -1,8 +1,9 @@
-export { ShippingAddressForm } from './ShippingAddressForm';
-export { PaymentMethodSelector } from './PaymentMethodSelector';
-export { PaymentDetailsForm } from './PaymentDetailsForm';
-export { OrderSummary } from './OrderSummary';
-export * from './PaymentMethodSelector';
-export * from './ShippingAddressForm';
-export * from './PaymentDetailsForm';
-export * from './OrderSummary';
+export { ShippingAddressForm } from './shipping-address-form';
+export { PaymentDetailsForm } from './payment-details-form';
+export { PaymentMethodSelector } from './payment-method-selector';
+export { OrderSummary } from './order-summary';
+
+export * from './shipping-address-form';
+export * from './payment-details-form';
+export * from './payment-method-selector';
+export * from './order-summary';

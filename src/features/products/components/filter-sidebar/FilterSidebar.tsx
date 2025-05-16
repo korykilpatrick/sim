@@ -1,8 +1,8 @@
 import React from 'react';
 import { ProductType } from '@features/products/types';
-import { SearchBox } from './SearchBox/SearchBox';
-import { TypeFilter } from './TypeFilter/TypeFilter';
-import { ClearFiltersButton } from './ClearFiltersButton/ClearFiltersButton';
+import { SearchBox } from './search-box/SearchBox';
+import { TypeFilter } from './type-filter/TypeFilter';
+import { ClearFiltersButton } from './clear-filters-button/ClearFiltersButton';
 
 /**
  * Props for the FilterSidebar component

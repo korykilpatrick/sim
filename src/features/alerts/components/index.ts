@@ -1,2 +1,2 @@
-export * from './AlertItem';
-export * from './AlertsList';
+export * from './alert-item';
+export * from './alerts-list';

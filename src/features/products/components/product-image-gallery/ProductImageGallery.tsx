@@ -1,6 +1,6 @@
 import React from 'react';
-import { ProductImage } from './ProductImage';
-import { PlaceholderImage } from './PlaceholderImage';
+import { ProductImage } from './product-image';
+import { PlaceholderImage } from '../placeholder-image';
 
 /**
  * Props for the ProductImageGallery component

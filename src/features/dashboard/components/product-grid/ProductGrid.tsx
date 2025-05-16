@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/common';
-import { ProductCard } from '@/components/dashboard/ProductCard';
+import { Button } from '@/components/ui';
+import { ProductCard } from '../ProductCard';
 import type { UserProduct } from '@shared-types/userProduct';
 import type { ProductType } from '@shared-types/product';
 
