@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField } from '@components/forms';
+import { TextField } from '@features/forms';
 
 /**
  * Props for the PaymentDetailsForm component

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BaseProduct } from '@shared-types/product';
 import { useAppSelector } from '@hooks/redux';
-import { Button } from '@components/common';
+import { Button } from '@components/ui';
 
 /**
  * Props for the ProductPricing component

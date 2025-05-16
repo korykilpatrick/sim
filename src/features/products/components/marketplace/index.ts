@@ -1,4 +1,3 @@
-export * from './marketplace';
 export * from './MarketplaceErrorState';
 export * from './MarketplaceLoadingState';
 export * from './SearchResults';

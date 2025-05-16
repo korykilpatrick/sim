@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spinner } from '../common';
+import { Spinner } from '@components/ui';
 
 /**
  * Component for displaying loading state in marketplace

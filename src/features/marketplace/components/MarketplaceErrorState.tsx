@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '../common';
+import { Button } from '@components/ui';
 
 /**
  * Props for the MarketplaceErrorState component

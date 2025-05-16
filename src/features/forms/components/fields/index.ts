@@ -6,6 +6,5 @@ export * from './NumberField';
 export * from './CheckboxField';
 export * from './CheckboxGroupField';
 export * from './RadioField';
-export * from './TextareaField';
 export * from './DateField';
 export * from './FormField';

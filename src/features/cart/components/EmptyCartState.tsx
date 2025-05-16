@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '../common';
+import { Button } from '@components/ui';
 
 /**
  * Component for displaying empty cart state

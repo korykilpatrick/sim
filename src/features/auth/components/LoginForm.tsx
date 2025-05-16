@@ -9,7 +9,7 @@ import {
   PasswordField,
   CheckboxField,
   FormActions,
-} from '@components/forms';
+} from '@features/forms';
 import { loginSchema } from '@lib/zodSchemas';
 
 /**
