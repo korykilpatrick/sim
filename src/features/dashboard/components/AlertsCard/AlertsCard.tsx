@@ -4,12 +4,17 @@ import {
   useGetUserAlertsQuery,
   useMarkAlertReadMutation,
 } from '@features/alerts/alertsApi';
+import type { AlertNotification } from '@features/alerts/types';
 import { Spinner } from '@components/ui/Spinner';
 import { Alert } from '@components/ui/Alert';
 import { getErrorMessage, logError } from '@lib/errorUtils';
 import { AlertsHeader } from '../AlertsHeader/AlertsHeader';
 import { AlertItem } from '../AlertItem/AlertItem';
 import { EmptyAlertsState } from '../EmptyAlertsState/EmptyAlertsState';
+
+interface AlertsResponse {
+  alerts: AlertNotification[];
+}
 
 /**
  * Component for displaying a card with recent alerts
@@ -61,12 +66,12 @@ export const AlertsCard: React.FC = () => {
     );
   }
 
-  const { alerts = [] } = data || {};
-  const hasUnreadAlerts = alerts.some((alert) => !alert.read);
+  const { alerts = [] } = data as AlertsResponse || { alerts: [] };
+  const hasUnreadAlerts = alerts.some((alert: AlertNotification) => !alert.read);
 
   const handleMarkAllAsRead = () => {
     // Mark all as read
-    alerts.forEach((alert) => {
+    alerts.forEach((alert: AlertNotification) => {
       if (!alert.read) {
         handleMarkAsRead(alert.id);
       }
@@ -84,7 +89,7 @@ export const AlertsCard: React.FC = () => {
         <EmptyAlertsState />
       ) : (
         <div className="space-y-4">
-          {alerts.map((alert) => (
+          {alerts.map((alert: AlertNotification) => (
             <AlertItem
               key={alert.id}
               alert={alert}
