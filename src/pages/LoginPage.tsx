@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LoginForm } from '@components/auth';
+import { LoginForm } from '@features/auth';
 
 /**
  * Login page component that handles user authentication

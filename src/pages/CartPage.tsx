@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '@hooks/redux';
-import { clearCart } from '@store/slices/cartSlice';
-import { CartItem, OrderSummary, EmptyCartState } from '@components/cart';
-import { Button } from '@components/common';
+import { clearCart } from '@features/cart/cartSlice';
+import { CartItem, OrderSummary, EmptyCartState } from '@features/cart';
+import { Button } from '@components/ui';
 
 /**
  * Component for displaying the cart page

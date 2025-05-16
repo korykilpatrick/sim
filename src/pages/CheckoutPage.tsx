@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '@hooks/redux';
-import { clearCart } from '@store/slices/cartSlice';
-import { useCreateOrderMutation } from '@services/ordersApi';
-import { Alert, Button } from '@components/common';
+import { clearCart } from '@features/cart/cartSlice';
+import { useCreateOrderMutation } from '@features/orders/ordersApi';
+import { Alert, Button } from '@components/ui';
 import {
   ShippingAddressForm,
   PaymentMethodSelector,
   PaymentDetailsForm,
   OrderSummary,
-} from '@components/checkout';
+} from '@features/checkout';
 import {
   checkoutSchema,
   type CheckoutFormValues,
   type PaymentMethod,
 } from '@shared-types/checkout';
 import { type CreateOrderRequestBody } from '@shared-types/order';
-import { Form } from '@components/forms';
+import { Form } from '@features/forms';
 
 /**
  * Checkout page component for completing purchases

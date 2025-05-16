@@ -1,14 +1,14 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useGetProductQuery } from '@services/productsApi';
+import { useGetProductQuery } from '@features/products/productsApi';
 import { useAppDispatch, useAppSelector } from '@hooks/redux';
-import { addItem } from '@store/slices/cartSlice';
+import { addItem } from '@features/cart/cartSlice';
 import { v4 as uuidv4 } from 'uuid';
-import { Spinner, Alert } from '@components/common';
-import { ProductImageGallery, ProductPricing } from '@components/products';
-import { ProductHeader } from '../components/products/ProductHeader';
-import { ProductInformation } from '../components/products/ProductInformation';
-import { ProductSpecialFeatures } from '../components/products/ProductSpecialFeatures';
+import { Spinner, Alert } from '@components/ui';
+import { ProductImageGallery, ProductPricing } from '@features/products';
+import { ProductHeader } from '@features/products/components/ProductHeader';
+import { ProductInformation } from '@features/products/components/ProductInformation';
+import { ProductSpecialFeatures } from '@features/products/components/ProductSpecialFeatures';
 import { MaritimeAlertProduct } from '@shared-types/product';
 
 /**

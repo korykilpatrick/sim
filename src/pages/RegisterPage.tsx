@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { RegisterForm } from '@components/auth';
+import { RegisterForm } from '@features/auth';
 
 /**
  * Registration page component

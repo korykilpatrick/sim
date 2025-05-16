@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { useGetUserOrdersQuery } from '@services/ordersApi';
-import { useGetCreditsBalanceQuery } from '@services/creditsApi';
+import { useGetUserOrdersQuery } from '@features/orders/ordersApi';
+import { useGetCreditsBalanceQuery } from '@features/credits/creditsApi';
 import {
   DashboardSidebar,
   ProductFilters,
   ProductGrid,
   DashboardHeader,
   AlertsCard,
-} from '@/components/dashboard';
+} from '@features/dashboard';
 import type { UserProduct, UserProductStatus } from '@shared-types/userProduct';
 import type { Order, OrderItem } from '@shared-types/order';
 import type { ProductType } from '@shared-types/product';

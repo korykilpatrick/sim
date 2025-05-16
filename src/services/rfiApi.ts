@@ -1,12 +1,19 @@
 import { apiSlice } from './api';
-import { InvestigationConfig } from '@frontend-types/product';
 
-interface RFISubmitRequest extends InvestigationConfig {
+export interface RFISubmitRequest {
+  id: string;
+  name: string;
+  investigationType: 'vessel' | 'company' | 'incident';
+  subjectIdentifier: string;
+  timeframe: {
+    startDate: string;
+    endDate: string;
+  };
   additionalInfo?: string;
   priority?: 'standard' | 'urgent';
 }
 
-interface RFISubmitResponse {
+export interface RFISubmitResponse {
   success: boolean;
   requestId: string;
   message: string;
@@ -16,8 +23,8 @@ interface RFISubmitResponse {
 
 export const rfiApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    submitRFI: builder.mutation<RFISubmitResponse, RFISubmitRequest>({
-      query: (data) => ({
+    submitRFI: builder.mutation({
+      query: (data: RFISubmitRequest) => ({
         url: '/investigations/rfi',
         method: 'POST',
         body: data,

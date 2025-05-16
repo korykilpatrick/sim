@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FilterSidebar, PromotionalSlider } from '@components/products';
-import { useGetProductsQuery } from '@services/productsApi';
+import { FilterSidebar, PromotionalSlider } from '@features/products';
+import { useGetProductsQuery } from '@features/products/productsApi';
 import type { ProductType } from '@shared-types/product';
 import {
   RtkQueryError,
@@ -13,7 +13,7 @@ import {
   EmptySearchState,
   MarketplaceLoadingState,
   MarketplaceErrorState,
-} from '@components/marketplace';
+} from '@features/marketplace';
 
 /**
  * Helper to check if it's an RTK Query API error with our expected payload

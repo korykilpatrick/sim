@@ -5,7 +5,7 @@ import type {
   RegisterRequest,
   AuthResponse,
 } from '@shared-types/auth';
-import { setCredentials, logout } from '@store/slices/authSlice';
+import { setCredentials, logout } from '@features/auth/authSlice';
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
