@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSubmitRFIMutation } from '@features/rfi/rfiApi';
+import type { RFISubmitResponse } from '@features/rfi/rfiApi';
 import { useNavigate } from 'react-router-dom';
 import { BaseProduct } from '@shared-types/product';
 import { getErrorMessage, logError } from '@lib/errorUtils';
@@ -54,21 +55,20 @@ export const InvestigationRFIForm: React.FC<InvestigationRFIFormProps> = ({
     try {
       // Format request data
       const rfiData = {
-        productId: product.id,
-        investigationType: data.investigationType,
-        priority: data.priority,
-        vesselIMO: data.vesselIMO || undefined,
-        vesselName: data.vesselName || undefined,
-        region: data.region || undefined,
+        id: product.id, // Using product ID as the request ID
+        name: product.name || 'Investigation Request', // Using product name or default
+        investigationType: data.investigationType as 'vessel' | 'company' | 'incident',
+        subjectIdentifier: data.vesselIMO || data.vesselName || data.region || 'Unknown',
         timeframe: {
-          start: data.timeframeStart,
-          end: data.timeframeEnd,
+          startDate: data.timeframeStart,
+          endDate: data.timeframeEnd,
         },
         additionalInfo: data.investigationScope,
+        priority: data.priority,
       };
 
       // Submit the RFI
-      const result = await submitRFI(rfiData).unwrap();
+      const result = await submitRFI(rfiData).unwrap() as RFISubmitResponse;
 
       // Navigate to confirmation page
       navigate('/protected/confirmation', {

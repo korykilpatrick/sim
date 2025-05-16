@@ -1,6 +1,6 @@
 import { apiSlice } from '@app/api';
 
-interface RFISubmitRequest {
+export interface RFISubmitRequest {
   id: string;
   name: string;
   investigationType: 'vessel' | 'company' | 'incident';
@@ -13,7 +13,7 @@ interface RFISubmitRequest {
   priority?: 'standard' | 'urgent';
 }
 
-interface RFISubmitResponse {
+export interface RFISubmitResponse {
   success: boolean;
   requestId: string;
   message: string;
@@ -22,8 +22,8 @@ interface RFISubmitResponse {
 }
 
 export const rfiApiSlice = apiSlice.injectEndpoints({
-  endpoints: (builder: any) => ({
-    submitRFI: builder.mutation<RFISubmitResponse, RFISubmitRequest>({
+  endpoints: (builder) => ({
+    submitRFI: builder.mutation({
       query: (data: RFISubmitRequest) => ({
         url: '/investigations/rfi',
         method: 'POST',

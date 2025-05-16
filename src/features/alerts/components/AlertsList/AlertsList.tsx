@@ -8,11 +8,11 @@ export interface AlertsListProps {
   /** Array of alert notifications to display */
   alerts: any[]; // Using any[] temporarily until we find the correct type
   /** Function to mark an alert as read */
-  onMarkAsRead?: (alertId: string) => void;
+  onMarkAsRead?: ((alertId: string) => void) | undefined;
   /** Whether the list is in a loading state */
-  isLoading?: boolean;
+  isLoading?: boolean | undefined;
   /** Error message if alerts failed to load */
-  error?: string | null;
+  error?: string | null | undefined;
 }
 
 /**
