@@ -16,7 +16,7 @@ export interface AlertItemProps {
   /** The alert notification to display */
   alert: AlertNotification;
   /** Function to mark the alert as read */
-  onMarkAsRead?: (alertId: string) => void;
+  onMarkAsRead?: ((alertId: string) => void) | undefined;
 }
 
 /**

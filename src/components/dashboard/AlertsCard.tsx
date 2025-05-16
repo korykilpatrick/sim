@@ -63,11 +63,11 @@ export const AlertsCard: React.FC = () => {
   }
 
   const { alerts = [] } = data || {};
-  const hasUnreadAlerts = alerts.some((alert: AlertNotification) => !alert.read);
+  const hasUnreadAlerts = alerts.some((alert) => !alert.read);
 
   const handleMarkAllAsRead = () => {
     // Mark all as read
-    alerts.forEach((alert: AlertNotification) => {
+    alerts.forEach((alert) => {
       if (!alert.read) {
         handleMarkAsRead(alert.id);
       }

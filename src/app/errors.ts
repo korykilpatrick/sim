@@ -54,9 +54,9 @@ export enum ErrorCode {
 export interface AppError {
   code: ErrorCode;
   message: string;
-  status?: number;
-  details?: Record<string, unknown>;
-  stack?: string;
+  status?: number | undefined;
+  details?: Record<string, unknown> | undefined;
+  stack?: string | undefined;
   timestamp: string;
 }
 
