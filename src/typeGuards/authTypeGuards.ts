@@ -26,8 +26,7 @@ export function isUser(value: unknown): value is User {
   const requiredProps: (keyof User)[] = [
     'id',
     'email',
-    'firstName',
-    'lastName',
+    'name',
   ];
 
   return requiredProps.every((prop) => hasProperty(value, prop));
@@ -79,8 +78,7 @@ export function isRegisterRequest(value: unknown): value is RegisterRequest {
   const requiredProps: (keyof RegisterRequest)[] = [
     'email',
     'password',
-    'firstName',
-    'lastName',
+    'name',
   ];
 
   return requiredProps.every(
