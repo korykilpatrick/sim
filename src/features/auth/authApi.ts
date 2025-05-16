@@ -1,4 +1,4 @@
-import { apiSlice } from '../../app/api';
+import { apiSlice } from '@app/api';
 import type { User } from '@shared-types/user';
 import type {
   LoginRequest,
@@ -15,11 +15,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: credentials,
       }),
+      // When the login mutation succeeds, dispatch the setCredentials action
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           dispatch(setCredentials(data));
         } catch (_err) {
+          // Handle error if needed
         }
       },
     }),
@@ -35,6 +37,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
           const { data } = await queryFulfilled;
           dispatch(setCredentials(data));
         } catch (_err) {
+          // Handle error if needed
         }
       },
     }),
@@ -49,6 +52,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         url: '/auth/logout',
         method: 'POST',
       }),
+      // No matter the response, we want to clear the user's credentials
       async onQueryStarted(_, { dispatch }) {
         dispatch(logout());
       },

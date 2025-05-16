@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { apiSlice } from './api';
-import authReducer from '../features/auth/authSlice';
-import cartReducer from '../features/cart/cartSlice';
-import uiReducer from '../features/ui/uiSlice';
-import creditsReducer from '../features/credits/creditsSlice';
+import { apiSlice } from '@app/api';
+import authReducer from '@features/auth/authSlice';
+import cartReducer from '@features/cart/cartSlice';
+import uiReducer from '@features/ui/uiSlice';
+import creditsReducer from '@features/credits/creditsSlice';
 
 export const store = configureStore({
   reducer: {

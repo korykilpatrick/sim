@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FilterSidebar, PromotionalSlider } from '@components/products';
-import { useGetProductsQuery } from '@services/productsApi';
+import { useGetProductsQuery } from '@features/products/productsApi';
 import type { ProductType } from '@shared-types/product';
 import {
   RtkQueryError,

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSubmitRFIMutation } from '@services/rfiApi';
 import { useNavigate } from 'react-router-dom';
 import { BaseProduct } from '@shared-types/product';
-import { getErrorMessage, logError } from '@utils/errorUtils';
+import { getErrorMessage, logError } from '@lib/errorUtils';
 import { PrioritySection } from '@components/productConfig';
 import {
   InvestigationTypeSelector,

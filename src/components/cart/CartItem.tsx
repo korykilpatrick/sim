@@ -1,7 +1,7 @@
 import React from 'react';
-import { CartItem as CartItemType } from '@/types';
+import { CartItem as CartItemType } from '@features/cart/types';
 import { useAppDispatch } from '@hooks/redux';
-import { updateItemQuantity, removeItem } from '@store/slices/cartSlice';
+import { updateItemQuantity, removeItem } from '@features/cart/cartSlice';
 import { CartItemImage } from './CartItemImage';
 import { CartItemDetails } from './CartItemDetails';
 import { QuantityControl } from './QuantityControl';

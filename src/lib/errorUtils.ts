@@ -1,4 +1,4 @@
-import type { AppError } from '@app/types';
+import type { AppError } from '@/types/errors';
 import {
   toAppError,
   getUserFriendlyErrorMessage,
@@ -6,8 +6,9 @@ import {
   isAppError,
   isApiError,
   isRtkQueryError,
-} from '@app/types';
+} from '@/types/errors';
 
+// Re-export error types and enums for easier imports
 export { ErrorCode, isAppError, isApiError, isRtkQueryError };
 
 /**

@@ -1,4 +1,4 @@
-import { apiSlice } from '../../app/api';
+import { apiSlice } from '@app/api';
 import { CreditTransaction } from '@shared-types/credits';
 import { setCreditsBalance } from './creditsSlice';
 import { PaymentGatewayDetails } from '@shared-types/payment';
@@ -27,11 +27,13 @@ export const creditsApiSlice = apiSlice.injectEndpoints({
     getCreditsBalance: builder.query<CreditsBalanceResponse, void>({
       query: () => '/credits/balance',
       providesTags: ['Credits'],
+      // When the query succeeds, update Redux state with the balance
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           dispatch(setCreditsBalance(data.credits));
         } catch (_err) {
+          // Handle error if needed
         }
       },
     }),

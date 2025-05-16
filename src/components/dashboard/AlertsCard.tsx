@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import {
   useGetUserAlertsQuery,
   useMarkAlertReadMutation,
-} from '@services/alertsApi';
-import { Spinner, Alert } from '@components/common';
-import { getErrorMessage, logError } from '@utils/errorUtils';
+} from '@features/alerts/alertsApi';
+import { Spinner } from '@components/ui/Spinner';
+import { Alert } from '@components/ui/Alert';
+import { getErrorMessage, logError } from '@lib/errorUtils';
+import type { AlertNotification } from '@features/alerts/types';
 import { AlertsHeader } from './AlertsHeader';
 import { AlertItem } from './AlertItem';
 import { EmptyAlertsState } from './EmptyAlertsState';
@@ -61,11 +63,11 @@ export const AlertsCard: React.FC = () => {
   }
 
   const { alerts = [] } = data || {};
-  const hasUnreadAlerts = alerts.some((alert) => !alert.read);
+  const hasUnreadAlerts = alerts.some((alert: AlertNotification) => !alert.read);
 
   const handleMarkAllAsRead = () => {
     // Mark all as read
-    alerts.forEach((alert) => {
+    alerts.forEach((alert: AlertNotification) => {
       if (!alert.read) {
         handleMarkAsRead(alert.id);
       }

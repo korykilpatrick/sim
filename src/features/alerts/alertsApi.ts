@@ -1,4 +1,4 @@
-import { apiSlice } from '../../app/api';
+import { apiSlice } from '@app/api';
 import { AlertNotification } from '@shared-types/alert';
 import { AlertConfigurationU } from '@shared-types/alertConfiguration';
 import { ProductType } from '@shared-types/product';
@@ -57,7 +57,7 @@ export const alertsApiSlice = apiSlice.injectEndpoints({
 
     getAlert: builder.query<AlertResponse, string>({
       query: (alertId) => `/alerts/${alertId}`,
-      providesTags: (_result, _error, id) => [{ type: 'Alerts', id }],
+      providesTags: (result, error, id) => [{ type: 'Alerts', id }],
     }),
 
     markAlertRead: builder.mutation<MarkAlertReadResponse, string>({

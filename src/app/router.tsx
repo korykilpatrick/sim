@@ -1,20 +1,20 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { MainLayout } from '../components/layout/MainLayout';
-import { AuthLayout } from '../components/layout/AuthLayout';
-import { ProtectedRoute } from '../components/layout/ProtectedRoute';
+import { MainLayout } from '@components/layout/MainLayout';
+import { AuthLayout } from '@components/layout/AuthLayout';
+import { ProtectedRoute } from '@components/layout/ProtectedRoute';
 
-import { LoginPage } from '../pages/LoginPage';
-import { RegisterPage } from '../pages/RegisterPage';
-import { NotFoundPage } from '../pages/NotFoundPage';
-import { MarketplacePage } from '../pages/MarketplacePage';
-import { ProductDetailsPage } from '../pages/ProductDetailsPage';
-import { ProductConfigPage } from '../pages/ProductConfigPage';
-import { CartPage } from '../pages/CartPage';
-import { CheckoutPage } from '../pages/CheckoutPage';
-import { PaymentConfirmationPage } from '../pages/PaymentConfirmationPage';
-import { DashboardPage } from '../pages/DashboardPage';
-import { ReportsPage } from '../pages/ReportsPage';
-import { UserSettingsPage } from '../pages/UserSettingsPage';
+import LoginPage from '@pages/LoginPage';
+import RegisterPage from '@pages/RegisterPage';
+import NotFoundPage from '@pages/NotFoundPage';
+import MarketplacePage from '@pages/MarketplacePage';
+import ProductDetailsPage from '@pages/ProductDetailsPage';
+import ProductConfigPage from '@pages/ProductConfigPage';
+import CartPage from '@pages/CartPage';
+import CheckoutPage from '@pages/CheckoutPage';
+import PaymentConfirmationPage from '@pages/PaymentConfirmationPage';
+import DashboardPage from '@pages/DashboardPage';
+import ReportsPage from '@pages/ReportsPage';
+import UserSettingsPage from '@pages/UserSettingsPage';
 
 const AMSGuiPage = () => <div>AMS GUI Page</div>;
 const FTSGuiPage = () => <div>FTS GUI Page</div>;

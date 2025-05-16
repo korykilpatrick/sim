@@ -1,6 +1,7 @@
-import React, { type FC } from 'react';
-import { Button, Spinner } from '@components/common';
-import type { CartItem } from '@shared-types/cart';
+import { type FC } from 'react';
+import { Button } from '@components/ui/Button';
+import { Spinner } from '@components/ui/Spinner';
+import type { CartItem } from '@features/cart/types';
 
 /**
  * Props for the checkout OrderSummary component

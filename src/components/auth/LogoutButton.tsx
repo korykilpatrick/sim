@@ -1,13 +1,13 @@
 import type { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLogoutMutation } from '@services/authApi';
+import { useLogoutMutation } from '@features/auth/authApi';
 import {
   logError,
   getErrorMessage,
   isErrorOfType,
   ErrorCode,
-} from '@utils/errorUtils';
-import { isDefined } from '@typeGuards/baseTypeGuards';
+} from '@lib/errorUtils';
+import { isDefined } from '@lib/typeGuards';
 
 /**
  * Props for the LogoutButton component

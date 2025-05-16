@@ -32,14 +32,18 @@ export const LogoutButton: FC<LogoutButtonProps> = ({ className = '' }) => {
     try {
       const result = await logout().unwrap();
 
+      // This assertion is unnecessary in TypeScript but shows how we could use type guards
+      // if we needed to check the response structure
       if (isDefined(result)) {
         navigate('/auth/login', { replace: true });
       } else {
         navigate('/auth/login', { replace: true });
       }
     } catch (error: unknown) {
+      // Log the error with context for debugging
       logError(error, 'Logout operation failed');
 
+      // Example of using error type checking for specific error handling
       if (isErrorOfType(error, ErrorCode.NETWORK_ERROR)) {
         console.error(
           'Network error during logout. Please check your connection.',
@@ -48,6 +52,8 @@ export const LogoutButton: FC<LogoutButtonProps> = ({ className = '' }) => {
         console.error('Logout failed:', getErrorMessage(error));
       }
 
+      // You could also integrate with a notification system here if needed
+      // For example: displayNotification('error', getErrorMessage(error));
     }
   };
 

@@ -35,8 +35,10 @@ const cartSlice = createSlice({
         state.items.push(newItem);
       }
 
+      // Recalculate totals
       updateTotals(state);
 
+      // Persist to localStorage
       localStorage.setItem('cart', JSON.stringify(state));
     },
     updateItemQuantity: (
@@ -50,16 +52,20 @@ const cartSlice = createSlice({
         existingItem.quantity = Math.max(1, quantity);
       }
 
+      // Recalculate totals
       updateTotals(state);
 
+      // Persist to localStorage
       localStorage.setItem('cart', JSON.stringify(state));
     },
     removeItem: (state, action: PayloadAction<string>) => {
       const itemId = action.payload;
       state.items = state.items.filter((item) => item.itemId !== itemId);
 
+      // Recalculate totals
       updateTotals(state);
 
+      // Persist to localStorage
       localStorage.setItem('cart', JSON.stringify(state));
     },
     clearCart: (state) => {
@@ -67,6 +73,7 @@ const cartSlice = createSlice({
       state.totalAmount = 0;
       state.totalCredits = 0;
 
+      // Persist to localStorage
       localStorage.setItem('cart', JSON.stringify(state));
     },
   },
